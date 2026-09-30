@@ -1,0 +1,1075 @@
+# DECISION TREE CLASSIFICATION
+
+==================================================
+1. DEFINITION
+==================================================
+
+Decision Tree Classification is a supervised machine learning
+algorithm used to predict a CATEGORICAL target.
+
+It makes a sequence of decisions by splitting the data into
+smaller groups until it reaches a final class prediction.
+
+Example:
+
+Predict whether a customer will buy a product.
+
+Features:
+- Age
+- Income
+- Previous Purchases
+
+Target:
+- Yes
+- No
+
+
+Basic idea:
+
+Features
+   ↓
+Decision Rules
+   ↓
+Branches
+   ↓
+Leaf Nodes
+   ↓
+Predicted Class
+
+
+==================================================
+2. BASIC INTUITION
+==================================================
+
+A Decision Tree works like a flowchart of questions.
+
+Example:
+
+              Age < 30?
+              /       \
+            Yes        No
+            ↓           ↓
+       Income > 50K?   No
+         /      \
+       Yes       No
+       ↓          ↓
+      Yes         No
+
+
+The tree asks questions one by one.
+
+The final answer is found at a LEAF NODE.
+
+
+==================================================
+3. TREE STRUCTURE
+==================================================
+
+A Decision Tree contains:
+
+1. ROOT NODE
+2. INTERNAL / DECISION NODES
+3. BRANCHES
+4. LEAF NODES
+
+
+Example:
+
+                 ROOT
+             Age < 30?
+              /      \
+            Yes       No
+            /          \
+       Income?        Leaf
+       /    \         No
+     Yes     No
+     /        \
+   Leaf      Leaf
+   Yes        No
+
+
+Root Node:
+→ First decision.
+
+Internal Node:
+→ A decision/split.
+
+Branch:
+→ Outcome of a decision.
+
+Leaf Node:
+→ Final prediction.
+
+
+==================================================
+4. HOW DOES THE TREE MAKE A PREDICTION?
+==================================================
+
+Suppose a new customer arrives:
+
+Age = 25
+Income = 60K
+
+The tree may ask:
+
+Age < 30?
+    ↓
+   Yes
+
+Then:
+
+Income > 50K?
+    ↓
+   Yes
+
+Reach:
+
+Leaf → BUY
+
+
+Therefore:
+
+Prediction = BUY
+
+
+==================================================
+5. HOW DOES THE TREE CHOOSE A SPLIT?
+==================================================
+
+This is one of the most important concepts.
+
+The tree tests different possible splits and chooses
+a split that best separates the classes.
+
+Example:
+
+Feature:
+
+Age
+
+Possible splits:
+
+Age < 20
+Age < 25
+Age < 30
+Age < 35
+Age < 40
+
+The algorithm evaluates these splits and chooses the one
+that produces the best class separation according to
+the selected criterion.
+
+
+==================================================
+6. IMPURITY
+==================================================
+
+Impurity measures how mixed the classes are inside a node.
+
+Example:
+
+Node A:
+
+Yes
+Yes
+Yes
+Yes
+
+→ Pure node
+
+Impurity = very low
+
+
+Node B:
+
+Yes
+No
+Yes
+No
+
+→ Mixed node
+
+Impurity = higher
+
+
+The goal of splitting is generally:
+
+Higher impurity
+      ↓
+Good Split
+      ↓
+Lower impurity
+
+
+Common classification impurity measures:
+
+1. Gini Impurity
+2. Entropy
+
+
+==================================================
+7. GINI IMPURITY
+==================================================
+
+Gini Impurity measures how often a randomly chosen sample
+would be incorrectly classified if it were labeled according
+to the class distribution of the node.
+
+Formula:
+
+Gini = 1 - Σ pᵢ²
+
+Where:
+
+pᵢ = proportion of samples belonging to class i.
+
+
+Example:
+
+Suppose a node contains:
+
+8 Yes
+2 No
+
+Total = 10
+
+p(Yes) = 0.8
+p(No)  = 0.2
+
+Gini:
+
+= 1 - (0.8² + 0.2²)
+
+= 1 - (0.64 + 0.04)
+
+= 0.32
+
+
+If a node contains only one class:
+
+100% Yes
+0% No
+
+Gini:
+
+= 1 - (1² + 0²)
+
+= 0
+
+Therefore:
+
+Gini = 0
+→ Completely pure node
+
+
+==================================================
+8. ENTROPY
+==================================================
+
+Entropy is another measure of impurity.
+
+Formula:
+
+Entropy = -Σ pᵢ log₂(pᵢ)
+
+
+For a completely pure node:
+
+p(Yes) = 1
+p(No) = 0
+
+Entropy = 0
+
+
+For a highly mixed binary node:
+
+p(Yes) = 0.5
+p(No) = 0.5
+
+Entropy = 1
+
+
+Therefore:
+
+Entropy = 0
+→ Pure node
+
+Higher Entropy
+→ More uncertainty / impurity
+
+
+==================================================
+9. INFORMATION GAIN
+==================================================
+
+Information Gain measures how much a split reduces
+entropy.
+
+Basic idea:
+
+Information Gain
+=
+Parent Entropy
+-
+Weighted Child Entropy
+
+
+A good split:
+
+High Information Gain
+      ↓
+Large reduction in uncertainty
+
+
+Therefore:
+
+The tree can choose the split that gives high
+information gain when using entropy as the criterion.
+
+
+==================================================
+10. GINI vs ENTROPY
+==================================================
+
+GINI:
+
+Gini = 1 - Σpᵢ²
+
+ENTROPY:
+
+Entropy = -Σpᵢlog₂(pᵢ)
+
+
+Both measure class impurity.
+
+Gini:
+→ Common default in many Decision Tree implementations.
+
+Entropy:
+→ Based on information theory.
+
+
+In practice, both often produce similar trees,
+although the exact splits can differ.
+
+
+==================================================
+11. CLASSIFICATION vs REGRESSION TREE
+==================================================
+
+Decision Tree Classification:
+
+Target:
+→ Categorical
+
+Example:
+
+Spam / Not Spam
+
+Leaf prediction:
+→ Class
+
+
+Decision Tree Regression:
+
+Target:
+→ Continuous
+
+Example:
+
+House Price
+
+Leaf prediction:
+→ Numerical value, commonly the mean target
+   value in that leaf
+
+
+CORE DIFFERENCE:
+
+Classification
+→ Class prediction
+
+Regression
+→ Numerical prediction
+
+
+==================================================
+12. EXAMPLE — PASS / FAIL
+==================================================
+
+Suppose:
+
+Features:
+
+Hours Studied
+Attendance
+
+Target:
+
+Pass
+Fail
+
+
+Tree:
+
+                Hours > 5?
+                 /     \
+               Yes      No
+               ↓         ↓
+          Attendance?   Fail
+           /      \
+         High      Low
+          ↓         ↓
+        Pass       Fail
+
+
+New student:
+
+Hours = 7
+Attendance = High
+
+Path:
+
+Hours > 5?
+→ Yes
+
+Attendance?
+→ High
+
+Prediction:
+
+PASS
+
+
+==================================================
+13. DECISION BOUNDARY
+==================================================
+
+Decision Trees create decision regions based on
+feature thresholds.
+
+For example:
+
+          Feature 2
+              ↑
+       Class B │ Class B
+              │
+──────────────┼──────────
+   Class A    │ Class A
+              │
+              └────────────→ Feature 1
+
+
+The boundaries are often axis-aligned when using
+ordinary feature-threshold splits.
+
+Therefore, Decision Trees can create nonlinear
+decision boundaries by combining multiple splits.
+
+
+==================================================
+14. NO FEATURE SCALING USUALLY REQUIRED
+==================================================
+
+Decision Trees generally do NOT require:
+
+- Standardization
+- Normalization
+
+Why?
+
+They use comparisons such as:
+
+Age < 30
+
+Income < 50000
+
+The basic split decision depends on ordering/thresholds,
+not on distance between numerical values.
+
+
+Therefore:
+
+Decision Tree
+→ Usually no scaling required
+
+
+Compare:
+
+KNN
+→ Scaling is important
+
+Decision Tree
+→ Scaling usually unnecessary
+
+
+==================================================
+15. CATEGORICAL FEATURES
+==================================================
+
+Decision Trees can work with categorical information,
+but the exact handling depends on the implementation.
+
+In scikit-learn's standard DecisionTreeClassifier,
+categorical features generally need to be encoded into
+numerical form before training.
+
+Common approach:
+
+Categorical Data
+       ↓
+Encoding
+       ↓
+Numerical Features
+       ↓
+Decision Tree
+
+
+==================================================
+16. SCIKIT-LEARN IMPLEMENTATION
+==================================================
+
+Import:
+
+from sklearn.tree import DecisionTreeClassifier
+
+
+Create model:
+
+model = DecisionTreeClassifier(
+    random_state=42
+)
+
+
+Train:
+
+model.fit(X_train, y_train)
+
+
+Predict:
+
+y_pred = model.predict(X_test)
+
+
+Complete example:
+
+from sklearn.tree import DecisionTreeClassifier
+
+model = DecisionTreeClassifier(
+    random_state=42
+)
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+==================================================
+17. PREDICT PROBABILITIES
+==================================================
+
+Decision Tree Classification can also provide
+class probabilities.
+
+Use:
+
+model.predict_proba(X_test)
+
+
+Example:
+
+[
+    [0.20, 0.80],
+    [0.90, 0.10]
+]
+
+
+For binary classification:
+
+Column 1:
+→ Probability of Class 0
+
+Column 2:
+→ Probability of Class 1
+
+
+Example:
+
+[0.20, 0.80]
+
+Means:
+
+Class 0 → 20%
+Class 1 → 80%
+
+
+==================================================
+18. IMPORTANT HYPERPARAMETERS
+==================================================
+
+1. max_depth
+
+Maximum depth of the tree.
+
+Small max_depth:
+→ Simpler tree
+→ Lower complexity
+
+Large max_depth:
+→ More complex tree
+→ Higher overfitting risk
+
+
+2. min_samples_split
+
+Minimum number of samples required to split
+an internal node.
+
+
+Higher value:
+→ Fewer splits
+→ Simpler tree
+
+
+3. min_samples_leaf
+
+Minimum number of samples required in a leaf.
+
+Higher value:
+→ Larger leaves
+→ Smoother / simpler model
+
+
+4. max_leaf_nodes
+
+Maximum number of leaf nodes.
+
+
+5. criterion
+
+Controls the split-quality measure.
+
+Common options include:
+
+"gini"
+"entropy"
+"log_loss"
+
+
+==================================================
+19. OVERFITTING
+==================================================
+
+Decision Trees can easily overfit.
+
+Suppose we allow the tree to keep splitting:
+
+Data
+ ↓
+Many splits
+ ↓
+Very deep tree
+ ↓
+Very small leaves
+ ↓
+Model memorizes training data
+
+
+Result:
+
+Training accuracy → very high
+
+Test accuracy → may be much lower
+
+
+This is:
+
+OVERFITTING
+
+
+==================================================
+20. UNDERFITTING
+==================================================
+
+If the tree is too restricted:
+
+Dataset
+   ↓
+Very few splits
+   ↓
+Very simple tree
+   ↓
+Important patterns are missed
+
+
+Result:
+
+Training performance → poor
+
+Test performance → also poor
+
+
+This is:
+
+UNDERFITTING
+
+
+Therefore:
+
+Tree too shallow
+→ Underfitting
+
+Tree too deep
+→ Overfitting
+
+Appropriate complexity
+→ Better generalization
+
+
+==================================================
+21. PRUNING / CONTROLLING TREE COMPLEXITY
+==================================================
+
+Tree complexity can be controlled using:
+
+- max_depth
+- min_samples_split
+- min_samples_leaf
+- max_leaf_nodes
+- ccp_alpha
+
+
+Pruning means reducing unnecessary branches
+to create a simpler tree that may generalize better.
+
+
+==================================================
+22. FEATURE IMPORTANCE
+==================================================
+
+Decision Tree Classification can calculate
+feature importance.
+
+In scikit-learn:
+
+model.feature_importances_
+
+
+Example:
+
+Age        → 0.45
+Income     → 0.35
+Attendance → 0.20
+
+
+This indicates how much each feature contributed to
+reducing impurity in the fitted tree.
+
+IMPORTANT:
+
+Feature importance does NOT prove causation.
+
+It describes how the trained model used the features.
+
+
+==================================================
+23. MULTI-CLASS CLASSIFICATION
+==================================================
+
+Decision Trees naturally support multiple classes.
+
+Example:
+
+Predict type of fruit:
+
+Apple
+Banana
+Orange
+
+
+Tree:
+
+             Weight?
+            /       \
+         Low         High
+         /             \
+      Banana         Color?
+                     /    \
+                   Red    Orange
+                   ↓        ↓
+                 Apple    Orange
+
+
+Therefore:
+
+Decision Tree Classification
+→ Binary classification
+→ Multi-class classification
+
+
+==================================================
+24. ADVANTAGES
+==================================================
+
+1. Easy to understand.
+
+2. Easy to visualize.
+
+3. Can model nonlinear relationships.
+
+4. Can capture feature interactions.
+
+5. Usually does not require feature scaling.
+
+6. Can handle binary and multi-class classification.
+
+7. Requires relatively little mathematical preprocessing.
+
+8. Can provide feature importance.
+
+
+==================================================
+25. LIMITATIONS
+==================================================
+
+1. Can overfit easily.
+
+2. Small changes in training data can produce
+   a different tree.
+
+3. Very deep trees can become difficult to interpret.
+
+4. A single tree may have lower predictive performance
+   than ensemble methods such as Random Forest.
+
+5. Greedy splitting does not guarantee a globally
+   optimal tree.
+
+6. Standard implementations require appropriate handling
+   of categorical features.
+
+
+==================================================
+26. WHEN TO USE DECISION TREE CLASSIFICATION
+==================================================
+
+Useful when:
+
+- Target is categorical.
+- You want rule-based predictions.
+- Relationship between features and target is nonlinear.
+- Feature interactions are important.
+- You want a relatively interpretable model.
+- You want to avoid feature scaling.
+
+
+Examples:
+
+Customer Data
+     ↓
+Decision Tree
+     ↓
+Buy / Not Buy
+
+
+Transaction Data
+     ↓
+Decision Tree
+     ↓
+Fraud / Not Fraud
+
+
+Student Data
+     ↓
+Decision Tree
+     ↓
+Pass / Fail
+
+
+==================================================
+27. DECISION TREE CLASSIFICATION
+    vs LOGISTIC REGRESSION
+==================================================
+
+LOGISTIC REGRESSION:
+
+Features
+   ↓
+Linear Equation
+   ↓
+Sigmoid
+   ↓
+Probability
+   ↓
+Class
+
+
+DECISION TREE:
+
+Features
+   ↓
+Decision Rules
+   ↓
+Branches
+   ↓
+Leaf
+   ↓
+Class
+
+
+Logistic Regression:
+→ Basic decision boundary is linear.
+
+Decision Tree:
+→ Can create nonlinear decision boundaries.
+
+
+Logistic Regression:
+→ Feature scaling may be useful.
+
+Decision Tree:
+→ Scaling usually not required.
+
+
+==================================================
+28. DECISION TREE CLASSIFICATION
+    vs KNN
+==================================================
+
+KNN:
+
+New Point
+   ↓
+Calculate distances
+   ↓
+Find K neighbors
+   ↓
+Majority vote
+   ↓
+Class
+
+
+Decision Tree:
+
+New Point
+   ↓
+Follow decision rules
+   ↓
+Reach leaf
+   ↓
+Class
+
+
+KNN:
+→ Distance-based.
+
+Decision Tree:
+→ Rule/split-based.
+
+
+KNN:
+→ Scaling is important.
+
+Decision Tree:
+→ Scaling usually unnecessary.
+
+
+==================================================
+29. COMPLETE FLOW
+==================================================
+
+Dataset
+   ↓
+Features (X) + Class Target (y)
+   ↓
+Train / Test Split
+   ↓
+Preprocessing
+   ↓
+Encoding if required
+   ↓
+Decision Tree Classifier
+   ↓
+Find Best Split
+   ↓
+Reduce Impurity
+   ↓
+Create Branches
+   ↓
+Repeat Splitting
+   ↓
+Leaf Nodes
+   ↓
+Predicted Class
+   ↓
+Evaluate Model
+   ↓
+Control Tree Complexity
+   ↓
+Final Model
+
+
+==================================================
+30. KEY POINTS TO REMEMBER
+==================================================
+
+1. Decision Tree Classification is a SUPERVISED
+   CLASSIFICATION algorithm.
+
+2. It predicts a CATEGORICAL target.
+
+3. It works through a sequence of decision rules.
+
+4. Root node = first decision.
+
+5. Internal node = decision/split.
+
+6. Branch = result of a decision.
+
+7. Leaf node = final prediction.
+
+8. The tree chooses splits that improve class separation.
+
+9. Common impurity measures:
+
+   Gini Impurity
+   Entropy
+
+10. Information Gain measures reduction in entropy.
+
+11. Decision Trees generally do NOT require feature scaling.
+
+12. They can model nonlinear relationships.
+
+13. max_depth controls tree depth.
+
+14. min_samples_split controls when a node can split.
+
+15. min_samples_leaf controls the minimum samples in a leaf.
+
+16. Very deep trees can overfit.
+
+17. Very shallow trees can underfit.
+
+18. predict() → predicted class.
+
+19. predict_proba() → class probabilities.
+
+20. Decision Trees support binary and multi-class
+    classification.
+
+21. Main intuition:
+
+       DATA
+        ↓
+    QUESTION
+        ↓
+     SPLIT
+      /   \
+    YES    NO
+    ↓       ↓
+  SPLIT   SPLIT
+    ↓       ↓
+   LEAF    LEAF
+    ↓       ↓
+  CLASS   CLASS

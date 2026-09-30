@@ -1,0 +1,1086 @@
+# NAIVE BAYES
+
+==================================================
+1. DEFINITION
+==================================================
+
+Naive Bayes is a supervised machine learning algorithm
+mainly used for CLASSIFICATION.
+
+It is based on BAYES' THEOREM and uses probability to
+predict which class a data point belongs to.
+
+The word "Naive" comes from its assumption that the
+features are conditionally independent given the class.
+
+Basic idea:
+
+Features
+   ↓
+Calculate probability for each class
+   ↓
+Compare class probabilities
+   ↓
+Choose highest probability
+   ↓
+Predicted Class
+
+
+==================================================
+2. BASIC INTUITION
+==================================================
+
+Suppose we want to classify an email as:
+
+Spam
+Not Spam
+
+The email contains words such as:
+
+"free"
+"offer"
+"winner"
+
+Naive Bayes calculates:
+
+P(Spam | words)
+
+and
+
+P(Not Spam | words)
+
+Then it chooses the class with the higher probability.
+
+Example:
+
+P(Spam | Email)     = 0.90
+P(Not Spam | Email) = 0.10
+
+Therefore:
+
+Prediction → Spam
+
+
+==================================================
+3. BAYES' THEOREM
+==================================================
+
+Naive Bayes is based on:
+
+P(A | B) = P(B | A) × P(A) / P(B)
+
+Where:
+
+P(A | B)
+→ Probability of A given B
+
+P(B | A)
+→ Probability of B given A
+
+P(A)
+→ Prior probability of A
+
+P(B)
+→ Probability of B
+
+
+For classification:
+
+P(Class | Features)
+=
+P(Features | Class) × P(Class)
+--------------------------------
+P(Features)
+
+
+==================================================
+4. NAIVE BAYES FORMULA
+==================================================
+
+Suppose we have features:
+
+X₁, X₂, X₃, ..., Xₙ
+
+Then:
+
+P(Class | X₁, X₂, ..., Xₙ)
+
+is proportional to:
+
+P(X₁, X₂, ..., Xₙ | Class) × P(Class)
+
+
+The "naive" assumption says:
+
+P(X₁, X₂, ..., Xₙ | Class)
+
+≈
+
+P(X₁ | Class)
+×
+P(X₂ | Class)
+×
+P(X₃ | Class)
+×
+...
+×
+P(Xₙ | Class)
+
+
+Therefore:
+
+P(Class | X₁,...,Xₙ)
+∝
+P(Class)
+×
+P(X₁ | Class)
+×
+P(X₂ | Class)
+×
+...
+×
+P(Xₙ | Class)
+
+
+The class with the highest resulting probability
+is selected.
+
+
+==================================================
+5. WHAT IS THE "NAIVE" ASSUMPTION?
+==================================================
+
+The algorithm assumes that the features are
+CONDITIONALLY INDEPENDENT given the class.
+
+Example:
+
+Suppose we classify an email using:
+
+X₁ = "free"
+X₂ = "offer"
+X₃ = "winner"
+
+Naive Bayes assumes:
+
+P(free, offer, winner | Spam)
+
+≈
+
+P(free | Spam)
+×
+P(offer | Spam)
+×
+P(winner | Spam)
+
+
+In real-world data, features may not actually be
+independent.
+
+But the assumption makes the calculation simple
+and often works surprisingly well.
+
+
+==================================================
+6. WHAT DOES "CONDITIONALLY INDEPENDENT" MEAN?
+==================================================
+
+It means:
+
+Once we know the class, the model treats the features
+as independent of each other for the probability calculation.
+
+Example:
+
+Class = Spam
+
+The model separately considers:
+
+P("free" | Spam)
+
+P("offer" | Spam)
+
+P("winner" | Spam)
+
+Then multiplies these probabilities.
+
+
+IMPORTANT:
+
+Naive Bayes does NOT say the features are always
+independent in the real world.
+
+It ASSUMES conditional independence for the model.
+
+
+==================================================
+7. PRIOR PROBABILITY
+==================================================
+
+Prior probability is the probability of a class
+before considering the input features.
+
+Formula:
+
+P(Class) =
+Number of samples in Class
+--------------------------
+Total number of samples
+
+
+Example:
+
+Dataset:
+
+100 emails
+
+Spam = 30
+Not Spam = 70
+
+Therefore:
+
+P(Spam) = 30/100 = 0.30
+
+P(Not Spam) = 70/100 = 0.70
+
+
+These are the PRIOR probabilities.
+
+
+==================================================
+8. LIKELIHOOD
+==================================================
+
+Likelihood tells us how probable the observed feature
+is for a particular class.
+
+Example:
+
+P("free" | Spam)
+
+means:
+
+Probability of seeing "free" given that the email
+is Spam.
+
+
+Another:
+
+P("free" | Not Spam)
+
+means:
+
+Probability of seeing "free" given that the email
+is Not Spam.
+
+
+==================================================
+9. POSTERIOR PROBABILITY
+==================================================
+
+Posterior probability is the probability of a class
+AFTER considering the observed features.
+
+Example:
+
+P(Spam | Email)
+
+means:
+
+Probability that the email is Spam given the observed
+email features.
+
+
+Bayes' theorem:
+
+Posterior
+=
+Likelihood × Prior
+------------------
+Evidence
+
+
+So:
+
+Prior
+  ↓
+Combine with evidence from features
+  ↓
+Posterior
+
+
+==================================================
+10. COMPLETE EMAIL EXAMPLE
+==================================================
+
+Suppose:
+
+Classes:
+
+Spam
+Not Spam
+
+Email contains:
+
+"free"
+"offer"
+
+
+Assume:
+
+P(Spam) = 0.4
+P(Not Spam) = 0.6
+
+
+And:
+
+P(free | Spam) = 0.8
+P(offer | Spam) = 0.7
+
+P(free | Not Spam) = 0.1
+P(offer | Not Spam) = 0.2
+
+
+Naive Bayes calculates a score proportional to:
+
+Spam:
+
+0.4 × 0.8 × 0.7
+
+= 0.224
+
+
+Not Spam:
+
+0.6 × 0.1 × 0.2
+
+= 0.012
+
+
+Compare:
+
+Spam     → 0.224
+Not Spam → 0.012
+
+Higher score:
+
+Spam
+
+
+Therefore:
+
+Prediction → Spam
+
+
+==================================================
+11. IMPORTANT:
+    WHY DO WE SAY "PROPORTIONAL"?
+==================================================
+
+The full Bayes formula contains:
+
+P(Features)
+
+in the denominator.
+
+For comparing classes for the SAME input,
+P(Features) is the same for every class.
+
+Therefore, we can compare:
+
+P(Class) × P(Features | Class)
+
+without explicitly calculating the denominator.
+
+Choose the class with the highest value.
+
+
+==================================================
+12. TYPES OF NAIVE BAYES
+==================================================
+
+Different Naive Bayes variants are designed for
+different types of input data.
+
+Common variants:
+
+1. Gaussian Naive Bayes
+2. Multinomial Naive Bayes
+3. Bernoulli Naive Bayes
+4. Categorical Naive Bayes
+
+
+==================================================
+13. GAUSSIAN NAIVE BAYES
+==================================================
+
+Gaussian Naive Bayes is commonly used when numerical
+features are modeled using a GAUSSIAN (NORMAL)
+distribution within each class.
+
+Example features:
+
+Age
+Height
+Weight
+Temperature
+
+
+Concept:
+
+Numerical Features
+       ↓
+Assume Gaussian distribution within each class
+       ↓
+Calculate probabilities
+       ↓
+Predict class
+
+
+Scikit-learn:
+
+from sklearn.naive_bayes import GaussianNB
+
+model = GaussianNB()
+
+
+==================================================
+14. MULTINOMIAL NAIVE BAYES
+==================================================
+
+Multinomial Naive Bayes is commonly used for
+COUNT-BASED features.
+
+It is especially popular in TEXT CLASSIFICATION.
+
+Example:
+
+Document represented using word counts:
+
+free = 4
+offer = 2
+winner = 1
+
+
+Applications:
+
+- Spam detection
+- Document classification
+- Text classification
+- Sentiment-related classification
+
+
+Scikit-learn:
+
+from sklearn.naive_bayes import MultinomialNB
+
+
+==================================================
+15. BERNOULLI NAIVE BAYES
+==================================================
+
+Bernoulli Naive Bayes is designed for BINARY / BOOLEAN
+features.
+
+Example:
+
+Word "free" present?
+
+1 = Yes
+0 = No
+
+Word "offer" present?
+
+1 = Yes
+0 = No
+
+
+Example:
+
+free    offer    winner
+ 1       0         1
+
+
+Scikit-learn:
+
+from sklearn.naive_bayes import BernoulliNB
+
+
+==================================================
+16. CATEGORICAL NAIVE BAYES
+==================================================
+
+Categorical Naive Bayes is designed for categorical
+features.
+
+Example:
+
+Color:
+Red
+Blue
+Green
+
+Education:
+School
+Bachelor
+Master
+
+
+Scikit-learn:
+
+from sklearn.naive_bayes import CategoricalNB
+
+
+==================================================
+17. CHOOSING THE VARIANT
+==================================================
+
+General idea:
+
+Continuous numerical data
+        ↓
+GaussianNB
+
+
+Count-based text features
+        ↓
+MultinomialNB
+
+
+Binary / Boolean features
+        ↓
+BernoulliNB
+
+
+Categorical features
+        ↓
+CategoricalNB
+
+
+==================================================
+18. TRAINING PROCESS
+==================================================
+
+Naive Bayes training is mainly about estimating
+probabilities from the training data.
+
+Training Data
+     ↓
+Separate samples by class
+     ↓
+Calculate class priors
+     ↓
+Calculate feature probabilities/statistics
+     ↓
+Store learned probabilities
+     ↓
+Model ready
+
+
+Unlike algorithms such as Logistic Regression,
+Naive Bayes does not primarily learn weights through
+iterative gradient-based optimization.
+
+
+==================================================
+19. PREDICTION PROCESS
+==================================================
+
+New data point
+      ↓
+Calculate probability for Class 1
+      ↓
+Calculate probability for Class 2
+      ↓
+Compare probabilities
+      ↓
+Choose highest probability
+      ↓
+Predicted Class
+
+
+Example:
+
+Class A → 0.20
+Class B → 0.65
+Class C → 0.15
+
+Highest:
+
+Class B
+
+Prediction:
+
+Class B
+
+
+==================================================
+20. ZERO-PROBABILITY PROBLEM
+==================================================
+
+Suppose:
+
+P("winner" | Not Spam) = 0
+
+Then:
+
+P(Spam | features)
+or
+P(Not Spam | features)
+
+may become zero after multiplication.
+
+This can cause a problem.
+
+This is called the:
+
+ZERO-FREQUENCY PROBLEM.
+
+
+==================================================
+21. LAPLACE SMOOTHING
+==================================================
+
+Laplace smoothing helps prevent zero probabilities.
+
+Basic idea:
+
+Instead of allowing a probability to become exactly zero,
+we add a small amount to the counts.
+
+A common form is:
+
+P(feature | class)
+=
+(count + 1)
+---------------------------
+(total + number of possible values)
+
+
+This prevents:
+
+Probability = 0
+
+
+Scikit-learn's MultinomialNB supports smoothing using:
+
+alpha
+
+
+Example:
+
+MultinomialNB(alpha=1.0)
+
+
+==================================================
+22. SCIKIT-LEARN IMPLEMENTATION
+==================================================
+
+Example with Gaussian Naive Bayes:
+
+from sklearn.naive_bayes import GaussianNB
+
+model = GaussianNB()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+For Multinomial:
+
+from sklearn.naive_bayes import MultinomialNB
+
+model = MultinomialNB()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+For Bernoulli:
+
+from sklearn.naive_bayes import BernoulliNB
+
+model = BernoulliNB()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+==================================================
+23. PREDICT PROBABILITIES
+==================================================
+
+Naive Bayes can provide class probabilities.
+
+Use:
+
+model.predict_proba(X_test)
+
+
+Example:
+
+[
+    [0.10, 0.90],
+    [0.75, 0.25]
+]
+
+
+For a binary classification:
+
+Class 0 → 10%
+Class 1 → 90%
+
+Prediction:
+
+Class 1
+
+
+==================================================
+24. FEATURE SCALING
+==================================================
+
+Unlike KNN and SVM, Naive Bayes generally does NOT
+require feature scaling as a general prerequisite.
+
+However, the appropriate preprocessing depends on
+the specific Naive Bayes variant and feature representation.
+
+For example:
+
+MultinomialNB
+→ Commonly used with non-negative count/frequency-like
+  features.
+
+GaussianNB
+→ Models numerical features using Gaussian distributions.
+
+
+==================================================
+25. MULTI-CLASS CLASSIFICATION
+==================================================
+
+Naive Bayes naturally supports multiple classes.
+
+Example:
+
+Class 0 → Apple
+Class 1 → Banana
+Class 2 → Orange
+
+
+The model calculates:
+
+P(Apple | Features)
+
+P(Banana | Features)
+
+P(Orange | Features)
+
+
+Then chooses:
+
+Highest probability
+       ↓
+Predicted Class
+
+
+==================================================
+26. NAIVE BAYES vs LOGISTIC REGRESSION
+==================================================
+
+NAIVE BAYES:
+
+Uses:
+→ Probability
+→ Bayes' theorem
+→ Conditional independence assumption
+
+Flow:
+
+Features
+   ↓
+Calculate probabilities
+   ↓
+Compare classes
+   ↓
+Highest probability
+   ↓
+Class
+
+
+LOGISTIC REGRESSION:
+
+Uses:
+→ Linear score
+→ Sigmoid
+→ Log loss
+→ Learned coefficients
+
+Flow:
+
+Features
+   ↓
+Linear score
+   ↓
+Sigmoid
+   ↓
+Probability
+   ↓
+Class
+
+
+Core difference:
+
+Naive Bayes
+→ Generative / probability-based approach.
+
+Logistic Regression
+→ Discriminative / decision-boundary approach.
+
+
+==================================================
+27. NAIVE BAYES vs KNN
+==================================================
+
+Naive Bayes:
+
+Training:
+→ Estimates probabilities.
+
+Prediction:
+→ Calculates class probabilities.
+
+
+KNN:
+
+Training:
+→ Mainly stores training data.
+
+Prediction:
+→ Calculates distances
+→ Finds nearest neighbors
+→ Majority vote
+
+
+Naive Bayes:
+→ Probability-based.
+
+KNN:
+→ Distance-based.
+
+
+==================================================
+28. NAIVE BAYES vs DECISION TREE
+==================================================
+
+Naive Bayes:
+
+Features
+ ↓
+Probability calculations
+ ↓
+Class probability
+ ↓
+Prediction
+
+
+Decision Tree:
+
+Features
+ ↓
+Decision rules
+ ↓
+Branches
+ ↓
+Leaf
+ ↓
+Prediction
+
+
+Naive Bayes:
+→ Probabilistic.
+
+Decision Tree:
+→ Rule-based.
+
+
+==================================================
+29. ADVANTAGES
+==================================================
+
+1. Simple and fast.
+
+2. Usually fast to train and predict.
+
+3. Works well with high-dimensional data.
+
+4. Particularly useful for text classification.
+
+5. Naturally supports multi-class classification.
+
+6. Can work with relatively small training datasets.
+
+7. Produces probability estimates.
+
+8. Different variants can handle different types of
+   feature representations.
+
+
+==================================================
+30. LIMITATIONS
+==================================================
+
+1. The conditional independence assumption may be unrealistic.
+
+2. Correlated features can reduce the effectiveness of
+   the naive assumption.
+
+3. Probability estimates may not always be well calibrated.
+
+4. Choosing the appropriate Naive Bayes variant is important.
+
+5. Some variants impose distributional assumptions on
+   the features.
+
+6. Zero-frequency problems require smoothing when applicable.
+
+
+==================================================
+31. WHEN TO USE NAIVE BAYES
+==================================================
+
+Naive Bayes can be useful when:
+
+- Target is categorical.
+- You need a fast classification model.
+- Dataset has many features.
+- You are working with text.
+- Feature probabilities are informative.
+- You want a simple baseline classifier.
+
+
+Common applications:
+
+Email
+ ↓
+Spam Classification
+
+
+Documents
+ ↓
+Document Classification
+
+
+Text
+ ↓
+Text Classification
+
+
+Word Features
+ ↓
+Naive Bayes
+ ↓
+Class
+
+
+==================================================
+32. COMPLETE FLOW
+==================================================
+
+Dataset
+   ↓
+Features (X) + Class Target (y)
+   ↓
+Train / Test Split
+   ↓
+Choose Naive Bayes Variant
+   ↓
+Estimate Class Priors
+   ↓
+Estimate Feature Probabilities / Statistics
+   ↓
+New Data
+   ↓
+Calculate P(Class | Features)
+   ↓
+Compare Class Probabilities
+   ↓
+Choose Highest Probability
+   ↓
+Predicted Class
+   ↓
+Evaluate Model
+
+
+==================================================
+33. KEY POINTS TO REMEMBER
+==================================================
+
+1. Naive Bayes is a SUPERVISED CLASSIFICATION algorithm.
+
+2. It is based on BAYES' THEOREM.
+
+3. It predicts the probability of each class.
+
+4. The "Naive" assumption is:
+
+   Features are conditionally independent given the class.
+
+5. Main formula:
+
+   P(Class | Features)
+   ∝
+   P(Class) × P(Features | Class)
+
+6. Prior:
+   P(Class)
+
+7. Likelihood:
+   P(Features | Class)
+
+8. Posterior:
+   P(Class | Features)
+
+9. The class with the highest posterior probability
+   is selected.
+
+10. Common variants:
+
+    GaussianNB
+    MultinomialNB
+    BernoulliNB
+    CategoricalNB
+
+11. GaussianNB:
+    → Numerical features modeled using Gaussian distributions.
+
+12. MultinomialNB:
+    → Count-based features, especially common in text.
+
+13. BernoulliNB:
+    → Binary / Boolean features.
+
+14. CategoricalNB:
+    → Categorical features.
+
+15. Laplace smoothing helps prevent zero probabilities.
+
+16. Naive Bayes generally does NOT require feature scaling
+    as a general prerequisite.
+
+17. Main intuition:
+
+       FEATURES
+          ↓
+     BAYES' THEOREM
+          ↓
+     CLASS PROBABILITIES
+          ↓
+      COMPARE CLASSES
+          ↓
+     HIGHEST PROBABILITY
+          ↓
+       CLASS

@@ -1,0 +1,950 @@
+# DEEP LEARNING — UNIT 1: FOUNDATIONS
+
+==================================================
+1. WHAT IS DEEP LEARNING?
+==================================================
+
+Deep Learning is a subset of Machine Learning that uses
+ARTIFICIAL NEURAL NETWORKS with multiple layers to learn
+patterns from data.
+
+Simple definition:
+
+Deep Learning = Machine Learning using multi-layer
+                neural networks.
+
+Example:
+
+Image
+  ↓
+Neural Network
+  ↓
+Learns patterns
+  ↓
+Prediction
+  ↓
+"Cat"
+
+
+Why "Deep"?
+
+Because the neural network contains multiple
+HIDDEN LAYERS.
+
+Example:
+
+Input → Hidden → Hidden → Hidden → Output
+
+More hidden layers
+        ↓
+      "Deep"
+
+
+==================================================
+2. AI vs ML vs DEEP LEARNING
+==================================================
+
+The relationship is:
+
+Artificial Intelligence
+        │
+        └── Machine Learning
+                 │
+                 └── Deep Learning
+
+
+--------------------------------------------------
+ARTIFICIAL INTELLIGENCE (AI)
+--------------------------------------------------
+
+AI is the broad field of building systems that can
+perform tasks that normally require human intelligence.
+
+Examples:
+
+- Understanding language
+- Recognizing images
+- Planning
+- Decision making
+- Problem solving
+
+
+--------------------------------------------------
+MACHINE LEARNING (ML)
+--------------------------------------------------
+
+Machine Learning is a subset of AI where systems
+learn patterns from data instead of being explicitly
+programmed with every rule.
+
+Example:
+
+Give:
+
+House size + location + rooms
+        ↓
+ML algorithm
+        ↓
+House price
+
+
+--------------------------------------------------
+DEEP LEARNING (DL)
+--------------------------------------------------
+
+Deep Learning is a subset of ML that uses neural
+networks with multiple layers.
+
+Example:
+
+Image
+  ↓
+Deep Neural Network
+  ↓
+Learn edges
+  ↓
+Learn shapes
+  ↓
+Learn objects
+  ↓
+Cat
+
+
+--------------------------------------------------
+SIMPLE COMPARISON
+--------------------------------------------------
+
+AI
+→ Broad field of intelligent systems.
+
+ML
+→ Systems learn from data.
+
+Deep Learning
+→ ML using multi-layer neural networks.
+
+
+==================================================
+3. NEURAL NETWORK CONCEPT
+==================================================
+
+A Neural Network is a machine learning model inspired
+by the way biological neurons are connected.
+
+It consists of:
+
+- Neurons
+- Weights
+- Biases
+- Layers
+- Activation functions
+
+
+Basic structure:
+
+Input
+  ↓
+Neurons
+  ↓
+Hidden Layers
+  ↓
+Neurons
+  ↓
+Output
+
+
+Example:
+
+Input Features
+      ↓
+┌───────────────┐
+│ Hidden Layer  │
+│  ○  ○  ○  ○   │
+└───────────────┘
+      ↓
+┌───────────────┐
+│ Hidden Layer  │
+│  ○  ○  ○      │
+└───────────────┘
+      ↓
+┌───────────────┐
+│ Output Layer  │
+│      ○        │
+└───────────────┘
+
+
+The network learns by adjusting its WEIGHTS and BIASES
+during training.
+
+
+==================================================
+4. NEURON
+==================================================
+
+A neuron is the basic computational unit of a
+neural network.
+
+A neuron receives inputs, applies weights, adds a bias,
+and then passes the result through an activation function.
+
+Basic flow:
+
+Inputs
+  ↓
+Multiply by weights
+  ↓
+Add bias
+  ↓
+Activation function
+  ↓
+Output
+
+
+Mathematically:
+
+z = w₁x₁ + w₂x₂ + ... + wₙxₙ + b
+
+Then:
+
+a = activation(z)
+
+
+Where:
+
+x = input
+w = weight
+b = bias
+z = weighted sum
+a = neuron output
+
+
+Example:
+
+x₁ = 2
+x₂ = 3
+
+w₁ = 0.5
+w₂ = 0.2
+
+b = 1
+
+Then:
+
+z = (2 × 0.5) + (3 × 0.2) + 1
+
+z = 1 + 0.6 + 1
+
+z = 2.6
+
+The activation function then processes 2.6.
+
+
+==================================================
+5. WEIGHTS
+==================================================
+
+A weight determines how strongly an input influences
+a neuron.
+
+Each input has a corresponding weight.
+
+Example:
+
+x₁ ──× w₁ ──┐
+             │
+x₂ ──× w₂ ──┼──→ Neuron
+             │
+x₃ ──× w₃ ──┘
+
+
+If:
+
+w₁ = 0.9
+
+then x₁ has a relatively strong positive influence.
+
+If:
+
+w₁ = 0.01
+
+then x₁ has a relatively small influence.
+
+If:
+
+w₁ = -0.8
+
+then x₁ has a strong negative influence.
+
+
+IMPORTANT:
+
+Weights are LEARNED during training.
+
+The neural network changes weights to reduce
+prediction error.
+
+
+==================================================
+6. BIAS
+==================================================
+
+Bias is an additional learnable value added to the
+weighted sum.
+
+Formula:
+
+z = w₁x₁ + w₂x₂ + ... + wₙxₙ + b
+
+
+Why is bias needed?
+
+It allows the neuron to shift the activation function
+and gives the model more flexibility.
+
+
+Think of it simply as:
+
+Weights
+→ control the influence of inputs.
+
+Bias
+→ provides an adjustable offset.
+
+
+IMPORTANT:
+
+Bias is also LEARNED during training.
+
+
+==================================================
+7. WEIGHT + BIAS EXAMPLE
+==================================================
+
+Suppose:
+
+x₁ = 2
+x₂ = 4
+
+w₁ = 0.5
+w₂ = 0.3
+
+b = 1
+
+
+Weighted sum:
+
+z = (2 × 0.5) + (4 × 0.3) + 1
+
+z = 1 + 1.2 + 1
+
+z = 3.2
+
+
+Then:
+
+3.2
+ ↓
+Activation Function
+ ↓
+Neuron Output
+
+
+So the complete neuron is:
+
+Inputs
+  ↓
+Weighted Sum
+  ↓
+Add Bias
+  ↓
+Activation
+  ↓
+Output
+
+
+==================================================
+8. LAYERS
+==================================================
+
+A neural network is organized into layers.
+
+Main types:
+
+1. Input Layer
+2. Hidden Layer(s)
+3. Output Layer
+
+
+Structure:
+
+Input Layer
+     ↓
+Hidden Layer
+     ↓
+Hidden Layer
+     ↓
+Output Layer
+
+
+==================================================
+9. INPUT LAYER
+==================================================
+
+The Input Layer receives the input features.
+
+Example:
+
+For house-price prediction:
+
+Features:
+
+Area
+Bedrooms
+Age
+
+Input:
+
+x₁ = Area
+x₂ = Bedrooms
+x₃ = Age
+
+
+So:
+
+Input Layer
+
+○ Area
+○ Bedrooms
+○ Age
+
+
+IMPORTANT:
+
+The input layer represents the input data.
+
+It normally does not perform the main learning
+computation itself.
+
+
+==================================================
+10. HIDDEN LAYER
+==================================================
+
+A hidden layer is a layer between the input layer
+and output layer.
+
+Example:
+
+Input
+  ↓
+Hidden Layer
+  ↓
+Output
+
+
+A deep neural network can contain many hidden layers.
+
+Example:
+
+Input
+  ↓
+Hidden 1
+  ↓
+Hidden 2
+  ↓
+Hidden 3
+  ↓
+Output
+
+
+Each hidden layer contains neurons.
+
+The network learns increasingly complex
+representations through these layers.
+
+
+==================================================
+11. OUTPUT LAYER
+==================================================
+
+The output layer produces the final prediction.
+
+The structure of the output layer depends on
+the problem.
+
+--------------------------------------------------
+REGRESSION
+--------------------------------------------------
+
+Example:
+
+Predict house price.
+
+Output:
+
+₹50,00,000
+
+Usually:
+
+1 output neuron
+
+
+--------------------------------------------------
+BINARY CLASSIFICATION
+--------------------------------------------------
+
+Example:
+
+Spam / Not Spam
+
+Possible output:
+
+1 neuron
+
+Often using a sigmoid activation function.
+
+
+--------------------------------------------------
+MULTI-CLASS CLASSIFICATION
+--------------------------------------------------
+
+Example:
+
+Cat / Dog / Horse
+
+Possible output:
+
+3 neurons
+
+Often using softmax activation.
+
+
+==================================================
+12. COMPLETE NEURAL NETWORK
+==================================================
+
+Example:
+
+Input Layer
+   │
+   │  Features
+   ↓
+┌───────────────┐
+│ ○  ○  ○  ○    │
+└───────────────┘
+   │
+   ↓
+┌───────────────┐
+│ ○  ○  ○  ○    │
+│ ○  ○  ○  ○    │
+└───────────────┘
+   │
+   ↓
+┌───────────────┐
+│ ○  ○  ○       │
+└───────────────┘
+   │
+   ↓
+Output Layer
+     ○
+
+Input
+ ↓
+Hidden layers
+ ↓
+Output
+
+
+==================================================
+13. PARAMETERS
+==================================================
+
+Parameters are values that the neural network LEARNS
+from the training data.
+
+Main neural-network parameters:
+
+1. Weights
+2. Biases
+
+
+Example:
+
+Weight:
+
+w₁ = 0.72
+
+Bias:
+
+b = -0.15
+
+
+These values are learned during training.
+
+The model repeatedly adjusts them to reduce the
+loss.
+
+
+Simple definition:
+
+Parameter = value learned automatically by the model
+             during training.
+
+
+==================================================
+14. HYPERPARAMETERS
+==================================================
+
+Hyperparameters are settings that are chosen BEFORE
+or around the training process.
+
+They are not normally learned directly from the
+training data.
+
+Common deep learning hyperparameters:
+
+- Learning rate
+- Number of epochs
+- Batch size
+- Number of hidden layers
+- Number of neurons per layer
+- Optimizer
+- Activation function
+- Dropout rate
+
+
+Example:
+
+learning_rate = 0.001
+epochs = 20
+batch_size = 32
+
+
+These are chosen by the developer/data scientist
+and can be tuned.
+
+
+==================================================
+15. PARAMETERS vs HYPERPARAMETERS
+==================================================
+
+PARAMETERS:
+
+Learned by the model.
+
+Examples:
+
+- Weights
+- Biases
+
+
+HYPERPARAMETERS:
+
+Chosen/configured for training.
+
+Examples:
+
+- Learning rate
+- Epochs
+- Batch size
+- Number of layers
+- Number of neurons
+- Optimizer
+
+
+Easy memory trick:
+
+PARAMETERS
+→ Model LEARNS them.
+
+HYPERPARAMETERS
+→ We CHOOSE them.
+
+
+==================================================
+16. HOW A NEURAL NETWORK LEARNS
+==================================================
+
+Basic training idea:
+
+Training Data
+      ↓
+Input
+      ↓
+Neural Network
+      ↓
+Prediction
+      ↓
+Compare with Actual Answer
+      ↓
+Calculate Loss
+      ↓
+Backpropagation
+      ↓
+Update Weights & Biases
+      ↓
+Repeat
+
+
+Example:
+
+Input:
+House features
+
+        ↓
+
+Neural Network
+
+        ↓
+
+Predicted price:
+₹40 lakh
+
+        ↓
+
+Actual price:
+₹50 lakh
+
+        ↓
+
+Calculate error
+
+        ↓
+
+Adjust weights and biases
+
+        ↓
+
+Try again
+
+
+This process is repeated many times.
+
+
+==================================================
+17. WHY DEEP LEARNING IS POWERFUL
+==================================================
+
+Traditional ML often requires manually designed
+features.
+
+Example:
+
+Image classification:
+
+Image
+ ↓
+Human designs features
+ ↓
+ML model
+ ↓
+Prediction
+
+
+Deep Learning can learn useful representations
+automatically.
+
+Example:
+
+Image
+ ↓
+Neural Network
+ ↓
+Edges
+ ↓
+Shapes
+ ↓
+Patterns
+ ↓
+Objects
+ ↓
+Prediction
+
+
+This ability to learn representations directly from
+data is one of the major strengths of deep learning.
+
+
+==================================================
+18. SIMPLE REAL-WORLD EXAMPLE
+==================================================
+
+Task:
+
+Recognize whether an image contains a cat.
+
+Input:
+
+Image pixels
+
+        ↓
+
+Input Layer
+
+        ↓
+
+Hidden Layer 1
+Learns simple patterns such as edges
+
+        ↓
+
+Hidden Layer 2
+Learns shapes and textures
+
+        ↓
+
+Hidden Layer 3
+Learns higher-level patterns
+
+        ↓
+
+Output Layer
+
+Cat = 0.95
+Not Cat = 0.05
+
+        ↓
+
+Prediction:
+
+CAT
+
+
+==================================================
+19. IMPORTANT TERMINOLOGY
+==================================================
+
+NEURON
+→ Basic computational unit of a neural network.
+
+WEIGHT
+→ Learnable value controlling the influence of an input.
+
+BIAS
+→ Learnable value added to the weighted sum.
+
+LAYER
+→ Collection of neurons at a particular stage.
+
+INPUT LAYER
+→ Receives input features.
+
+HIDDEN LAYER
+→ Processes and transforms representations.
+
+OUTPUT LAYER
+→ Produces the final prediction.
+
+PARAMETER
+→ Value learned during training.
+
+HYPERPARAMETER
+→ Training/model setting chosen by the developer.
+
+
+==================================================
+20. FOUNDATION FLOW
+==================================================
+
+Deep Learning
+      ↓
+Neural Network
+      ↓
+Layers
+      ↓
+Neurons
+      ↓
+Inputs + Weights + Bias
+      ↓
+Weighted Sum
+      ↓
+Activation
+      ↓
+Output
+      ↓
+Loss
+      ↓
+Learning
+      ↓
+Updated Parameters
+
+
+==================================================
+21. KEY POINTS FOR EXAM / INTERVIEW
+==================================================
+
+1. Deep Learning is a subset of Machine Learning.
+
+2. Deep Learning primarily uses neural networks with
+   multiple layers.
+
+3. A neural network consists of neurons organized
+   into layers.
+
+4. A neuron receives inputs and calculates:
+
+   z = Σ(wx) + b
+
+5. Weights determine the influence of inputs.
+
+6. Bias provides an adjustable offset.
+
+7. Main layers are:
+
+   Input Layer
+   Hidden Layer(s)
+   Output Layer
+
+8. Hidden layers allow the network to learn
+   increasingly complex representations.
+
+9. Parameters are learned during training.
+
+10. Main neural-network parameters are:
+
+    Weights
+    Biases
+
+11. Hyperparameters are chosen/configured for training.
+
+12. Common hyperparameters include:
+
+    Learning rate
+    Epochs
+    Batch size
+    Number of layers
+    Number of neurons
+    Optimizer
+
+13. Basic neural-network learning flow:
+
+    Input
+      ↓
+    Prediction
+      ↓
+    Loss
+      ↓
+    Backpropagation
+      ↓
+    Parameter Update
+      ↓
+    Repeat
+
+
+==================================================
+22. WHAT COMES NEXT
+==================================================
+
+FOUNDATIONS
+     ↓
+ARTIFICIAL NEURAL NETWORKS (ANN)
+     ↓
+Perceptron
+     ↓
+Simple Neural Network
+     ↓
+Multilayer Perceptron (MLP)
+     ↓
+Activation Functions
+     ↓
+Forward Propagation

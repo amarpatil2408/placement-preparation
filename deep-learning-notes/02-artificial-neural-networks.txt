@@ -1,0 +1,1107 @@
+# DEEP LEARNING — UNIT 2: ARTIFICIAL NEURAL NETWORKS (ANN)
+
+==================================================
+1. WHAT IS AN ARTIFICIAL NEURAL NETWORK (ANN)?
+==================================================
+
+An Artificial Neural Network (ANN) is a machine learning
+model made of interconnected neurons that learn patterns
+from data.
+
+Basic structure:
+
+Input Layer
+     ↓
+Hidden Layer(s)
+     ↓
+Output Layer
+
+ANN learns by adjusting:
+
+→ Weights
+→ Biases
+
+
+==================================================
+2. PERCEPTRON
+==================================================
+
+A Perceptron is the simplest form of an artificial neuron
+and one of the basic building blocks of neural networks.
+
+It takes inputs, multiplies them by weights, adds a bias,
+and applies an activation function.
+
+Flow:
+
+x₁ ──× w₁ ──┐
+             │
+x₂ ──× w₂ ──┼──→ Σ + b ──→ Activation ──→ Output
+             │
+x₃ ──× w₃ ──┘
+
+
+Formula:
+
+z = w₁x₁ + w₂x₂ + ... + wₙxₙ + b
+
+Output:
+
+y = activation(z)
+
+
+The original/basic perceptron commonly uses a STEP
+activation function.
+
+
+==================================================
+3. PERCEPTRON EXAMPLE
+==================================================
+
+Suppose:
+
+x₁ = 2
+x₂ = 3
+
+w₁ = 0.5
+w₂ = 0.4
+
+b = -2
+
+
+Calculate:
+
+z = (2 × 0.5) + (3 × 0.4) - 2
+
+z = 1 + 1.2 - 2
+
+z = 0.2
+
+
+Using a step function:
+
+if z >= 0 → 1
+if z < 0  → 0
+
+
+Therefore:
+
+z = 0.2
+
+Output = 1
+
+
+==================================================
+4. LIMITATION OF A SINGLE PERCEPTRON
+==================================================
+
+A basic perceptron can learn only LINEARLY SEPARABLE
+classification problems.
+
+Example:
+
+○ ○ ○
+○ ○ ○
+
+──────────────
+       │
+       │
+──────────────
+
+× × ×
+× × ×
+
+
+A straight decision boundary can separate the classes.
+
+
+But problems such as XOR cannot be separated using
+one simple linear boundary.
+
+Therefore:
+
+Single Perceptron
+      ↓
+Limited to linearly separable problems
+
+
+==================================================
+5. SIMPLE NEURAL NETWORK
+==================================================
+
+A simple neural network connects multiple neurons.
+
+Example:
+
+Input Layer       Output Layer
+
+   x₁ ───────────→ ○
+                    \
+   x₂ ───────────→ ○ → Output
+                    /
+   x₃ ───────────→ ○
+
+
+A slightly larger network:
+
+Input
+  ↓
+Hidden Layer
+  ↓
+Output
+
+
+Each connection has a weight.
+
+Each neuron can have a bias.
+
+
+==================================================
+6. SIMPLE NEURAL NETWORK CALCULATION
+==================================================
+
+Suppose the hidden neuron receives:
+
+x₁, x₂
+
+It calculates:
+
+z = w₁x₁ + w₂x₂ + b
+
+Then:
+
+a = activation(z)
+
+
+The hidden neuron's output becomes the input
+to the next layer.
+
+Therefore:
+
+Input
+ ↓
+Weighted Sum
+ ↓
+Activation
+ ↓
+Next Layer
+
+
+==================================================
+7. MULTILAYER PERCEPTRON (MLP)
+==================================================
+
+MLP stands for:
+
+Multilayer Perceptron.
+
+It is a feed-forward neural network containing:
+
+→ Input layer
+→ One or more hidden layers
+→ Output layer
+
+Example:
+
+Input Layer
+    ↓
+Hidden Layer 1
+    ↓
+Hidden Layer 2
+    ↓
+Output Layer
+
+
+Because MLP can contain multiple hidden layers,
+it can learn more complex patterns than a single
+perceptron.
+
+
+==================================================
+8. MLP STRUCTURE
+==================================================
+
+Example:
+
+Input Layer
+
+○  ○  ○  ○
+ \ | / \ |
+  \|/   \|
+   ↓     ↓
+
+Hidden Layer 1
+
+○  ○  ○  ○  ○
+ \ | / \ | /
+   ↓     ↓
+
+Hidden Layer 2
+
+○  ○  ○
+ \ | /
+   ↓
+
+Output Layer
+
+○
+
+
+Important:
+
+Every neuron in one layer can be connected to neurons
+in the next layer.
+
+A fully connected layer is also called a:
+
+Dense Layer.
+
+
+==================================================
+9. PERCEPTRON vs MLP
+==================================================
+
+PERCEPTRON:
+
+Input
+ ↓
+Output
+
+→ Usually one computational layer.
+→ Uses a linear decision boundary with a basic step
+  activation.
+→ Cannot solve non-linearly separable problems such as XOR.
+
+
+MLP:
+
+Input
+ ↓
+Hidden Layer(s)
+ ↓
+Output
+
+→ Contains one or more hidden layers.
+→ Uses nonlinear activation functions.
+→ Can learn nonlinear relationships.
+
+
+==================================================
+10. ACTIVATION FUNCTION
+==================================================
+
+An activation function determines the output of a neuron
+after the weighted sum and bias have been calculated.
+
+Flow:
+
+Inputs
+  ↓
+Weighted Sum
+  ↓
+z = Σwx + b
+  ↓
+Activation Function
+  ↓
+Neuron Output
+
+
+Why do we need activation functions?
+
+Because without nonlinear activation functions, stacking
+multiple linear layers would still result in an overall
+linear transformation.
+
+Therefore, nonlinear activation functions allow neural
+networks to learn complex nonlinear patterns.
+
+
+==================================================
+11. STEP FUNCTION
+==================================================
+
+The step function produces a binary output.
+
+Formula:
+
+f(z) = 1, if z >= 0
+       0, if z < 0
+
+
+Example:
+
+z = 5  → 1
+z = 2  → 1
+z = 0  → 1
+z = -1 → 0
+z = -5 → 0
+
+
+Output:
+
+0 or 1
+
+
+Main use:
+
+Basic perceptron classification.
+
+
+Limitation:
+
+The step function is not suitable for gradient-based
+learning because its derivative is zero almost everywhere
+and undefined at the threshold.
+
+
+==================================================
+12. SIGMOID
+==================================================
+
+Sigmoid converts a value into a number between:
+
+0 and 1
+
+Formula:
+
+σ(z) = 1 / (1 + e⁻ᶻ)
+
+
+Examples:
+
+Large positive z → output close to 1
+
+Large negative z → output close to 0
+
+z = 0 → output = 0.5
+
+
+Shape:
+
+       1 |          ______
+         |        /
+         |      /
+       .5|-----/
+         |   /
+       0 |___/____________
+              z
+
+
+Common use:
+
+Binary classification output layer.
+
+
+Example:
+
+Output = 0.92
+
+Interpretation:
+
+The model assigns a high probability to the positive
+class, assuming the output is being used as a probability.
+
+
+Limitation:
+
+Can suffer from the VANISHING GRADIENT problem,
+especially in deep networks.
+
+
+==================================================
+13. TANH
+==================================================
+
+Tanh stands for:
+
+Hyperbolic Tangent.
+
+It outputs values between:
+
+-1 and +1
+
+
+Formula:
+
+tanh(z) = (eᶻ - e⁻ᶻ) / (eᶻ + e⁻ᶻ)
+
+
+Important:
+
+z → large positive
+      ↓
+output → +1
+
+z = 0
+      ↓
+output = 0
+
+z → large negative
+      ↓
+output → -1
+
+
+Compared with sigmoid:
+
+Sigmoid → 0 to 1
+
+Tanh → -1 to +1
+
+
+Advantage:
+
+Tanh is zero-centered.
+
+Limitation:
+
+It can also suffer from vanishing gradients.
+
+
+==================================================
+14. RELU
+==================================================
+
+ReLU stands for:
+
+Rectified Linear Unit.
+
+Formula:
+
+f(z) = max(0, z)
+
+
+Therefore:
+
+If z > 0:
+
+f(z) = z
+
+If z <= 0:
+
+f(z) = 0
+
+
+Examples:
+
+z = 5  → 5
+z = 2  → 2
+z = 0  → 0
+z = -3 → 0
+
+
+Graph idea:
+
+output
+  |
+  |        /
+  |       /
+  |      /
+  |_____/
+  |
+  +-------------- input
+        0
+
+
+Advantages:
+
+→ Simple
+→ Computationally efficient
+→ Helps reduce vanishing-gradient problems compared
+  with sigmoid/tanh in positive regions
+→ Widely used in hidden layers of neural networks
+
+
+Limitation:
+
+Can suffer from the:
+
+DEAD RELU PROBLEM
+
+
+==================================================
+15. DEAD RELU PROBLEM
+==================================================
+
+If a ReLU neuron repeatedly receives negative inputs,
+its output becomes:
+
+0
+
+and its gradient becomes:
+
+0
+
+The neuron may stop learning.
+
+This is called:
+
+Dead ReLU.
+
+
+One solution is:
+
+Leaky ReLU.
+
+
+==================================================
+16. LEAKY RELU
+==================================================
+
+Leaky ReLU allows a small negative output instead of
+completely setting negative values to zero.
+
+Formula:
+
+f(z) = z       if z > 0
+       αz      if z <= 0
+
+
+where:
+
+α = small positive value
+
+Common example:
+
+α = 0.01
+
+
+Examples:
+
+z = 5
+
+→ 5
+
+
+z = -5
+
+→ -0.05
+
+
+Advantage:
+
+It allows a small gradient for negative inputs and can
+reduce the dead-ReLU problem.
+
+
+==================================================
+17. SOFTMAX
+==================================================
+
+Softmax is commonly used in the output layer for
+MULTI-CLASS CLASSIFICATION.
+
+It converts multiple scores into probabilities whose
+sum is 1.
+
+Formula:
+
+softmax(zᵢ) = eᶻⁱ / Σⱼ eᶻʲ
+
+
+Example:
+
+Suppose the network produces scores:
+
+Cat   = 2.0
+Dog   = 1.0
+Horse = 0.1
+
+
+Softmax converts these scores into probabilities such as:
+
+Cat   → 0.66
+Dog   → 0.24
+Horse → 0.10
+
+The exact values depend on the scores.
+
+
+Important:
+
+The probabilities add up to:
+
+1.0
+
+
+Therefore:
+
+0.66 + 0.24 + 0.10 = 1.00
+
+
+Prediction:
+
+Class with highest probability.
+
+
+==================================================
+18. GELU
+==================================================
+
+GELU stands for:
+
+Gaussian Error Linear Unit.
+
+It is a smooth nonlinear activation function.
+
+A commonly used approximation is:
+
+GELU(x)
+≈
+0.5x[1 + tanh(√(2/π)(x + 0.044715x³))]
+
+
+GELU does not simply set all negative values to zero
+like ReLU.
+
+Instead, it smoothly controls how much of the input
+passes through.
+
+
+GELU is widely used in modern Transformer architectures,
+including many language models.
+
+
+Simple idea:
+
+ReLU:
+
+negative → 0
+
+GELU:
+
+negative → partially suppressed
+positive → increasingly passed through
+
+
+==================================================
+19. ACTIVATION FUNCTIONS — QUICK COMPARISON
+==================================================
+
+STEP:
+
+Range:
+0 to 1
+
+Common use:
+Basic perceptron
+
+Main issue:
+Not suitable for gradient-based learning.
+
+
+SIGMOID:
+
+Range:
+0 to 1
+
+Common use:
+Binary classification output
+
+Main issue:
+Vanishing gradients.
+
+
+TANH:
+
+Range:
+-1 to +1
+
+Common use:
+Historically common in neural networks and RNNs
+
+Main issue:
+Vanishing gradients.
+
+
+RELU:
+
+Range:
+0 to +∞
+
+Common use:
+Hidden layers
+
+Main issue:
+Dead neurons.
+
+
+LEAKY RELU:
+
+Range:
+-∞ to +∞
+
+Common use:
+Hidden layers
+
+Main advantage:
+Allows small negative gradient.
+
+
+SOFTMAX:
+
+Range:
+0 to 1 for each class probability
+
+Total:
+1
+
+Common use:
+Multi-class classification output.
+
+
+GELU:
+
+Range:
+Approximately -0.17 to +∞
+
+Common use:
+Modern Transformer architectures
+
+Main characteristic:
+Smooth nonlinear activation.
+
+
+==================================================
+20. WHICH ACTIVATION FUNCTION WHERE?
+==================================================
+
+Typical choices:
+
+Hidden Layers
+     ↓
+ReLU / Leaky ReLU / GELU
+
+
+Binary Classification Output
+     ↓
+Sigmoid
+
+
+Multi-Class Classification Output
+     ↓
+Softmax
+
+
+Basic Perceptron
+     ↓
+Step Function
+
+
+Historical / specific architectures
+     ↓
+Tanh
+
+
+IMPORTANT:
+
+These are common choices, not absolute rules.
+The correct activation depends on the architecture
+and task.
+
+
+==================================================
+21. FORWARD PROPAGATION
+==================================================
+
+Forward propagation is the process of passing input data
+through the neural network from the input layer toward
+the output layer to produce a prediction.
+
+Flow:
+
+Input
+ ↓
+Layer 1
+ ↓
+Layer 2
+ ↓
+...
+ ↓
+Output
+
+
+At each neuron:
+
+1. Receive inputs.
+2. Multiply inputs by weights.
+3. Add them.
+4. Add bias.
+5. Apply activation function.
+6. Send output to next layer.
+
+
+==================================================
+22. FORWARD PROPAGATION FORMULA
+==================================================
+
+For one neuron:
+
+z = Σ(wx) + b
+
+Then:
+
+a = f(z)
+
+
+For a layer:
+
+Z = XW + b
+
+A = f(Z)
+
+
+Where:
+
+X = input
+W = weights
+b = bias
+Z = weighted sum
+f = activation function
+A = activated output
+
+
+The output A becomes the input to the next layer.
+
+
+==================================================
+23. FORWARD PROPAGATION — SIMPLE EXAMPLE
+==================================================
+
+Input:
+
+x₁ = 2
+x₂ = 3
+
+
+Neuron:
+
+w₁ = 0.5
+w₂ = 0.2
+b = 1
+
+
+Step 1:
+
+z = (2 × 0.5) + (3 × 0.2) + 1
+
+z = 1 + 0.6 + 1
+
+z = 2.6
+
+
+Step 2:
+
+Apply activation.
+
+Using ReLU:
+
+ReLU(2.6) = 2.6
+
+
+Neuron output:
+
+a = 2.6
+
+
+This output can then become input to the next layer.
+
+
+==================================================
+24. FORWARD PROPAGATION IN A MULTI-LAYER NETWORK
+==================================================
+
+Input:
+
+X
+
+   ↓
+
+Layer 1:
+
+Z¹ = XW¹ + b¹
+
+A¹ = f(Z¹)
+
+   ↓
+
+Layer 2:
+
+Z² = A¹W² + b²
+
+A² = f(Z²)
+
+   ↓
+
+Output Layer:
+
+Z³ = A²W³ + b³
+
+Output = f(Z³)
+
+
+This entire process from input to prediction is called:
+
+FORWARD PROPAGATION.
+
+
+==================================================
+25. FORWARD PROPAGATION vs BACKPROPAGATION
+==================================================
+
+FORWARD PROPAGATION:
+
+Direction:
+
+Input
+ ↓
+Hidden Layers
+ ↓
+Output
+
+Purpose:
+
+Generate prediction.
+
+
+BACKPROPAGATION:
+
+Direction:
+
+Output/Loss
+ ↓
+Previous Layers
+ ↓
+Earlier Layers
+
+Purpose:
+
+Calculate gradients and update parameters.
+
+
+Simple memory:
+
+Forward:
+Input → Prediction
+
+Backward:
+Loss → Parameter Updates
+
+
+==================================================
+26. COMPLETE ANN FLOW
+==================================================
+
+Training Data
+      ↓
+Input Layer
+      ↓
+Weighted Sum
+      ↓
+Bias
+      ↓
+Activation Function
+      ↓
+Hidden Layer
+      ↓
+Weighted Sum
+      ↓
+Bias
+      ↓
+Activation Function
+      ↓
+More Hidden Layers
+      ↓
+Output Layer
+      ↓
+Prediction
+      ↓
+Loss
+      ↓
+Backpropagation
+      ↓
+Update Weights & Biases
+      ↓
+Repeat
+
+
+==================================================
+27. BIG PICTURE
+==================================================
+
+PERCEPTRON
+   ↓
+Basic artificial neuron
+   ↓
+SIMPLE NEURAL NETWORK
+   ↓
+Multiple connected neurons
+   ↓
+MLP
+   ↓
+Multiple layers
+   ↓
+ACTIVATION FUNCTIONS
+   ↓
+Add nonlinearity
+   ↓
+FORWARD PROPAGATION
+   ↓
+Calculate prediction
+
+
+==================================================
+28. KEY POINTS
+==================================================
+
+1. Perceptron is a basic artificial neuron/model.
+
+2. A neuron calculates:
+
+   z = Σ(wx) + b
+
+3. Activation function is then applied:
+
+   a = f(z)
+
+4. A single basic perceptron can solve only linearly
+   separable classification problems.
+
+5. MLP contains one or more hidden layers.
+
+6. Nonlinear activation functions allow neural networks
+   to learn nonlinear patterns.
+
+7. Step:
+   → Basic perceptron.
+
+8. Sigmoid:
+   → Common binary-classification output activation.
+
+9. Tanh:
+   → Range -1 to +1.
+
+10. ReLU:
+    → Common hidden-layer activation.
+
+11. Leaky ReLU:
+    → Allows a small negative gradient.
+
+12. Softmax:
+    → Converts multi-class scores into probabilities
+      that sum to 1.
+
+13. GELU:
+    → Smooth activation widely used in Transformer
+      architectures.
+
+14. Forward propagation means:
+
+    Input → Layers → Prediction
+
+15. Backpropagation means:
+
+    Loss → Gradients → Parameter updates
+
+16. Without nonlinear activation functions, stacking
+    linear layers cannot give the network the ability
+    to represent general nonlinear functions.

@@ -1,0 +1,1051 @@
+# SUPPORT VECTOR MACHINE (SVM)
+
+==================================================
+1. DEFINITION
+==================================================
+
+Support Vector Machine (SVM) is a supervised machine learning
+algorithm mainly used for CLASSIFICATION.
+
+Its main goal is to find the BEST DECISION BOUNDARY that
+separates different classes.
+
+The boundary is chosen so that the distance between the
+boundary and the closest data points is as large as possible.
+
+These closest points are called:
+
+SUPPORT VECTORS
+
+
+==================================================
+2. BASIC INTUITION
+==================================================
+
+Suppose we have two classes:
+
+● = Class A
+○ = Class B
+
+          ●  ●  ●
+
+       ●  ●
+
+----------------------  ← Decision Boundary
+
+       ○  ○
+          ○  ○  ○
+
+
+Many possible lines could separate the classes.
+
+SVM tries to find the boundary with the:
+
+MAXIMUM MARGIN
+
+
+==================================================
+3. WHAT IS A DECISION BOUNDARY?
+==================================================
+
+A decision boundary is a line, plane, or higher-dimensional
+surface that separates different classes.
+
+For two features:
+
+              X₂
+              ↑
+       ● ● ●  │
+      ● ●     │
+──────────────┼────────→ X₁
+      ○ ○     │
+       ○ ○ ○  │
+
+
+The boundary separates:
+
+Class A
+from
+Class B
+
+
+For:
+
+2 features → line
+3 features → plane
+More features → hyperplane
+
+
+==================================================
+4. WHAT IS A HYPERPLANE?
+==================================================
+
+The decision boundary in SVM is called a:
+
+HYPERPLANE
+
+
+For two features:
+
+w₁X₁ + w₂X₂ + b = 0
+
+
+Where:
+
+w₁, w₂ = weights
+b       = bias
+
+
+Prediction is based on which side of the hyperplane
+the point lies.
+
+
+==================================================
+5. WHAT IS A MARGIN?
+==================================================
+
+The margin is the distance between the decision boundary
+and the closest training points from each class.
+
+Conceptually:
+
+Class A:
+
+● ● ●
+  ●
+   ●
+
+--------------------  ← Margin boundary
+
+====================  ← Decision boundary
+
+--------------------  ← Margin boundary
+
+   ○
+ ○ ○
+○ ○ ○
+
+The region between the two margin boundaries is the:
+
+MARGIN
+
+
+==================================================
+6. MAXIMUM MARGIN
+==================================================
+
+This is the central idea of SVM.
+
+SVM tries to find the decision boundary that:
+
+MAXIMIZES THE MARGIN
+
+Why?
+
+A larger margin can provide better separation between
+classes and can improve generalization to unseen data.
+
+
+Conceptually:
+
+Small margin:
+
+● ●
+  ●
+---|---
+   |
+---|---
+  ○
+○ ○
+
+
+Large margin:
+
+● ●
+  ●
+
+---------|
+
+         |
+
+---------|
+
+  ○
+○ ○
+
+
+SVM prefers the boundary with the larger margin,
+subject to its optimization constraints.
+
+
+==================================================
+7. SUPPORT VECTORS
+==================================================
+
+Support vectors are the training points that are closest
+to the decision boundary/margin and are critical in defining
+the optimal separating hyperplane.
+
+Example:
+
+● ● ●
+   ●  ← Support Vector
+
+--------- Margin
+
+========= Decision Boundary
+
+--------- Margin
+
+   ○  ← Support Vector
+○ ○ ○
+
+
+IMPORTANT:
+
+Not every training point is equally important for defining
+the final SVM boundary.
+
+The support vectors are especially important.
+
+
+==================================================
+8. WHY ARE THEY CALLED "SUPPORT VECTORS"?
+==================================================
+
+They "support" or determine the position of the optimal
+decision boundary.
+
+If a non-support-vector point moves slightly, the boundary
+may not change.
+
+But changing an important support vector can change
+the optimal boundary.
+
+
+==================================================
+9. LINEAR SVM
+==================================================
+
+If the classes can be separated using a straight boundary,
+we can use a:
+
+LINEAR SVM
+
+
+Example:
+
+● ● ●
+ ● ●
+       |
+       |
+-------|-------
+       |
+       |
+ ○ ○
+○ ○ ○
+
+
+The decision boundary is linear.
+
+
+==================================================
+10. NONLINEAR SVM
+==================================================
+
+Sometimes classes cannot be separated by a straight line.
+
+Example:
+
+        ● ● ●
+      ●       ●
+
+         ○
+
+      ●       ●
+        ● ● ●
+
+
+A linear boundary cannot separate these classes properly.
+
+SVM can use KERNELS to handle nonlinear relationships.
+
+
+==================================================
+11. KERNEL TRICK
+==================================================
+
+The Kernel Trick is one of the most important concepts
+in SVM.
+
+It allows SVM to handle nonlinear relationships by
+implicitly working in a higher-dimensional feature space.
+
+Basic idea:
+
+Original Feature Space
+        ↓
+Kernel
+        ↓
+Higher-Dimensional Representation
+        ↓
+Linear Separation
+        ↓
+Nonlinear Boundary in Original Space
+
+
+Instead of manually creating all higher-dimensional
+features, the kernel function computes relationships
+that allow the algorithm to operate as if the data
+were transformed.
+
+
+==================================================
+12. COMMON KERNELS
+==================================================
+
+Common SVM kernels:
+
+1. Linear
+2. Polynomial
+3. RBF
+4. Sigmoid
+
+
+The most commonly used nonlinear kernel in many practical
+applications is:
+
+RBF
+
+RBF = Radial Basis Function
+
+
+==================================================
+13. RBF KERNEL
+==================================================
+
+RBF can create nonlinear decision boundaries.
+
+Concept:
+
+Original Data
+      ↓
+RBF Kernel
+      ↓
+Nonlinear SVM
+      ↓
+Complex Decision Boundary
+
+
+RBF depends strongly on:
+
+γ (gamma)
+
+
+==================================================
+14. GAMMA (γ)
+==================================================
+
+Gamma controls how strongly the influence of an individual
+training point is localized for kernels such as RBF.
+
+High gamma:
+
+→ Each point has a more localized influence.
+→ Decision boundary can become more complex.
+→ Higher overfitting risk.
+
+
+Low gamma:
+
+→ Points have a broader influence.
+→ Decision boundary becomes smoother.
+→ May underfit if too low.
+
+
+Simple intuition:
+
+High γ → very local influence
+
+Low γ → broad influence
+
+
+==================================================
+15. C PARAMETER
+==================================================
+
+C is a very important SVM hyperparameter.
+
+C controls the penalty for classification errors
+or margin violations.
+
+High C:
+
+→ Errors are penalized more strongly.
+→ Model tries harder to classify training points correctly.
+→ Can produce a narrower margin.
+→ Can increase overfitting risk.
+
+
+Low C:
+
+→ Errors are penalized less strongly.
+→ Model allows more margin violations.
+→ Usually prefers a wider margin.
+→ Can produce a simpler model.
+
+
+Simple intuition:
+
+C = "How strongly should I punish mistakes?"
+
+
+==================================================
+16. C vs GAMMA
+==================================================
+
+C:
+
+Controls the penalty for classification errors /
+margin violations.
+
+Gamma:
+
+Controls how localized the influence of individual points
+is for nonlinear kernels such as RBF.
+
+
+Remember:
+
+C → Penalty for mistakes
+
+γ → Influence range / locality
+
+
+==================================================
+17. HARD MARGIN vs SOFT MARGIN
+==================================================
+
+HARD MARGIN:
+
+The model tries to separate classes with no training
+points inside the margin or on the wrong side.
+
+Works when:
+
+- Data is perfectly separable.
+- There is little or no noise.
+
+Problem:
+
+Real-world data is often not perfectly separable.
+
+
+SOFT MARGIN:
+
+Allows some points to violate the margin or be
+misclassified.
+
+The parameter:
+
+C
+
+controls the trade-off between:
+
+Large margin
+and
+Classification violations.
+
+
+Therefore:
+
+Soft-margin SVM
+→ More practical for real-world data.
+
+
+==================================================
+18. FEATURE SCALING — VERY IMPORTANT
+==================================================
+
+SVM is sensitive to feature scale.
+
+Example:
+
+Age:
+20–60
+
+Salary:
+20,000–200,000
+
+
+Without scaling:
+
+Salary can dominate the geometry of the problem.
+
+Therefore:
+
+Feature Scaling
+       ↓
+IMPORTANT for SVM
+
+
+Common approach:
+
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+
+X_train_scaled = scaler.fit_transform(X_train)
+
+X_test_scaled = scaler.transform(X_test)
+
+
+IMPORTANT:
+
+Fit the scaler only on the training data.
+
+
+==================================================
+19. SCIKIT-LEARN IMPLEMENTATION
+==================================================
+
+Import:
+
+from sklearn.svm import SVC
+
+
+Create model:
+
+model = SVC(
+    kernel="rbf",
+    C=1.0,
+    gamma="scale"
+)
+
+
+Train:
+
+model.fit(X_train_scaled, y_train)
+
+
+Predict:
+
+y_pred = model.predict(X_test_scaled)
+
+
+Complete example:
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+
+scaler = StandardScaler()
+
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+model = SVC(
+    kernel="rbf",
+    C=1.0,
+    gamma="scale"
+)
+
+model.fit(X_train_scaled, y_train)
+
+y_pred = model.predict(X_test_scaled)
+
+
+==================================================
+20. predict_proba()
+==================================================
+
+By default, SVC does not provide probability estimates.
+
+If you need probability estimates:
+
+model = SVC(
+    kernel="rbf",
+    probability=True
+)
+
+Then:
+
+model.predict_proba(X_test_scaled)
+
+
+IMPORTANT:
+
+Enabling probability estimation adds computational
+overhead because additional probability calibration
+is performed.
+
+
+==================================================
+21. IMPORTANT HYPERPARAMETERS
+==================================================
+
+1. C
+
+Controls penalty for errors and margin violations.
+
+Small C:
+→ More tolerance
+→ Wider margin tendency
+
+Large C:
+→ Less tolerance
+→ Stronger focus on training classification
+
+
+2. kernel
+
+Controls the kernel function.
+
+Examples:
+
+"linear"
+"poly"
+"rbf"
+"sigmoid"
+
+
+3. gamma
+
+Important for nonlinear kernels such as RBF.
+
+Controls the locality of influence.
+
+
+4. degree
+
+Used with the polynomial kernel.
+
+Controls polynomial degree.
+
+
+==================================================
+22. POLYNOMIAL KERNEL
+==================================================
+
+The polynomial kernel can model polynomial relationships.
+
+Example:
+
+kernel="poly"
+
+Important parameter:
+
+degree
+
+
+Example:
+
+degree = 2
+
+→ Quadratic-type relationship.
+
+
+degree = 3
+
+→ Cubic-type relationship.
+
+
+==================================================
+23. LINEAR vs RBF SVM
+==================================================
+
+LINEAR SVM:
+
+Used when the classes are approximately linearly separable.
+
+Data
+ ↓
+Linear Boundary
+ ↓
+Class Prediction
+
+
+RBF SVM:
+
+Used when the classes have nonlinear relationships.
+
+Data
+ ↓
+RBF Kernel
+ ↓
+Nonlinear Boundary
+ ↓
+Class Prediction
+
+
+==================================================
+24. OVERFITTING
+==================================================
+
+SVM can overfit depending on its hyperparameters.
+
+Possible situation:
+
+C too high
++
+Gamma too high
+      ↓
+Very complex boundary
+      ↓
+Model follows training data too closely
+      ↓
+Overfitting
+
+
+Therefore:
+
+C and gamma must be tuned carefully.
+
+
+==================================================
+25. UNDERFITTING
+==================================================
+
+Possible situation:
+
+C too low
+or
+Gamma too low
+
+      ↓
+Model becomes too simple
+      ↓
+Important patterns are missed
+      ↓
+Underfitting
+
+
+Therefore:
+
+Hyperparameter tuning is important.
+
+
+==================================================
+26. DECISION FUNCTION
+==================================================
+
+For a linear SVM, the decision function is:
+
+f(X) = wᵀX + b
+
+
+Classification:
+
+f(X) > 0
+→ One class
+
+f(X) < 0
+→ Other class
+
+
+The exact class labels depend on the implementation.
+
+
+For nonlinear kernels, the decision function uses
+the kernel representation instead of a simple original-space
+linear equation.
+
+
+==================================================
+27. MULTI-CLASS CLASSIFICATION
+==================================================
+
+SVM can also handle multiple classes.
+
+Example:
+
+Class 0 → Cat
+Class 1 → Dog
+Class 2 → Horse
+
+
+Scikit-learn's SVC supports multi-class classification.
+
+Internally, it uses strategies based on multiple
+binary classifiers, commonly one-vs-one.
+
+
+==================================================
+28. SVM vs LOGISTIC REGRESSION
+==================================================
+
+LOGISTIC REGRESSION:
+
+Features
+   ↓
+Linear Score
+   ↓
+Sigmoid
+   ↓
+Probability
+   ↓
+Class
+
+
+SVM:
+
+Features
+   ↓
+Decision Boundary
+   ↓
+Maximum Margin
+   ↓
+Class
+
+
+Logistic Regression:
+→ Directly models class probabilities.
+
+SVM:
+→ Focuses on the separating boundary and margin.
+
+
+Logistic Regression:
+→ Uses log loss.
+
+SVM:
+→ Commonly uses hinge-loss-based optimization.
+
+
+==================================================
+29. SVM vs KNN
+==================================================
+
+KNN:
+
+New point
+   ↓
+Calculate distances
+   ↓
+Find K nearest
+   ↓
+Majority vote
+   ↓
+Class
+
+
+SVM:
+
+Training data
+   ↓
+Learn decision boundary
+   ↓
+Maximum margin
+   ↓
+Support vectors
+   ↓
+Class
+
+
+KNN:
+→ Prediction can be expensive for large datasets.
+
+SVM:
+→ Training can be expensive, especially with nonlinear
+  kernels and large datasets.
+
+
+Both:
+→ Usually benefit strongly from feature scaling.
+
+
+==================================================
+30. SVM vs DECISION TREE
+==================================================
+
+SVM:
+
+→ Margin-based
+→ Kernel-based nonlinear modeling
+→ Feature scaling important
+
+
+Decision Tree:
+
+→ Rule-based
+→ Split-based
+→ Feature scaling usually unnecessary
+
+
+SVM:
+→ More sensitive to C, gamma, and kernel choice.
+
+
+Decision Tree:
+→ More sensitive to tree complexity parameters.
+
+
+==================================================
+31. ADVANTAGES
+==================================================
+
+1. Effective for classification problems with clear
+   class separation.
+
+2. Can create a maximum-margin decision boundary.
+
+3. Can handle nonlinear relationships using kernels.
+
+4. Effective in high-dimensional feature spaces.
+
+5. Support vectors focus the model on important boundary
+   observations.
+
+6. Can work well when the number of features is large
+   relative to the number of samples.
+
+
+==================================================
+32. LIMITATIONS
+==================================================
+
+1. Feature scaling is generally important.
+
+2. Choosing C, gamma, and kernel can be difficult.
+
+3. Training can become computationally expensive on
+   very large datasets.
+
+4. Nonlinear SVMs can be difficult to interpret.
+
+5. Sensitive to poor hyperparameter choices.
+
+6. Probability estimates are not provided by default
+   in SVC.
+
+7. Performance can be affected by noisy or overlapping
+   classes.
+
+
+==================================================
+33. WHEN TO USE SVM
+==================================================
+
+SVM can be useful when:
+
+- Target is categorical.
+- Dataset is small-to-medium sized.
+- Class separation is important.
+- The relationship may be nonlinear.
+- You can properly scale the features.
+- You want to use a maximum-margin classifier.
+
+
+Examples:
+
+Email Features
+      ↓
+SVM
+      ↓
+Spam / Not Spam
+
+
+Medical Features
+      ↓
+SVM
+      ↓
+Class A / Class B
+
+
+Image Features
+      ↓
+SVM
+      ↓
+Class 1 / Class 2
+
+
+==================================================
+34. COMPLETE FLOW
+==================================================
+
+Dataset
+   ↓
+Features (X) + Target (y)
+   ↓
+Train / Test Split
+   ↓
+Feature Scaling
+   ↓
+Choose Kernel
+   ↓
+Choose C
+   ↓
+Choose Gamma if needed
+   ↓
+Train SVM
+   ↓
+Find Maximum-Margin Boundary
+   ↓
+Identify Support Vectors
+   ↓
+Predict
+   ↓
+Evaluate
+   ↓
+Tune Hyperparameters
+   ↓
+Final Model
+
+
+==================================================
+35. KEY POINTS TO REMEMBER
+==================================================
+
+1. SVM = Support Vector Machine.
+
+2. SVM is a supervised learning algorithm mainly used
+   for CLASSIFICATION.
+
+3. Its main goal is to find a good separating boundary
+   with a MAXIMUM MARGIN.
+
+4. The closest important training points are called
+   SUPPORT VECTORS.
+
+5. Linear SVM creates a linear decision boundary.
+
+6. Kernels allow SVM to model nonlinear relationships.
+
+7. Common kernels:
+
+   Linear
+   Polynomial
+   RBF
+   Sigmoid
+
+8. RBF is a commonly used nonlinear kernel.
+
+9. C controls the penalty for classification errors /
+   margin violations.
+
+10. Gamma controls locality of influence for nonlinear
+    kernels such as RBF.
+
+11. High gamma → more localized influence and potentially
+    more complex boundaries.
+
+12. Low gamma → broader influence and smoother boundaries.
+
+13. Feature scaling is VERY IMPORTANT for SVM.
+
+14. SVC is the scikit-learn class used for classification.
+
+15. Basic SVM focuses on the decision boundary and margin,
+    unlike Logistic Regression, which directly models
+    probabilities.
+
+16. Main intuition:
+
+       DATA
+         ↓
+    FIND BOUNDARY
+         ↓
+    MAXIMIZE MARGIN
+         ↓
+   SUPPORT VECTORS
+         ↓
+     CLASSIFY

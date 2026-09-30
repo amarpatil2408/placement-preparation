@@ -1,0 +1,1233 @@
+# DEEP LEARNING — UNIT 3: NEURAL NETWORK MATHEMATICS
+
+==================================================
+1. WHY DO WE NEED MATH IN NEURAL NETWORKS?
+==================================================
+
+Neural networks perform many mathematical operations.
+
+The basic flow is:
+
+Input
+  ↓
+Vectors / Matrices
+  ↓
+Matrix Multiplication
+  ↓
+Weighted Sum
+  ↓
+Activation
+  ↓
+Prediction
+  ↓
+Loss
+  ↓
+Derivatives / Gradients
+  ↓
+Backpropagation
+  ↓
+Update Weights
+
+
+The important mathematics here is:
+
+1. Vectors
+2. Matrices
+3. Matrix Multiplication
+4. Dot Product
+5. Derivatives
+6. Partial Derivatives
+7. Gradients
+8. Chain Rule
+
+
+==================================================
+2. VECTORS
+==================================================
+
+A vector is an ordered collection of numbers.
+
+Example:
+
+x = [2, 4, 6]
+
+This is a vector with 3 elements.
+
+In a neural network, a vector can represent:
+
+- Input features
+- Weights
+- Biases
+- Outputs from neurons
+
+
+Example:
+
+House features:
+
+Area = 1200
+Bedrooms = 3
+Age = 5
+
+Represent as:
+
+X = [1200, 3, 5]
+
+
+==================================================
+3. VECTOR AS A COLUMN
+==================================================
+
+A vector can also be written vertically:
+
+      ┌   ┐
+X  =  │ 2 │
+      │ 4 │
+      │ 6 │
+      └   ┘
+
+
+This is called a column vector.
+
+It has:
+
+3 rows
+1 column
+
+Shape:
+
+(3 × 1)
+
+
+==================================================
+4. VECTOR ADDITION
+==================================================
+
+Vectors of the same size can be added element by
+element.
+
+Example:
+
+A = [1, 2, 3]
+
+B = [4, 5, 6]
+
+
+A + B:
+
+= [1+4, 2+5, 3+6]
+
+= [5, 7, 9]
+
+
+Neural networks use vector operations because many
+inputs and parameters are processed together.
+
+
+==================================================
+5. SCALAR vs VECTOR
+==================================================
+
+SCALAR:
+
+A single number.
+
+Example:
+
+5
+
+
+VECTOR:
+
+A collection of numbers.
+
+Example:
+
+[5, 10, 15]
+
+
+In neural networks:
+
+Scalar
+→ One value
+
+Vector
+→ Multiple values
+
+
+==================================================
+6. MATRICES
+==================================================
+
+A matrix is a rectangular arrangement of numbers
+organized into rows and columns.
+
+Example:
+
+A =
+
+┌         ┐
+│ 1  2  3 │
+│ 4  5  6 │
+└         ┘
+
+
+This matrix has:
+
+2 rows
+3 columns
+
+Therefore its shape is:
+
+(2 × 3)
+
+
+==================================================
+7. MATRIX SHAPE
+==================================================
+
+Always write:
+
+(rows × columns)
+
+
+Example:
+
+┌       ┐
+│ 1 2 3 │
+│ 4 5 6 │
+└       ┘
+
+Shape:
+
+2 × 3
+
+
+Another:
+
+┌     ┐
+│ 1 2 │
+│ 3 4 │
+│ 5 6 │
+└     ┘
+
+Shape:
+
+3 × 2
+
+
+IMPORTANT:
+
+Rows first.
+Columns second.
+
+
+==================================================
+8. WHY MATRICES ARE USED IN NEURAL NETWORKS
+==================================================
+
+Suppose a layer has:
+
+3 input features
+and
+4 neurons.
+
+Instead of calculating every neuron separately,
+we can represent all weights using one matrix.
+
+Input:
+
+X
+
+Weights:
+
+W
+
+Bias:
+
+b
+
+
+Then the layer can be calculated as:
+
+Z = XW + b
+
+
+This is much more efficient than calculating each
+neuron individually.
+
+
+==================================================
+9. MATRIX MULTIPLICATION
+==================================================
+
+Matrix multiplication is one of the most important
+operations in neural networks.
+
+Suppose:
+
+A =
+
+┌     ┐
+│ 1 2 │
+│ 3 4 │
+└     ┘
+
+and:
+
+B =
+
+┌     ┐
+│ 5 6 │
+│ 7 8 │
+└     ┘
+
+
+Then:
+
+AB =
+
+┌               ┐
+│ (1×5)+(2×7)   (1×6)+(2×8) │
+│ (3×5)+(4×7)   (3×6)+(4×8) │
+└               ┘
+
+
+Therefore:
+
+AB =
+
+┌       ┐
+│ 19 22 │
+│ 43 50 │
+└       ┘
+
+
+==================================================
+10. MATRIX MULTIPLICATION RULE
+==================================================
+
+For:
+
+A × B
+
+the number of COLUMNS in A must equal the number
+of ROWS in B.
+
+
+Example:
+
+A = (2 × 3)
+
+B = (3 × 4)
+
+
+Then:
+
+A × B
+
+is valid.
+
+Result shape:
+
+(2 × 4)
+
+
+Remember:
+
+(2 × 3) × (3 × 4)
+             ↑
+        must match
+
+Result:
+
+2 × 4
+
+
+==================================================
+11. MATRIX MULTIPLICATION IN A NEURAL NETWORK
+==================================================
+
+Suppose:
+
+Input:
+
+X = [x₁, x₂]
+
+Weights:
+
+W =
+
+┌       ┐
+│ w₁₁ w₁₂ │
+│ w₂₁ w₂₂ │
+└       ┘
+
+
+Then:
+
+XW
+
+combines the inputs with the weights.
+
+After adding bias:
+
+Z = XW + b
+
+
+Then:
+
+A = activation(Z)
+
+
+Complete layer:
+
+X
+ ↓
+XW
+ ↓
+XW + b
+ ↓
+Activation
+ ↓
+A
+
+
+==================================================
+12. DOT PRODUCT
+==================================================
+
+The dot product combines two vectors and produces
+a single number.
+
+For:
+
+A = [a₁, a₂, a₃]
+
+B = [b₁, b₂, b₃]
+
+
+Dot product:
+
+A · B
+
+= a₁b₁ + a₂b₂ + a₃b₃
+
+
+Example:
+
+A = [2, 3, 4]
+
+B = [5, 6, 7]
+
+
+A · B
+
+= (2×5) + (3×6) + (4×7)
+
+= 10 + 18 + 28
+
+= 56
+
+
+==================================================
+13. DOT PRODUCT IN A NEURON
+==================================================
+
+This is extremely important.
+
+A neuron calculates:
+
+z = w₁x₁ + w₂x₂ + ... + wₙxₙ + b
+
+
+The first part:
+
+w₁x₁ + w₂x₂ + ... + wₙxₙ
+
+is the DOT PRODUCT.
+
+Therefore:
+
+z = X · W + b
+
+
+So:
+
+Neuron calculation
+        ↓
+Dot product
+        ↓
+Add bias
+        ↓
+Activation
+
+
+==================================================
+14. MATRIX MULTIPLICATION vs DOT PRODUCT
+==================================================
+
+DOT PRODUCT:
+
+Vector × Vector
+        ↓
+Single number
+
+
+Example:
+
+[1,2,3] · [4,5,6]
+        ↓
+32
+
+
+MATRIX MULTIPLICATION:
+
+Matrix × Matrix
+        ↓
+Matrix
+
+
+Example:
+
+(2×3) × (3×4)
+        ↓
+(2×4)
+
+
+Important connection:
+
+A matrix multiplication consists of many
+dot-product calculations.
+
+
+==================================================
+15. DERIVATIVE
+==================================================
+
+A derivative tells us how quickly a function changes
+when its input changes.
+
+Simple idea:
+
+Derivative
+=
+Rate of change
+
+
+Example:
+
+y = x²
+
+
+Derivative:
+
+dy/dx = 2x
+
+
+At:
+
+x = 3
+
+dy/dx = 2(3)
+
+= 6
+
+
+Meaning:
+
+Around x = 3, a small change in x produces an
+approximately 6-times-scaled change in y.
+
+
+==================================================
+16. WHY DERIVATIVES MATTER IN DEEP LEARNING
+==================================================
+
+Neural networks need to know:
+
+"How should I change the weights to reduce the loss?"
+
+Derivatives provide this information.
+
+Training:
+
+Prediction
+   ↓
+Loss
+   ↓
+Derivative
+   ↓
+How should parameters change?
+   ↓
+Update parameters
+
+
+Therefore:
+
+Derivatives
+→ Help the network learn.
+
+
+==================================================
+17. LOSS FUNCTION
+==================================================
+
+A loss function measures how wrong the prediction is.
+
+Example:
+
+Actual = 10
+Predicted = 7
+
+Loss might be:
+
+(10 - 7)² = 9
+
+
+During training, we want:
+
+Loss ↓
+
+
+The network changes its parameters to reduce the loss.
+
+
+==================================================
+18. PARTIAL DERIVATIVE
+==================================================
+
+A neural network has many parameters.
+
+Example:
+
+w₁
+w₂
+w₃
+b
+
+
+The loss depends on all of them.
+
+Therefore, we need to calculate how the loss changes
+with respect to EACH parameter.
+
+These are called:
+
+PARTIAL DERIVATIVES.
+
+
+Example:
+
+Loss = L(w₁, w₂)
+
+
+Then:
+
+∂L/∂w₁
+
+means:
+
+How does the loss change when w₁ changes,
+while considering the other variables fixed?
+
+
+Similarly:
+
+∂L/∂w₂
+
+means:
+
+How does the loss change when w₂ changes?
+
+
+==================================================
+19. DERIVATIVE vs PARTIAL DERIVATIVE
+==================================================
+
+DERIVATIVE:
+
+Usually used when a function has one independent
+variable.
+
+Example:
+
+y = f(x)
+
+dy/dx
+
+
+PARTIAL DERIVATIVE:
+
+Used when a function has multiple variables.
+
+Example:
+
+L = f(w₁, w₂, b)
+
+∂L/∂w₁
+∂L/∂w₂
+∂L/∂b
+
+
+Neural networks commonly use partial derivatives because
+the loss depends on many parameters.
+
+
+==================================================
+20. GRADIENT
+==================================================
+
+A gradient is a collection of partial derivatives.
+
+Suppose:
+
+L = f(w₁, w₂)
+
+
+Then the gradient is:
+
+∇L =
+
+┌             ┐
+│ ∂L/∂w₁      │
+│ ∂L/∂w₂      │
+└             ┘
+
+
+The gradient tells us:
+
+1. How the loss changes.
+2. Which direction increases the loss most rapidly.
+3. How strongly the loss changes with respect to
+   each parameter.
+
+
+==================================================
+21. GRADIENT IN NEURAL NETWORKS
+==================================================
+
+Suppose the network has:
+
+w₁
+w₂
+w₃
+
+
+The gradient might be:
+
+∇L = [0.5, -0.2, 0.8]
+
+
+This tells us the loss sensitivity with respect to
+each parameter.
+
+The optimizer uses these gradients to update the
+parameters.
+
+
+Basic update:
+
+new weight
+=
+old weight
+-
+learning rate × gradient
+
+
+Formula:
+
+w_new = w_old - η(∂L/∂w)
+
+
+Where:
+
+η = learning rate
+
+
+==================================================
+22. WHY DO WE SUBTRACT THE GRADIENT?
+==================================================
+
+The gradient points in the direction of increasing loss.
+
+We want to reduce loss.
+
+Therefore we move in the opposite direction.
+
+Gradient
+   ↓
+Direction of increasing loss
+
+Negative gradient
+   ↓
+Direction of decreasing loss
+
+
+Therefore:
+
+w_new = w_old - η × gradient
+
+
+This is the basic idea behind gradient descent.
+
+
+==================================================
+23. CHAIN RULE
+==================================================
+
+The chain rule is a calculus rule used to calculate
+the derivative of a function that depends on another
+function.
+
+Simple example:
+
+y = f(g(x))
+
+
+Then:
+
+dy/dx
+=
+dy/dg × dg/dx
+
+
+In simple words:
+
+If:
+
+x affects g
+
+and:
+
+g affects y
+
+then:
+
+x indirectly affects y through g.
+
+
+==================================================
+24. SIMPLE CHAIN RULE EXAMPLE
+==================================================
+
+Suppose:
+
+y = (x²)³
+
+
+Break it into:
+
+u = x²
+
+y = u³
+
+
+Now:
+
+dy/du = 3u²
+
+du/dx = 2x
+
+
+Using chain rule:
+
+dy/dx
+=
+dy/du × du/dx
+
+
+Therefore:
+
+dy/dx
+=
+3u² × 2x
+
+= 6xu²
+
+Since:
+
+u = x²
+
+dy/dx = 6x⁵
+
+
+==================================================
+25. CHAIN RULE IN A NEURAL NETWORK
+==================================================
+
+This is extremely important for BACKPROPAGATION.
+
+Suppose:
+
+Input
+ ↓
+Weight
+ ↓
+Neuron
+ ↓
+Activation
+ ↓
+Prediction
+ ↓
+Loss
+
+
+The loss depends on the weight through several
+intermediate calculations.
+
+Therefore:
+
+Loss
+ ↓
+Prediction
+ ↓
+Activation
+ ↓
+Weighted Sum
+ ↓
+Weight
+
+
+The chain rule lets us calculate:
+
+∂Loss/∂Weight
+
+
+by multiplying derivatives along the path.
+
+
+==================================================
+26. SIMPLE BACKPROPAGATION CHAIN
+==================================================
+
+Suppose:
+
+w → z → a → L
+
+
+Where:
+
+w = weight
+z = weighted sum
+a = activation
+L = loss
+
+
+We want:
+
+∂L/∂w
+
+
+Using the chain rule:
+
+∂L/∂w
+=
+∂L/∂a
+×
+∂a/∂z
+×
+∂z/∂w
+
+
+This is the mathematical foundation of
+backpropagation.
+
+
+==================================================
+27. WHY CHAIN RULE IS IMPORTANT
+==================================================
+
+A deep neural network may have:
+
+Input
+ ↓
+Layer 1
+ ↓
+Layer 2
+ ↓
+Layer 3
+ ↓
+Layer 4
+ ↓
+Output
+ ↓
+Loss
+
+
+The loss depends on parameters across many layers.
+
+The chain rule allows the network to calculate how
+the loss depends on each parameter.
+
+Therefore:
+
+Chain Rule
+    ↓
+Gradient Calculation
+    ↓
+Backpropagation
+    ↓
+Update Weights
+    ↓
+Learning
+
+
+==================================================
+28. COMPLETE MATHEMATICAL CONNECTION
+==================================================
+
+INPUT
+  ↓
+Vectors
+  ↓
+Matrix Multiplication
+  ↓
+Dot Products
+  ↓
+Weighted Sum
+  ↓
+Bias
+  ↓
+Activation
+  ↓
+Prediction
+  ↓
+Loss
+  ↓
+Partial Derivatives
+  ↓
+Gradient
+  ↓
+Chain Rule
+  ↓
+Backpropagation
+  ↓
+Gradient Descent
+  ↓
+Update Weights & Biases
+
+
+==================================================
+29. ONE SIMPLE BIG PICTURE EXAMPLE
+==================================================
+
+Suppose a neuron has:
+
+Input:
+
+X = [2, 3]
+
+Weights:
+
+W = [0.5, 0.2]
+
+Bias:
+
+b = 1
+
+
+STEP 1 — DOT PRODUCT
+
+X · W
+
+= (2×0.5) + (3×0.2)
+
+= 1 + 0.6
+
+= 1.6
+
+
+STEP 2 — ADD BIAS
+
+z = 1.6 + 1
+
+z = 2.6
+
+
+STEP 3 — ACTIVATION
+
+Using ReLU:
+
+a = max(0, 2.6)
+
+a = 2.6
+
+
+STEP 4 — PREDICTION
+
+The neuron produces:
+
+2.6
+
+
+STEP 5 — LOSS
+
+Compare prediction with actual value.
+
+Example:
+
+Actual = 3
+
+Loss = some function of:
+
+Actual - Prediction
+
+
+STEP 6 — GRADIENTS
+
+Calculate:
+
+∂L/∂w₁
+
+∂L/∂w₂
+
+∂L/∂b
+
+
+STEP 7 — UPDATE
+
+w_new = w_old - η(∂L/∂w)
+
+b_new = b_old - η(∂L/∂b)
+
+
+Then repeat.
+
+
+==================================================
+30. QUICK DEFINITIONS
+==================================================
+
+VECTOR
+→ Ordered collection of numbers.
+
+MATRIX
+→ Rectangular arrangement of numbers in rows
+  and columns.
+
+DOT PRODUCT
+→ Multiply corresponding vector elements and add
+  the results.
+
+MATRIX MULTIPLICATION
+→ Operation that combines matrices according to
+  specific dimension rules.
+
+DERIVATIVE
+→ Measures the rate of change of a function.
+
+PARTIAL DERIVATIVE
+→ Measures how a function changes with respect to
+  one variable while considering other variables fixed.
+
+GRADIENT
+→ Collection of partial derivatives.
+
+CHAIN RULE
+→ Rule for calculating derivatives of composed
+  functions by multiplying derivatives along the chain.
+
+
+==================================================
+31. MOST IMPORTANT FORMULAS
+==================================================
+
+DOT PRODUCT:
+
+A · B = Σ aᵢbᵢ
+
+
+NEURAL NETWORK LAYER:
+
+Z = XW + b
+
+A = f(Z)
+
+
+DERIVATIVE:
+
+dy/dx
+
+
+PARTIAL DERIVATIVE:
+
+∂L/∂w
+
+
+GRADIENT:
+
+∇L = [∂L/∂w₁, ∂L/∂w₂, ...]
+
+
+GRADIENT DESCENT:
+
+w_new = w_old - η(∂L/∂w)
+
+
+CHAIN RULE:
+
+dy/dx
+=
+dy/du × du/dx
+
+
+BACKPROPAGATION:
+
+∂L/∂w
+=
+product of derivatives along the computational path
+
+
+==================================================
+32. EXAM / INTERVIEW KEY POINTS
+==================================================
+
+1. Vectors represent collections of values such as
+   input features or weights.
+
+2. Matrices efficiently represent weights and
+   transformations between neural-network layers.
+
+3. Dot product is fundamental to neuron computation.
+
+4. A neuron essentially performs:
+
+   z = X · W + b
+
+5. Matrix multiplication allows many neuron calculations
+   to be performed efficiently at once.
+
+6. Derivatives tell us how a function changes.
+
+7. Partial derivatives are needed because neural networks
+   have many parameters.
+
+8. A gradient is a vector of partial derivatives.
+
+9. The gradient indicates the direction of steepest
+   increase of a scalar function.
+
+10. Gradient descent moves in the opposite direction
+    to reduce the loss.
+
+11. The chain rule is used to calculate gradients through
+    multiple layers.
+
+12. Backpropagation relies heavily on the chain rule.
+
+13. The overall mathematical learning process is:
+
+    Forward Pass
+        ↓
+    Prediction
+        ↓
+    Loss
+        ↓
+    Gradients
+        ↓
+    Chain Rule / Backpropagation
+        ↓
+    Parameter Update
+        ↓
+    Repeat

@@ -1,0 +1,1068 @@
+# DEEP LEARNING — UNIT 4: LOSS / COST FUNCTIONS
+
+==================================================
+1. WHAT IS LOSS?
+==================================================
+
+Loss is a numerical value that tells us how different
+the model's prediction is from the actual answer.
+
+Simple definition:
+
+Loss = Measure of prediction error.
+
+Example:
+
+Actual value     = 100
+Predicted value  = 90
+
+The prediction is wrong.
+
+The loss function converts this error into a number.
+
+Goal during training:
+
+MINIMIZE LOSS
+
+Loss ↓
+   ↓
+Better predictions
+
+
+==================================================
+2. LOSS FUNCTION vs COST FUNCTION
+==================================================
+
+LOSS FUNCTION:
+
+Measures error for an individual training example
+or a particular prediction.
+
+Example:
+
+One prediction
+      ↓
+Loss
+
+
+COST FUNCTION:
+
+Usually refers to the aggregate loss over a training
+dataset, often an average.
+
+Example:
+
+Many predictions
+      ↓
+Individual losses
+      ↓
+Average / total loss
+      ↓
+Cost
+
+
+In many ML/DL discussions, the terms "loss function"
+and "cost function" are sometimes used interchangeably.
+
+For your understanding:
+
+Loss → error for predictions
+Cost → overall training error
+
+
+==================================================
+3. WHY DO WE NEED A LOSS FUNCTION?
+==================================================
+
+A neural network initially makes imperfect predictions.
+
+We need a way to measure:
+
+"How wrong is the model?"
+
+The loss gives us this measurement.
+
+Training flow:
+
+Input
+  ↓
+Neural Network
+  ↓
+Prediction
+  ↓
+Loss Function
+  ↓
+Loss
+  ↓
+Backpropagation
+  ↓
+Gradients
+  ↓
+Update Weights
+  ↓
+Repeat
+
+
+Therefore:
+
+Loss is the signal that tells the training process
+how well the model is performing.
+
+
+==================================================
+4. TWO MAIN CATEGORIES
+==================================================
+
+The loss function depends on the type of problem.
+
+                    LOSS FUNCTIONS
+                         │
+             ┌───────────┴───────────┐
+             ↓                       ↓
+        REGRESSION              CLASSIFICATION
+             │                       │
+       ┌─────┴─────┐           ┌─────┴─────────┐
+       ↓           ↓           ↓               ↓
+      MSE         MAE        Binary         Categorical
+                            Cross-Entropy    Cross-Entropy
+
+
+==================================================
+5. REGRESSION LOSS
+==================================================
+
+Regression predicts a continuous numerical value.
+
+Examples:
+
+House price
+Temperature
+Salary
+Sales
+Age
+
+
+Example:
+
+Actual price     = 50
+Predicted price  = 45
+
+Loss function measures how far:
+
+45 is from 50.
+
+
+Common regression losses:
+
+1. MSE
+2. MAE
+
+
+==================================================
+6. MSE — MEAN SQUARED ERROR
+==================================================
+
+MSE stands for:
+
+Mean Squared Error.
+
+
+Formula:
+
+MSE = (1/n) Σ(yᵢ - ŷᵢ)²
+
+
+Where:
+
+n  = number of samples
+yᵢ = actual value
+ŷᵢ = predicted value
+
+
+Steps:
+
+1. Calculate error.
+2. Square the error.
+3. Calculate the mean.
+
+
+==================================================
+7. MSE EXAMPLE
+==================================================
+
+Suppose:
+
+Actual values:
+
+[10, 20, 30]
+
+Predicted values:
+
+[8, 18, 33]
+
+
+Errors:
+
+10 - 8  = 2
+20 - 18 = 2
+30 - 33 = -3
+
+
+Square errors:
+
+2²  = 4
+2²  = 4
+(-3)² = 9
+
+
+Mean:
+
+MSE = (4 + 4 + 9) / 3
+
+MSE = 17 / 3
+
+MSE ≈ 5.67
+
+
+Therefore:
+
+MSE = 5.67
+
+
+==================================================
+8. WHY DOES MSE SQUARE THE ERROR?
+==================================================
+
+There are two important reasons.
+
+1. Negative and positive errors should not cancel.
+
+Without squaring:
+
++5 + (-5) = 0
+
+This would incorrectly suggest zero total error.
+
+
+2. Large errors receive much more penalty.
+
+Example:
+
+Error = 2
+
+Squared:
+
+2² = 4
+
+
+Error = 10
+
+Squared:
+
+10² = 100
+
+
+Therefore MSE strongly penalizes large errors.
+
+
+==================================================
+9. MAE — MEAN ABSOLUTE ERROR
+==================================================
+
+MAE stands for:
+
+Mean Absolute Error.
+
+
+Formula:
+
+MAE = (1/n) Σ|yᵢ - ŷᵢ|
+
+
+Steps:
+
+1. Calculate error.
+2. Take absolute value.
+3. Calculate mean.
+
+
+==================================================
+10. MAE EXAMPLE
+==================================================
+
+Actual:
+
+[10, 20, 30]
+
+Predicted:
+
+[8, 18, 33]
+
+
+Errors:
+
+2
+2
+-3
+
+
+Absolute errors:
+
+|2|  = 2
+|2|  = 2
+|-3| = 3
+
+
+MAE:
+
+MAE = (2 + 2 + 3) / 3
+
+MAE = 7 / 3
+
+MAE ≈ 2.33
+
+
+Therefore:
+
+MAE = 2.33
+
+
+==================================================
+11. MSE vs MAE
+==================================================
+
+MSE:
+
+MSE = mean(error²)
+
+MAE:
+
+MAE = mean(|error|)
+
+
+Main difference:
+
+MSE
+→ Squares errors
+→ Large errors are penalized more strongly.
+
+
+MAE
+→ Uses absolute errors
+→ Less sensitive to extreme errors.
+
+
+Example:
+
+Actual = 100
+Predicted = 80
+
+Error = 20
+
+MSE contribution:
+
+20² = 400
+
+MAE contribution:
+
+|20| = 20
+
+
+==================================================
+12. WHEN TO USE MSE vs MAE
+==================================================
+
+MSE can be useful when:
+
+→ Large errors should be penalized strongly.
+
+
+MAE can be useful when:
+
+→ You want a more robust loss with less influence
+  from extreme errors.
+
+
+Simple memory:
+
+MSE
+→ Squared
+→ More sensitive to outliers
+
+
+MAE
+→ Absolute
+→ More robust to outliers
+
+
+==================================================
+13. CLASSIFICATION LOSS
+==================================================
+
+Classification predicts a class.
+
+Examples:
+
+Spam / Not Spam
+
+Cat / Dog
+
+Disease / No Disease
+
+Classification neural networks often produce
+probabilities.
+
+Example:
+
+Spam = 0.90
+Not Spam = 0.10
+
+
+The loss function measures how well these predicted
+probabilities match the true class.
+
+
+Common classification losses:
+
+1. Binary Cross-Entropy
+2. Categorical Cross-Entropy
+
+
+==================================================
+14. BINARY CROSS-ENTROPY
+==================================================
+
+Binary Cross-Entropy (BCE) is commonly used for
+BINARY CLASSIFICATION.
+
+Binary classification has two classes.
+
+Example:
+
+0 = Not Spam
+1 = Spam
+
+
+Formula:
+
+BCE =
+-[y log(p) + (1-y) log(1-p)]
+
+
+Where:
+
+y = actual class (0 or 1)
+p = predicted probability of class 1
+
+
+==================================================
+15. BINARY CROSS-ENTROPY INTUITION
+==================================================
+
+Suppose the actual class is:
+
+y = 1
+
+That means the correct class is:
+
+Class 1
+
+
+Case 1:
+
+Model predicts:
+
+p = 0.90
+
+The model is confident and correct.
+
+Loss → LOW
+
+
+Case 2:
+
+Model predicts:
+
+p = 0.10
+
+The model is confident but wrong.
+
+Loss → HIGH
+
+
+Therefore:
+
+Correct + confident
+       ↓
+Low loss
+
+
+Wrong + confident
+       ↓
+High loss
+
+
+This is a key property of cross-entropy.
+
+
+==================================================
+16. BCE EXAMPLE
+==================================================
+
+Actual:
+
+y = 1
+
+
+Prediction:
+
+p = 0.9
+
+
+Formula:
+
+BCE = -[y log(p) + (1-y)log(1-p)]
+
+
+Since:
+
+y = 1
+
+BCE = -log(0.9)
+
+≈ 0.105
+
+
+Low loss.
+
+
+Now suppose:
+
+p = 0.1
+
+
+BCE = -log(0.1)
+
+≈ 2.303
+
+
+Much higher loss.
+
+
+Therefore:
+
+Correct confident prediction
+→ Low loss
+
+
+Incorrect confident prediction
+→ High loss
+
+
+==================================================
+17. CATEGORICAL CROSS-ENTROPY
+==================================================
+
+Categorical Cross-Entropy is commonly used for
+MULTI-CLASS CLASSIFICATION when the target is
+represented as a one-hot vector.
+
+Example classes:
+
+Cat
+Dog
+Horse
+
+
+One-hot labels:
+
+Cat:
+
+[1, 0, 0]
+
+Dog:
+
+[0, 1, 0]
+
+Horse:
+
+[0, 0, 1]
+
+
+The model produces probabilities:
+
+Cat   = 0.7
+Dog   = 0.2
+Horse = 0.1
+
+
+Prediction:
+
+[0.7, 0.2, 0.1]
+
+
+==================================================
+18. CATEGORICAL CROSS-ENTROPY FORMULA
+==================================================
+
+Formula:
+
+CCE = -Σ yᵢ log(pᵢ)
+
+
+Where:
+
+yᵢ = actual one-hot value
+pᵢ = predicted probability
+
+
+Because only the correct class has:
+
+yᵢ = 1
+
+the loss effectively depends on the probability
+assigned to the correct class.
+
+
+==================================================
+19. CATEGORICAL CROSS-ENTROPY EXAMPLE
+==================================================
+
+Actual class:
+
+Dog
+
+One-hot:
+
+[0, 1, 0]
+
+
+Prediction:
+
+Cat   = 0.2
+Dog   = 0.7
+Horse = 0.1
+
+
+Therefore:
+
+CCE = -log(0.7)
+
+≈ 0.357
+
+
+The model gave 70% probability to the correct class,
+so the loss is relatively low.
+
+
+Now suppose:
+
+Cat   = 0.85
+Dog   = 0.05
+Horse = 0.10
+
+
+Correct class probability:
+
+Dog = 0.05
+
+
+Loss:
+
+CCE = -log(0.05)
+
+≈ 2.996
+
+
+Much higher loss.
+
+
+==================================================
+20. BINARY vs CATEGORICAL CROSS-ENTROPY
+==================================================
+
+BINARY CROSS-ENTROPY:
+
+Used for:
+
+Binary classification
+
+Example:
+
+Cat / Not Cat
+
+
+Typical output:
+
+One probability
+
+Example:
+
+0.92
+
+
+Formula:
+
+-[y log(p) + (1-y)log(1-p)]
+
+
+----------------------------------------------
+
+CATEGORICAL CROSS-ENTROPY:
+
+Used for:
+
+Multi-class classification
+
+Example:
+
+Cat / Dog / Horse
+
+
+Typical output:
+
+[0.70, 0.20, 0.10]
+
+
+Formula:
+
+-Σ yᵢlog(pᵢ)
+
+
+==================================================
+21. LOSS FUNCTION AND ACTIVATION FUNCTION
+==================================================
+
+The output activation and loss function are usually
+chosen together according to the task.
+
+COMMON COMBINATIONS:
+
+Binary classification:
+
+Sigmoid
+   +
+Binary Cross-Entropy
+
+
+Multi-class classification:
+
+Softmax
+   +
+Categorical Cross-Entropy
+
+
+Regression:
+
+Linear output
+   +
+MSE or MAE
+
+
+Example:
+
+Binary Classification:
+
+Input
+ ↓
+Neural Network
+ ↓
+Sigmoid
+ ↓
+Probability
+ ↓
+Binary Cross-Entropy
+
+
+==================================================
+22. WHY CROSS-ENTROPY?
+==================================================
+
+Cross-entropy measures how different the predicted
+probability distribution is from the actual target
+distribution.
+
+Simple intuition:
+
+Correct class gets high probability
+        ↓
+Low loss
+
+
+Correct class gets low probability
+        ↓
+High loss
+
+
+Therefore, cross-entropy encourages the model to assign
+high probability to the correct class.
+
+
+==================================================
+23. LOSS AND TRAINING
+==================================================
+
+Suppose a neural network starts with:
+
+Loss = 2.5
+
+
+After training:
+
+Loss = 1.8
+
+
+Then:
+
+Loss = 0.9
+
+
+Then:
+
+Loss = 0.3
+
+
+The training process is trying to minimize the loss.
+
+Conceptually:
+
+High Loss
+   ↓
+Calculate Gradients
+   ↓
+Update Parameters
+   ↓
+Lower Loss
+   ↓
+Repeat
+
+
+IMPORTANT:
+
+Lower training loss generally means the model fits the
+training data better, but low training loss alone does
+not guarantee good generalization to unseen data.
+
+
+==================================================
+24. LOSS → GRADIENT → WEIGHT UPDATE
+==================================================
+
+This connects the previous mathematics unit with
+loss functions.
+
+Prediction
+    ↓
+Loss Function
+    ↓
+Loss
+    ↓
+Derivative
+    ↓
+Gradient
+    ↓
+Backpropagation
+    ↓
+Weight/Bias Update
+    ↓
+New Prediction
+    ↓
+New Loss
+
+
+This process repeats during training.
+
+
+==================================================
+25. SIMPLE COMPLETE EXAMPLE
+==================================================
+
+Task:
+
+Predict house price.
+
+Actual:
+
+₹50 lakh
+
+Prediction:
+
+₹45 lakh
+
+
+This is REGRESSION.
+
+Possible loss:
+
+MSE
+
+Error:
+
+50 - 45 = 5
+
+Squared error:
+
+5² = 25
+
+
+The model uses the loss to calculate gradients and
+update its weights.
+
+
+----------------------------------------------
+
+Task:
+
+Classify email as Spam / Not Spam.
+
+Actual:
+
+Spam = 1
+
+Prediction:
+
+0.9
+
+
+This is BINARY CLASSIFICATION.
+
+Use:
+
+Binary Cross-Entropy
+
+
+----------------------------------------------
+
+Task:
+
+Classify image as:
+
+Cat / Dog / Horse
+
+
+Actual:
+
+Dog
+
+Prediction:
+
+[0.1, 0.8, 0.1]
+
+
+This is MULTI-CLASS CLASSIFICATION.
+
+Use:
+
+Categorical Cross-Entropy.
+
+
+==================================================
+26. QUICK COMPARISON
+==================================================
+
+MSE
+→ Regression
+→ Squared error
+→ Strongly penalizes large errors
+
+
+MAE
+→ Regression
+→ Absolute error
+→ More robust to outliers than MSE
+
+
+Binary Cross-Entropy
+→ Binary classification
+→ Usually paired with sigmoid output
+
+
+Categorical Cross-Entropy
+→ Multi-class classification
+→ Commonly paired with softmax output
+  for mutually exclusive classes
+
+
+==================================================
+27. IMPORTANT FORMULAS
+==================================================
+
+MSE:
+
+MSE = (1/n) Σ(yᵢ - ŷᵢ)²
+
+
+MAE:
+
+MAE = (1/n) Σ|yᵢ - ŷᵢ|
+
+
+Binary Cross-Entropy:
+
+BCE =
+-[y log(p) + (1-y)log(1-p)]
+
+
+Categorical Cross-Entropy:
+
+CCE = -Σ yᵢlog(pᵢ)
+
+
+==================================================
+28. KEY POINTS FOR EXAM / INTERVIEW
+==================================================
+
+1. Loss measures prediction error.
+
+2. Training generally tries to minimize loss.
+
+3. Regression commonly uses:
+
+   MSE
+   MAE
+
+4. MSE squares the error, so large errors receive
+   greater penalty.
+
+5. MAE uses absolute error and is less sensitive to
+   outliers than MSE.
+
+6. Binary Cross-Entropy is commonly used for binary
+   classification.
+
+7. Categorical Cross-Entropy is commonly used for
+   multi-class classification with one-hot targets.
+
+8. Sigmoid + Binary Cross-Entropy
+   → Common binary classification combination.
+
+9. Softmax + Categorical Cross-Entropy
+   → Common multi-class classification combination.
+
+10. Loss connects prediction to learning:
+
+    Prediction
+       ↓
+    Loss
+       ↓
+    Gradients
+       ↓
+    Backpropagation
+       ↓
+    Parameter Update
+
+11. Lower loss means smaller error on the data used
+    to calculate that loss, but it does not by itself
+    guarantee better performance on unseen data.
+
+12. Core idea:
+
+    Model predicts
+         ↓
+    Loss measures error
+         ↓
+    Backpropagation calculates gradients
+         ↓
+    Optimizer updates parameters
+         ↓
+    Model improves

@@ -1,0 +1,260 @@
+DEEP LEARNING
+│
+├── 1. FOUNDATIONS
+│   ├── What is Deep Learning?
+│   ├── AI vs ML vs Deep Learning
+│   ├── Neural Network Concept
+│   ├── Neuron
+│   ├── Weights
+│   ├── Bias
+│   ├── Layers
+│   │   ├── Input Layer
+│   │   ├── Hidden Layer
+│   │   └── Output Layer
+│   ├── Parameters
+│   └── Hyperparameters
+│
+├── 2. ARTIFICIAL NEURAL NETWORKS (ANN)
+│   ├── Perceptron
+│   ├── Simple Neural Network
+│   ├── Multilayer Perceptron (MLP)
+│   ├── Activation Functions
+│   │   ├── Step
+│   │   ├── Sigmoid
+│   │   ├── Tanh
+│   │   ├── ReLU
+│   │   ├── Leaky ReLU
+│   │   ├── Softmax
+│   │   └── GELU
+│   └── Forward Propagation
+│
+├── 3. NEURAL NETWORK MATHEMATICS
+│   ├── Vectors
+│   ├── Matrices
+│   ├── Matrix Multiplication
+│   ├── Dot Product
+│   ├── Derivatives
+│   ├── Partial Derivatives
+│   ├── Gradients
+│   └── Chain Rule
+│
+├── 4. LOSS / COST FUNCTIONS
+│   ├── What is Loss?
+│   ├── Regression
+│   │   ├── MSE
+│   │   └── MAE
+│   └── Classification
+│       ├── Binary Cross-Entropy
+│       └── Categorical Cross-Entropy
+│
+├── 5. BACKPROPAGATION
+│   ├── Why Backpropagation?
+│   ├── Computational Graph
+│   ├── Gradient Calculation
+│   ├── Chain Rule
+│   ├── Weight Gradients
+│   ├── Bias Gradients
+│   └── Parameter Updates
+│
+├── 6. OPTIMIZATION
+│   ├── Gradient Descent
+│   ├── Batch Gradient Descent
+│   ├── Stochastic Gradient Descent
+│   ├── Mini-Batch Gradient Descent
+│   ├── Momentum
+│   ├── RMSProp
+│   ├── Adam
+│   └── Learning Rate
+│
+├── 7. TRAINING DEEP NEURAL NETWORKS
+│   ├── Epoch
+│   ├── Batch
+│   ├── Iteration
+│   ├── Training Loop
+│   ├── Validation
+│   ├── Testing
+│   ├── Underfitting
+│   ├── Overfitting
+│   ├── Bias vs Variance
+│   └── Generalization
+│
+├── 8. REGULARIZATION
+│   ├── L1 Regularization
+│   ├── L2 Regularization
+│   ├── Dropout
+│   ├── Early Stopping
+│   ├── Data Augmentation
+│   └── Batch Normalization
+│
+├── 9. CNN — CONVOLUTIONAL NEURAL NETWORKS
+│   ├── Why CNN?
+│   ├── Image Representation
+│   ├── Convolution
+│   ├── Filters / Kernels
+│   ├── Feature Maps
+│   ├── Stride
+│   ├── Padding
+│   ├── Pooling
+│   │   ├── Max Pooling
+│   │   └── Average Pooling
+│   ├── Flattening
+│   ├── Fully Connected Layer
+│   └── CNN Architecture
+│
+├── 10. CNN ARCHITECTURES
+│   ├── LeNet
+│   ├── AlexNet
+│   ├── VGG
+│   ├── GoogLeNet / Inception
+│   ├── ResNet
+│   ├── DenseNet
+│   └── Transfer Learning
+│
+├── 11. RNN — RECURRENT NEURAL NETWORKS
+│   ├── Sequential Data
+│   ├── Why RNN?
+│   ├── Recurrent Connections
+│   ├── Hidden State
+│   ├── Unrolling RNN
+│   ├── Many-to-One
+│   ├── One-to-Many
+│   ├── Many-to-Many
+│   ├── Vanishing Gradient
+│   └── Exploding Gradient
+│
+├── 12. LSTM & GRU
+│   ├── LSTM
+│   │   ├── Cell State
+│   │   ├── Forget Gate
+│   │   ├── Input Gate
+│   │   └── Output Gate
+│   ├── GRU
+│   │   ├── Update Gate
+│   │   └── Reset Gate
+│   └── LSTM vs GRU
+│
+├── 13. AUTOENCODERS
+│   ├── Encoder
+│   ├── Latent Representation
+│   ├── Decoder
+│   ├── Reconstruction
+│   ├── Denoising Autoencoder
+│   └── Variational Autoencoder (VAE)
+│
+├── 14. GENERATIVE DEEP LEARNING
+│   ├── Generative Models
+│   ├── GAN
+│   │   ├── Generator
+│   │   ├── Discriminator
+│   │   └── Adversarial Training
+│   ├── VAE
+│   └── Diffusion Models
+│
+├── 15. ATTENTION & TRANSFORMERS
+│   ├── Why Attention?
+│   ├── Attention Mechanism
+│   ├── Query
+│   ├── Key
+│   ├── Value
+│   ├── Self-Attention
+│   ├── Multi-Head Attention
+│   ├── Positional Encoding
+│   ├── Transformer Encoder
+│   ├── Transformer Decoder
+│   └── Encoder-Decoder Architecture
+│
+├── 16. LARGE LANGUAGE MODELS (LLMs)
+│   ├── Transformer-based LLMs
+│   ├── Tokenization
+│   ├── Embeddings
+│   ├── Pretraining
+│   ├── Fine-Tuning
+│   ├── Instruction Tuning
+│   ├── RLHF
+│   ├── Prompting
+│   └── Context Window
+│
+├── 17. COMPUTER VISION
+│   ├── Image Classification
+│   ├── Object Detection
+│   │   ├── YOLO
+│   │   ├── R-CNN Family
+│   │   └── SSD
+│   ├── Image Segmentation
+│   │   ├── Semantic Segmentation
+│   │   └── Instance Segmentation
+│   └── Vision Transformers (ViT)
+│
+├── 18. NLP WITH DEEP LEARNING
+│   ├── Text Preprocessing
+│   ├── Word Embeddings
+│   │   ├── Word2Vec
+│   │   └── GloVe
+│   ├── RNN for NLP
+│   ├── LSTM for NLP
+│   ├── Attention
+│   ├── Transformers
+│   └── LLMs
+│
+├── 19. MODEL EVALUATION
+│   ├── Accuracy
+│   ├── Precision
+│   ├── Recall
+│   ├── F1 Score
+│   ├── Confusion Matrix
+│   ├── ROC-AUC
+│   ├── MAE
+│   ├── MSE
+│   └── RMSE
+│
+├── 20. DEEP LEARNING FRAMEWORKS
+│   ├── PyTorch
+│   │   ├── Tensor
+│   │   ├── Dataset
+│   │   ├── DataLoader
+│   │   ├── Model
+│   │   ├── Loss
+│   │   ├── Optimizer
+│   │   └── Training Loop
+│   │
+│   └── TensorFlow / Keras
+│       ├── Tensor
+│       ├── Sequential
+│       ├── Layers
+│       ├── Loss
+│       ├── Optimizer
+│       └── Training
+│
+├── 21. TRANSFER LEARNING & FINE-TUNING
+│   ├── Pretrained Models
+│   ├── Feature Extraction
+│   ├── Freezing Layers
+│   ├── Unfreezing Layers
+│   └── Fine-Tuning
+│
+├── 22. MODEL DEPLOYMENT
+│   ├── Save Model
+│   ├── Model Serialization
+│   ├── REST API
+│   ├── FastAPI
+│   ├── Docker
+│   ├── GPU / CUDA
+│   └── Cloud Deployment
+│
+└── 23. COMPLETE DEEP LEARNING WORKFLOW
+    │
+    ├── Define Problem
+    ├── Collect Dataset
+    ├── Explore Data
+    ├── Preprocess Data
+    ├── Split Dataset
+    ├── Build Model
+    ├── Forward Pass
+    ├── Calculate Loss
+    ├── Backpropagation
+    ├── Optimize Parameters
+    ├── Validate Model
+    ├── Tune Hyperparameters
+    ├── Test Model
+    ├── Save Model
+    └── Deploy Model

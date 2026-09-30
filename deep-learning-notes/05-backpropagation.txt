@@ -1,0 +1,1083 @@
+# DEEP LEARNING — UNIT 5: BACKPROPAGATION
+
+==================================================
+1. WHAT IS BACKPROPAGATION?
+==================================================
+
+Backpropagation is the algorithm used to calculate how
+much each neural-network parameter contributed to the
+prediction error.
+
+Simple definition:
+
+Backpropagation = calculating gradients of the loss
+                  with respect to the model parameters.
+
+It works backward through the network using the
+CHAIN RULE.
+
+Basic flow:
+
+Input
+  ↓
+Forward Propagation
+  ↓
+Prediction
+  ↓
+Loss
+  ↓
+BACKPROPAGATION
+  ↓
+Gradients
+  ↓
+Parameter Updates
+
+
+IMPORTANT:
+
+Backpropagation calculates gradients.
+
+The optimizer uses those gradients to update the
+weights and biases.
+
+
+==================================================
+2. WHY DO WE NEED BACKPROPAGATION?
+==================================================
+
+A neural network may contain thousands, millions, or
+even billions of parameters.
+
+We need to know:
+
+"How should each weight and bias change so that
+the loss becomes smaller?"
+
+For each parameter, we need:
+
+∂L/∂w
+
+or:
+
+∂L/∂b
+
+
+Where:
+
+L = loss
+w = weight
+b = bias
+
+
+Backpropagation efficiently calculates these gradients.
+
+
+==================================================
+3. FORWARD vs BACKWARD
+==================================================
+
+FORWARD PROPAGATION:
+
+Input
+ ↓
+Layer 1
+ ↓
+Layer 2
+ ↓
+Output
+ ↓
+Loss
+
+
+BACKPROPAGATION:
+
+Loss
+ ↓
+Output Layer
+ ↓
+Previous Layer
+ ↓
+Earlier Layer
+ ↓
+Input side
+
+
+Memory:
+
+Forward:
+Input → Prediction → Loss
+
+Backward:
+Loss → Gradients
+
+
+==================================================
+4. COMPUTATIONAL GRAPH
+==================================================
+
+A computational graph represents mathematical operations
+as connected nodes.
+
+Example:
+
+x
+↓
+× w
+↓
+z
+↓
++ b
+↓
+a
+↓
+Loss
+
+
+For a simple neuron:
+
+x ──× w──┐
+         ↓
+         z
+         ↓
+       + b
+         ↓
+         a
+         ↓
+        L
+
+
+Where:
+
+x = input
+w = weight
+b = bias
+z = weighted sum
+a = activation output
+L = loss
+
+
+The graph shows how one value affects another.
+
+
+==================================================
+5. SIMPLE COMPUTATIONAL GRAPH EXAMPLE
+==================================================
+
+Suppose:
+
+x = 2
+w = 3
+b = 1
+
+
+First:
+
+z = xw + b
+
+
+Graph:
+
+x ──→ ×w ──→ z ──→ +b
+
+2 ──→ ×3 ──→ 6 ──→ +1
+
+Therefore:
+
+z = 7
+
+
+If activation is ReLU:
+
+a = ReLU(7)
+
+a = 7
+
+
+Then:
+
+a
+↓
+Loss
+
+
+The complete graph is:
+
+x → multiplication → z → addition → activation → loss
+
+
+Backpropagation travels through this graph in reverse.
+
+
+==================================================
+6. THE CORE IDEA OF BACKPROPAGATION
+==================================================
+
+Suppose:
+
+w → z → a → L
+
+
+The loss depends on the weight indirectly.
+
+We want:
+
+∂L/∂w
+
+
+Using the chain rule:
+
+∂L/∂w
+=
+∂L/∂a
+×
+∂a/∂z
+×
+∂z/∂w
+
+
+This tells us how a small change in w affects
+the final loss.
+
+
+==================================================
+7. GRADIENT CALCULATION
+==================================================
+
+A gradient tells us how the loss changes with respect
+to a parameter.
+
+For a weight:
+
+∂L/∂w
+
+
+For a bias:
+
+∂L/∂b
+
+
+If there are many parameters:
+
+W = [w₁, w₂, w₃, ...]
+
+then:
+
+∇W L
+
+contains the gradients for all weights.
+
+
+Similarly:
+
+∇b L
+
+contains the gradients for biases.
+
+
+==================================================
+8. CHAIN RULE
+==================================================
+
+Backpropagation relies heavily on the chain rule.
+
+If:
+
+y = f(u)
+
+and:
+
+u = g(x)
+
+
+Then:
+
+dy/dx
+=
+dy/du × du/dx
+
+
+In a neural network:
+
+Weight
+  ↓
+Weighted Sum
+  ↓
+Activation
+  ↓
+Prediction
+  ↓
+Loss
+
+
+Therefore:
+
+∂Loss/∂Weight
+=
+∂Loss/∂Prediction
+×
+∂Prediction/∂Activation
+×
+∂Activation/∂WeightedSum
+×
+∂WeightedSum/∂Weight
+
+
+This is the basic mathematical idea behind
+backpropagation.
+
+
+==================================================
+9. WEIGHT GRADIENT
+==================================================
+
+A weight gradient tells us:
+
+"How much does the loss change if this weight changes?"
+
+
+Formula:
+
+∂L/∂w
+
+
+Interpretation:
+
+Large positive gradient
+→ Increasing the weight tends to increase the loss.
+
+Negative gradient
+→ Increasing the weight tends to decrease the loss.
+
+Near-zero gradient
+→ Small local effect on the loss.
+
+
+The optimizer uses this information to update the weight.
+
+
+==================================================
+10. SIMPLE WEIGHT GRADIENT EXAMPLE
+==================================================
+
+Suppose:
+
+z = wx + b
+
+and:
+
+x = 2
+
+
+Then:
+
+∂z/∂w = x
+
+Therefore:
+
+∂z/∂w = 2
+
+
+If the activation is identity for simplicity:
+
+a = z
+
+Then:
+
+∂a/∂z = 1
+
+
+Suppose:
+
+∂L/∂a = 4
+
+
+Using chain rule:
+
+∂L/∂w
+=
+∂L/∂a
+×
+∂a/∂z
+×
+∂z/∂w
+
+= 4 × 1 × 2
+
+= 8
+
+
+Therefore:
+
+Weight gradient = 8
+
+
+==================================================
+11. BIAS GRADIENT
+==================================================
+
+For:
+
+z = wx + b
+
+
+The derivative of z with respect to b is:
+
+∂z/∂b = 1
+
+
+Therefore:
+
+∂L/∂b
+=
+∂L/∂a
+×
+∂a/∂z
+×
+∂z/∂b
+
+
+Since:
+
+∂z/∂b = 1
+
+
+We get:
+
+∂L/∂b
+=
+∂L/∂a
+×
+∂a/∂z
+
+
+So the bias gradient tells us how the loss changes
+with respect to the bias.
+
+
+==================================================
+12. WEIGHT GRADIENT vs BIAS GRADIENT
+==================================================
+
+WEIGHT:
+
+∂L/∂w
+
+
+Tells us:
+
+How the loss changes when the weight changes.
+
+
+BIAS:
+
+∂L/∂b
+
+
+Tells us:
+
+How the loss changes when the bias changes.
+
+
+Both are required to update the neuron.
+
+
+==================================================
+13. PARAMETER UPDATE
+==================================================
+
+Once backpropagation calculates gradients, the optimizer
+updates the parameters.
+
+Basic gradient descent:
+
+w_new
+=
+w_old - η(∂L/∂w)
+
+
+For bias:
+
+b_new
+=
+b_old - η(∂L/∂b)
+
+
+Where:
+
+η = learning rate
+
+
+The learning rate controls how large the update is.
+
+
+==================================================
+14. PARAMETER UPDATE EXAMPLE
+==================================================
+
+Suppose:
+
+Old weight:
+
+w = 0.5
+
+
+Gradient:
+
+∂L/∂w = 0.8
+
+
+Learning rate:
+
+η = 0.1
+
+
+Update:
+
+w_new
+=
+0.5 - (0.1 × 0.8)
+
+w_new
+=
+0.5 - 0.08
+
+w_new
+=
+0.42
+
+
+So:
+
+Old weight = 0.50
+New weight = 0.42
+
+
+The weight moved in the opposite direction of
+the gradient.
+
+
+==================================================
+15. NEGATIVE GRADIENT EXAMPLE
+==================================================
+
+Suppose:
+
+w = 0.5
+
+gradient = -0.8
+
+learning rate = 0.1
+
+
+Then:
+
+w_new
+=
+0.5 - (0.1 × -0.8)
+
+w_new
+=
+0.5 + 0.08
+
+w_new
+=
+0.58
+
+
+Therefore:
+
+Positive gradient
+→ Weight decreases.
+
+
+Negative gradient
+→ Weight increases.
+
+
+This is because gradient descent moves opposite
+to the gradient.
+
+
+==================================================
+16. COMPLETE SINGLE-NEURON BACKPROPAGATION
+==================================================
+
+Suppose:
+
+Input:
+
+x
+
+
+Weight:
+
+w
+
+
+Bias:
+
+b
+
+
+Forward:
+
+z = wx + b
+
+a = f(z)
+
+Loss:
+
+L = loss(a, y)
+
+
+Then backward:
+
+STEP 1:
+
+Calculate:
+
+∂L/∂a
+
+
+STEP 2:
+
+Calculate:
+
+∂a/∂z
+
+
+STEP 3:
+
+Calculate:
+
+∂z/∂w
+
+and:
+
+∂z/∂b
+
+
+STEP 4:
+
+Apply chain rule:
+
+∂L/∂w
+=
+∂L/∂a
+×
+∂a/∂z
+×
+∂z/∂w
+
+
+∂L/∂b
+=
+∂L/∂a
+×
+∂a/∂z
+×
+∂z/∂b
+
+
+STEP 5:
+
+Update:
+
+w_new = w - η(∂L/∂w)
+
+b_new = b - η(∂L/∂b)
+
+
+==================================================
+17. BACKPROPAGATION THROUGH MULTIPLE LAYERS
+==================================================
+
+Consider:
+
+Input
+ ↓
+Layer 1
+ ↓
+Layer 2
+ ↓
+Output
+ ↓
+Loss
+
+
+During backpropagation:
+
+Loss
+ ↓
+Output Layer
+ ↓
+Layer 2
+ ↓
+Layer 1
+
+
+The gradient is passed backward through each operation
+using the chain rule.
+
+
+Conceptually:
+
+∂L/∂W₂
+      ↓
+Update W₂
+
+∂L/∂W₁
+      ↓
+Update W₁
+
+
+Every trainable parameter receives its corresponding
+gradient.
+
+
+==================================================
+18. EXAMPLE OF A TWO-LAYER NETWORK
+==================================================
+
+Forward:
+
+X
+ ↓
+Z₁ = XW₁ + b₁
+ ↓
+A₁ = f(Z₁)
+ ↓
+Z₂ = A₁W₂ + b₂
+ ↓
+A₂ = f(Z₂)
+ ↓
+Loss
+
+
+Backward:
+
+Loss
+ ↓
+Calculate gradients for W₂ and b₂
+ ↓
+Propagate gradients to Layer 1
+ ↓
+Calculate gradients for W₁ and b₁
+ ↓
+Update all parameters
+
+
+Therefore:
+
+Forward:
+X → W₁ → A₁ → W₂ → A₂ → Loss
+
+Backward:
+Loss → W₂/b₂ → W₁/b₁
+
+
+==================================================
+19. WHY BACKPROPAGATION IS EFFICIENT
+==================================================
+
+A neural network may have a huge number of parameters.
+
+Calculating the effect of every parameter independently
+would be extremely expensive.
+
+Backpropagation reuses intermediate gradient calculations
+while moving backward through the computational graph.
+
+This makes gradient calculation much more efficient.
+
+
+==================================================
+20. BACKPROPAGATION IS NOT THE SAME AS GRADIENT DESCENT
+==================================================
+
+This distinction is VERY IMPORTANT.
+
+BACKPROPAGATION:
+
+Calculates:
+
+∂L/∂W
+∂L/∂b
+
+It tells us:
+
+"How should each parameter change?"
+
+
+OPTIMIZATION / GRADIENT DESCENT:
+
+Uses those gradients to update parameters.
+
+Example:
+
+w_new = w_old - η(∂L/∂w)
+
+
+So:
+
+Backpropagation
+→ Calculates gradients.
+
+
+Gradient Descent / Optimizer
+→ Uses gradients to update parameters.
+
+
+==================================================
+21. COMPLETE TRAINING LOOP
+==================================================
+
+Training Data
+      ↓
+Forward Propagation
+      ↓
+Prediction
+      ↓
+Loss Function
+      ↓
+Loss
+      ↓
+Backpropagation
+      ↓
+Calculate Gradients
+      ↓
+Optimizer
+      ↓
+Update Weights & Biases
+      ↓
+Next Batch
+      ↓
+Repeat
+      ↓
+Next Epoch
+
+
+==================================================
+22. BACKPROPAGATION vs FORWARD PROPAGATION
+==================================================
+
+FORWARD PROPAGATION:
+
+Direction:
+Input → Output
+
+Purpose:
+Generate prediction.
+
+Main calculation:
+
+Z = XW + b
+
+A = f(Z)
+
+
+BACKPROPAGATION:
+
+Direction:
+Output/Loss → Input side
+
+Purpose:
+Calculate gradients.
+
+Main idea:
+
+Chain Rule
+
+
+==================================================
+23. IMPORTANT TERMINOLOGY
+==================================================
+
+BACKPROPAGATION
+→ Algorithm for efficiently calculating gradients
+  of the loss with respect to neural-network parameters.
+
+COMPUTATIONAL GRAPH
+→ Graph showing the sequence of mathematical operations.
+
+GRADIENT
+→ Derivative of the loss with respect to parameters.
+
+WEIGHT GRADIENT
+→ ∂L/∂w
+
+BIAS GRADIENT
+→ ∂L/∂b
+
+CHAIN RULE
+→ Calculates derivatives through a sequence of
+  dependent functions.
+
+PARAMETER UPDATE
+→ Changing weights and biases using calculated gradients.
+
+
+==================================================
+24. COMPLETE BACKPROPAGATION FLOW
+==================================================
+
+                  FORWARD
+                     ↓
+Input
+  ↓
+Weighted Sum
+  ↓
+Activation
+  ↓
+Prediction
+  ↓
+Loss
+                     ↓
+                BACKWARD
+                     ↓
+             Chain Rule
+                     ↓
+          Calculate Gradients
+             ↙           ↘
+       ∂L/∂W              ∂L/∂b
+             ↘           ↙
+              Optimizer
+                  ↓
+          Update Parameters
+                  ↓
+              Repeat
+
+
+==================================================
+25. KEY FORMULAS
+==================================================
+
+NEURON:
+
+z = wx + b
+
+
+ACTIVATION:
+
+a = f(z)
+
+
+WEIGHT GRADIENT:
+
+∂L/∂w
+=
+∂L/∂a
+×
+∂a/∂z
+×
+∂z/∂w
+
+
+BIAS GRADIENT:
+
+∂L/∂b
+=
+∂L/∂a
+×
+∂a/∂z
+×
+∂z/∂b
+
+
+PARAMETER UPDATE:
+
+w_new
+=
+w_old - η(∂L/∂w)
+
+
+b_new
+=
+b_old - η(∂L/∂b)
+
+
+==================================================
+26. KEY POINTS FOR EXAM / INTERVIEW
+==================================================
+
+1. Backpropagation calculates gradients of the loss
+   with respect to neural-network parameters.
+
+2. It works backward from the loss toward earlier
+   layers.
+
+3. Backpropagation uses the chain rule.
+
+4. Computational graphs represent the mathematical
+   operations in the network.
+
+5. Weight gradient:
+
+   ∂L/∂w
+
+
+6. Bias gradient:
+
+   ∂L/∂b
+
+
+7. Gradients tell the optimizer how the parameters
+   should change to reduce loss.
+
+8. Gradient descent updates parameters using:
+
+   parameter_new
+   =
+   parameter_old
+   -
+   learning_rate × gradient
+
+
+9. Backpropagation and gradient descent are different:
+
+   Backpropagation
+   → Calculates gradients.
+
+   Gradient descent / optimizer
+   → Uses gradients to update parameters.
+
+10. Complete learning cycle:
+
+    Forward Propagation
+          ↓
+    Prediction
+          ↓
+    Loss
+          ↓
+    Backpropagation
+          ↓
+    Gradients
+          ↓
+    Parameter Update
+          ↓
+    Repeat
+
+
+==================================================
+27. ONE-LINE MEMORY TRICK
+==================================================
+
+FORWARD:
+
+"Calculate the prediction."
+
+
+BACKPROPAGATION:
+
+"Calculate how each parameter affected the loss."
+
+
+OPTIMIZER:
+
+"Use those gradients to change the parameters."
+
+
+Together:
+
+Forward → Loss → Backpropagation → Gradients
+→ Optimizer → Parameter Update → Repeat

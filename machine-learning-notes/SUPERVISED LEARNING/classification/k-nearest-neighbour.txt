@@ -1,0 +1,1015 @@
+# K-NEAREST NEIGHBORS (KNN)
+
+==================================================
+1. DEFINITION
+==================================================
+
+K-Nearest Neighbors (KNN) is a supervised machine learning
+algorithm used for CLASSIFICATION and REGRESSION.
+
+For classification, KNN predicts the class of a new data
+point by looking at the K closest training data points.
+
+Basic idea:
+
+New Data Point
+      ↓
+Find K nearest points
+      ↓
+Look at their classes
+      ↓
+Majority Vote
+      ↓
+Predicted Class
+
+
+==================================================
+2. BASIC INTUITION
+==================================================
+
+The main idea is:
+
+"Similar data points are likely to belong to the same class."
+
+Example:
+
+Suppose we have:
+
+● = Class A
+○ = Class B
+
+A new point:
+
+        ●   ●
+      ●  ?  ●
+        ○
+          ○
+
+If most nearby points are Class A:
+
+→ New point is classified as Class A.
+
+
+==================================================
+3. WHAT DOES "K" MEAN?
+==================================================
+
+K = number of nearest neighbors considered for prediction.
+
+Example:
+
+K = 3
+
+The algorithm looks at the 3 closest training points.
+
+K = 5
+
+The algorithm looks at the 5 closest training points.
+
+Therefore:
+
+K
+↓
+Number of neighbors used for voting
+
+
+==================================================
+4. COMPLETE KNN CLASSIFICATION EXAMPLE
+==================================================
+
+Suppose we want to classify a new fruit.
+
+Classes:
+
+Apple
+Banana
+
+We choose:
+
+K = 5
+
+The 5 nearest training examples are:
+
+1. Apple
+2. Apple
+3. Banana
+4. Apple
+5. Banana
+
+Count:
+
+Apple  = 3
+Banana = 2
+
+Majority:
+
+Apple
+
+Therefore:
+
+New fruit → Apple
+
+
+==================================================
+5. MAJORITY VOTING
+==================================================
+
+For classification, KNN usually uses majority voting.
+
+Example:
+
+K = 7
+
+Nearest neighbors:
+
+A
+A
+B
+A
+B
+A
+B
+
+Count:
+
+A = 4
+B = 3
+
+Prediction:
+
+A
+
+
+Therefore:
+
+Most common class among K neighbors
+                ↓
+          Final prediction
+
+
+==================================================
+6. HOW DOES KNN FIND "NEAREST"?
+==================================================
+
+KNN needs a DISTANCE MEASURE.
+
+The most common distance is:
+
+EUCLIDEAN DISTANCE.
+
+
+==================================================
+7. EUCLIDEAN DISTANCE
+==================================================
+
+For two points:
+
+A = (x₁, y₁)
+
+B = (x₂, y₂)
+
+Euclidean distance:
+
+d = √[(x₂-x₁)² + (y₂-y₁)²]
+
+
+Example:
+
+A = (2, 3)
+B = (5, 7)
+
+Distance:
+
+d = √[(5-2)² + (7-3)²]
+
+d = √[3² + 4²]
+
+d = √25
+
+d = 5
+
+
+Smaller distance
+      ↓
+More similar / closer points
+
+
+==================================================
+8. OTHER DISTANCE METRICS
+==================================================
+
+KNN is not limited to Euclidean distance.
+
+Common distance metrics include:
+
+1. Euclidean
+2. Manhattan
+3. Minkowski
+
+Manhattan distance:
+
+d = |x₂-x₁| + |y₂-y₁|
+
+
+The appropriate metric depends on the data and problem.
+
+
+==================================================
+9. STEP-BY-STEP KNN ALGORITHM
+==================================================
+
+Suppose we have a new data point.
+
+STEP 1:
+Choose K.
+
+STEP 2:
+Calculate the distance between the new point and
+all training points.
+
+STEP 3:
+Sort the points according to distance.
+
+STEP 4:
+Select the K closest points.
+
+STEP 5:
+Look at their class labels.
+
+STEP 6:
+Count the classes.
+
+STEP 7:
+Choose the majority class.
+
+STEP 8:
+Return the predicted class.
+
+
+Flow:
+
+New Point
+   ↓
+Calculate Distances
+   ↓
+Sort Distances
+   ↓
+Select K Nearest
+   ↓
+Majority Vote
+   ↓
+Predicted Class
+
+
+==================================================
+10. EXAMPLE WITH K = 3
+==================================================
+
+New point = ?
+
+Nearest points:
+
+Distance     Class
+
+1.2          A
+2.0          B
+2.5          A
+4.0          B
+5.1          B
+
+K = 3
+
+Take:
+
+A
+B
+A
+
+Count:
+
+A = 2
+B = 1
+
+Prediction:
+
+A
+
+
+==================================================
+11. K = 1
+==================================================
+
+If:
+
+K = 1
+
+KNN looks at only the SINGLE nearest point.
+
+Example:
+
+Nearest point → Class A
+
+Prediction:
+
+Class A
+
+
+Advantage:
+
+Very sensitive to local patterns.
+
+Disadvantage:
+
+Very sensitive to noise and individual unusual points.
+
+
+==================================================
+12. SMALL K vs LARGE K
+==================================================
+
+SMALL K:
+
+Example:
+
+K = 1 or K = 3
+
+The model focuses strongly on nearby points.
+
+Advantages:
+→ Captures local patterns.
+
+Disadvantages:
+→ Sensitive to noise.
+→ Can overfit.
+
+
+LARGE K:
+
+Example:
+
+K = 50
+
+The model considers many points.
+
+Advantages:
+→ Smoother decision boundary.
+→ Less sensitive to individual noise.
+
+
+Disadvantages:
+→ May ignore local patterns.
+→ Can underfit.
+
+
+Therefore:
+
+K too small
+→ Overfitting risk
+
+K too large
+→ Underfitting risk
+
+
+==================================================
+13. CHOOSING K
+==================================================
+
+There is no single K that is always best.
+
+A common approach is:
+
+Try different K values.
+
+Example:
+
+K = 1
+K = 3
+K = 5
+K = 7
+K = 9
+...
+
+Evaluate each using validation or cross-validation.
+
+Choose the K that gives good validation performance.
+
+
+IMPORTANT:
+
+Do not choose K only based on training accuracy.
+
+
+==================================================
+14. WHY ODD K IS OFTEN USED
+==================================================
+
+For binary classification, odd values such as:
+
+K = 3
+K = 5
+K = 7
+
+are often used to reduce the chance of a tie.
+
+Example:
+
+K = 4
+
+Votes:
+
+A = 2
+B = 2
+
+Tie!
+
+
+With:
+
+K = 5
+
+Possible:
+
+A = 3
+B = 2
+
+No tie.
+
+
+IMPORTANT:
+
+Odd K does NOT guarantee that a tie is impossible,
+especially with more than two classes.
+
+
+==================================================
+15. FEATURE SCALING — VERY IMPORTANT
+==================================================
+
+KNN is highly sensitive to feature scale because it uses
+DISTANCE.
+
+Example:
+
+Feature 1:
+
+Age = 20–60
+
+Feature 2:
+
+Salary = 20,000–200,000
+
+Salary has much larger numerical values.
+
+Without scaling, Salary can dominate the distance calculation.
+
+Therefore:
+
+FEATURE SCALING
+       ↓
+Very important for KNN
+
+
+Common methods:
+
+Standardization
+
+or
+
+Normalization
+
+
+==================================================
+16. EXAMPLE OF WHY SCALING MATTERS
+==================================================
+
+Suppose:
+
+Person A:
+Age = 20
+Salary = 50,000
+
+Person B:
+Age = 21
+Salary = 50,500
+
+Differences:
+
+Age difference = 1
+
+Salary difference = 500
+
+
+Without scaling:
+
+Salary contributes much more to the distance.
+
+After scaling:
+
+Features are placed on comparable scales.
+
+Therefore:
+
+KNN can measure similarity more fairly.
+
+
+==================================================
+17. KNN IS A LAZY LEARNING ALGORITHM
+==================================================
+
+KNN is commonly called a:
+
+LAZY LEARNING
+or
+INSTANCE-BASED
+algorithm.
+
+Why?
+
+Because KNN does not learn a complicated mathematical
+model during training.
+
+Instead, it mainly stores the training data.
+
+The major computation happens when making a prediction.
+
+
+Training:
+
+Training Data
+      ↓
+Store Data
+
+
+Prediction:
+
+New Point
+      ↓
+Calculate distances to training points
+      ↓
+Find nearest neighbors
+      ↓
+Vote
+      ↓
+Prediction
+
+
+==================================================
+18. KNN IS ALSO NON-PARAMETRIC
+==================================================
+
+KNN is generally considered a:
+
+NON-PARAMETRIC
+
+algorithm.
+
+This means it does not assume a fixed mathematical form
+such as:
+
+ŷ = β₀ + β₁X
+
+Instead, it relies on the local structure of the data.
+
+
+==================================================
+19. SCIKIT-LEARN IMPLEMENTATION
+==================================================
+
+Import:
+
+from sklearn.neighbors import KNeighborsClassifier
+
+
+Create model:
+
+model = KNeighborsClassifier(n_neighbors=5)
+
+
+Train:
+
+model.fit(X_train, y_train)
+
+
+Predict:
+
+y_pred = model.predict(X_test)
+
+
+Complete example:
+
+from sklearn.neighbors import KNeighborsClassifier
+
+model = KNeighborsClassifier(n_neighbors=5)
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+==================================================
+20. IMPORTANT KNN HYPERPARAMETERS
+==================================================
+
+1. n_neighbors
+
+Controls K.
+
+Example:
+
+n_neighbors=5
+
+→ K = 5
+
+
+2. weights
+
+Controls how neighbors contribute to the vote.
+
+"uniform":
+
+All neighbors have equal weight.
+
+"distance":
+
+Closer neighbors have greater influence.
+
+
+3. metric
+
+Controls the distance metric.
+
+Example:
+
+metric="euclidean"
+
+
+4. p
+
+Used with the Minkowski distance.
+
+p = 2
+→ Euclidean distance
+
+p = 1
+→ Manhattan distance
+
+
+==================================================
+21. UNIFORM vs DISTANCE WEIGHTS
+==================================================
+
+UNIFORM:
+
+Every neighbor has equal voting weight.
+
+Example:
+
+Neighbor 1 → A
+Neighbor 2 → A
+Neighbor 3 → B
+
+A wins 2–1.
+
+
+DISTANCE:
+
+Closer neighbors have more influence.
+
+Example:
+
+Very close → A
+Farther → A
+Very far → B
+
+The very close points contribute more strongly.
+
+
+Scikit-learn:
+
+KNeighborsClassifier(
+    n_neighbors=5,
+    weights="distance"
+)
+
+
+==================================================
+22. DECISION BOUNDARY
+==================================================
+
+KNN creates a decision boundary based on the distribution
+of training points.
+
+Example:
+
+Class A:
+
+● ● ●
+
+Class B:
+
+○ ○ ○
+
+The boundary separates regions where different classes
+have the majority among nearby points.
+
+
+Unlike basic Logistic Regression, KNN can create
+NON-LINEAR and irregular decision boundaries.
+
+
+==================================================
+23. KNN vs LOGISTIC REGRESSION
+==================================================
+
+LOGISTIC REGRESSION:
+
+Features
+   ↓
+Mathematical equation
+   ↓
+Sigmoid
+   ↓
+Probability
+   ↓
+Class
+
+
+KNN:
+
+Features
+   ↓
+Distance calculation
+   ↓
+Nearest neighbors
+   ↓
+Majority vote
+   ↓
+Class
+
+
+Logistic Regression:
+→ Learns coefficients.
+
+KNN:
+→ Stores training examples and uses their neighborhoods.
+
+
+==================================================
+24. KNN vs DECISION TREE
+==================================================
+
+KNN:
+
+Uses:
+→ Distance
+→ Nearest neighbors
+→ Voting
+
+Requires:
+→ Feature scaling is usually important.
+
+
+Decision Tree:
+
+Uses:
+→ Decision rules
+→ Feature splits
+→ Leaf nodes
+
+Usually:
+→ Feature scaling is not required.
+
+
+==================================================
+25. KNN FOR REGRESSION
+==================================================
+
+KNN can also be used for REGRESSION.
+
+Instead of voting for a class:
+
+Classification:
+
+A
+A
+B
+A
+B
+
+→ Majority class = A
+
+
+Regression:
+
+10
+12
+14
+16
+18
+
+→ Average:
+
+(10 + 12 + 14 + 16 + 18) / 5
+
+= 14
+
+
+Therefore:
+
+KNN Classification
+→ Majority vote
+
+KNN Regression
+→ Usually average of neighbors' target values
+
+
+Scikit-learn:
+
+KNeighborsRegressor
+
+
+==================================================
+26. ADVANTAGES
+==================================================
+
+1. Simple and intuitive.
+
+2. Easy to understand.
+
+3. Can model nonlinear decision boundaries.
+
+4. No complicated training process.
+
+5. Can be used for both classification and regression.
+
+6. Naturally works with multiple classes.
+
+7. No assumption of a specific mathematical relationship
+   between features and target.
+
+
+==================================================
+27. LIMITATIONS
+==================================================
+
+1. Prediction can be computationally expensive for large
+   datasets.
+
+2. Requires storing the training data.
+
+3. Highly sensitive to feature scaling.
+
+4. Sensitive to irrelevant features.
+
+5. Sensitive to noise, especially when K is small.
+
+6. Choosing the correct K is important.
+
+7. Performance can degrade in high-dimensional spaces.
+
+This last problem is related to the:
+
+CURSE OF DIMENSIONALITY.
+
+
+==================================================
+28. CURSE OF DIMENSIONALITY
+==================================================
+
+As the number of features increases:
+
+Dimensions ↑
+      ↓
+Data becomes increasingly sparse
+      ↓
+Distance measurements become less informative
+      ↓
+KNN performance can decrease
+
+
+This is particularly important for distance-based
+algorithms like KNN.
+
+
+==================================================
+29. WHEN TO USE KNN
+==================================================
+
+KNN can be useful when:
+
+- Dataset is relatively small or moderate in size.
+- Similarity between observations is meaningful.
+- Local patterns are important.
+- Decision boundary may be nonlinear.
+- You can properly scale the features.
+
+
+Examples:
+
+Customer Features
+      ↓
+KNN
+      ↓
+Customer Category
+
+
+Medical Measurements
+      ↓
+KNN
+      ↓
+Class A / Class B
+
+
+==================================================
+30. COMPLETE FLOW
+==================================================
+
+Dataset
+   ↓
+Features (X) + Target (y)
+   ↓
+Train / Test Split
+   ↓
+Feature Scaling
+   ↓
+Choose K
+   ↓
+Choose Distance Metric
+   ↓
+Train / Store Training Data
+   ↓
+New Data Point
+   ↓
+Calculate Distance
+   ↓
+Find K Nearest Neighbors
+   ↓
+Majority Vote
+   ↓
+Predicted Class
+   ↓
+Evaluate Model
+   ↓
+Tune K / Hyperparameters
+   ↓
+Final Model
+
+
+==================================================
+31. KEY POINTS TO REMEMBER
+==================================================
+
+1. KNN = K-Nearest Neighbors.
+
+2. It is a supervised learning algorithm.
+
+3. It can be used for both classification and regression.
+
+4. K represents the number of nearest neighbors considered.
+
+5. Classification usually uses MAJORITY VOTING.
+
+6. Regression usually uses the AVERAGE of neighbors'
+   target values.
+
+7. KNN relies on DISTANCE.
+
+8. Euclidean distance is a common distance metric.
+
+9. Feature scaling is VERY IMPORTANT for KNN.
+
+10. Small K:
+    → More sensitive to noise
+    → Higher overfitting risk
+
+11. Large K:
+    → Smoother predictions
+    → Higher underfitting risk
+
+12. KNN is commonly described as:
+    → Lazy learning
+    → Instance-based
+    → Non-parametric
+
+13. Important hyperparameters:
+
+    n_neighbors
+    weights
+    metric
+    p
+
+14. KNN does not learn coefficients like Logistic Regression.
+
+15. KNN can create nonlinear decision boundaries.
+
+16. Main intuition:
+
+    NEW POINT
+        ↓
+    CALCULATE DISTANCES
+        ↓
+    FIND K NEAREST
+        ↓
+    MAJORITY VOTE
+        ↓
+    PREDICT CLASS

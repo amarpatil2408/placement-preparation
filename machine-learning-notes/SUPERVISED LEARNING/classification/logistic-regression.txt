@@ -1,0 +1,1130 @@
+# LOGISTIC REGRESSION
+
+==================================================
+1. DEFINITION
+==================================================
+
+Logistic Regression is a supervised machine learning
+algorithm used mainly for CLASSIFICATION.
+
+It predicts the probability that an observation belongs
+to a particular class.
+
+Most commonly, it is used for BINARY CLASSIFICATION.
+
+Example:
+
+Predict whether an email is:
+
+Spam     → 1
+Not Spam → 0
+
+Input:
+Email features
+
+        ↓
+Logistic Regression
+
+        ↓
+
+Probability
+
+        ↓
+Class 0 or Class 1
+
+
+==================================================
+2. WHY IS IT CALLED "REGRESSION"?
+==================================================
+
+Although its name contains "Regression", Logistic Regression
+is mainly used for CLASSIFICATION.
+
+It first calculates a numerical score and converts that
+score into a probability between 0 and 1.
+
+Then the probability is converted into a class.
+
+
+Example:
+
+Model output:
+
+0.82
+
+Interpretation:
+
+82% estimated probability of Class 1.
+
+Using a threshold of 0.5:
+
+0.82 ≥ 0.5
+     ↓
+Class 1
+
+
+==================================================
+3. BASIC IDEA
+==================================================
+
+Suppose we want to predict whether a student passes.
+
+Input:
+
+Hours Studied
+
+Target:
+
+Fail → 0
+Pass → 1
+
+
+The model first calculates a linear score:
+
+z = β₀ + β₁X
+
+But this score can be:
+
+- Negative
+- Greater than 1
+- Any real number
+
+Example:
+
+z = -3
+z = 2
+z = 10
+
+These are NOT probabilities.
+
+Therefore, we need a function that converts
+any real-valued number into a value between 0 and 1.
+
+That function is the:
+
+SIGMOID FUNCTION.
+
+
+==================================================
+4. SIGMOID FUNCTION
+==================================================
+
+The sigmoid function is:
+
+σ(z) = 1 / (1 + e⁻ᶻ)
+
+It converts any value of z into a value between:
+
+0 and 1
+
+
+Example:
+
+z → Sigmoid(z)
+
+-5  → approximately 0.007
+-2  → approximately 0.119
+ 0  → 0.500
+ 2  → approximately 0.881
+ 5  → approximately 0.993
+
+
+So:
+
+Very negative z → probability close to 0
+
+z = 0 → probability = 0.5
+
+Very positive z → probability close to 1
+
+
+==================================================
+5. SIGMOID CURVE
+==================================================
+
+The sigmoid function has an S-shaped curve.
+
+Probability
+1.0 |                    ______
+    |                  /
+0.5 |-----------------●
+    |              /
+0.0 |____________/
+    |
+    +--------------------------→ z
+
+Important points:
+
+z → -∞
+Probability → 0
+
+z = 0
+Probability = 0.5
+
+z → +∞
+Probability → 1
+
+
+==================================================
+6. LOGISTIC REGRESSION EQUATION
+==================================================
+
+First, calculate the linear score:
+
+z = β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ
+
+Then apply sigmoid:
+
+p = 1 / (1 + e⁻ᶻ)
+
+Therefore:
+
+p = 1 / (1 + e^-(β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ))
+
+
+Where:
+
+p   = predicted probability of Class 1
+β₀  = intercept
+β₁...βₙ = learned coefficients
+X₁...Xₙ = input features
+e   = Euler's number
+
+
+==================================================
+7. COMPLETE PREDICTION FLOW
+==================================================
+
+Input Features
+      ↓
+Linear Equation
+      ↓
+z = β₀ + β₁X₁ + β₂X₂ + ...
+      ↓
+Sigmoid Function
+      ↓
+Probability
+      ↓
+Classification Threshold
+      ↓
+Predicted Class
+
+
+Example:
+
+Features
+   ↓
+z = 2
+   ↓
+Sigmoid(2)
+   ↓
+0.881
+   ↓
+Threshold = 0.5
+   ↓
+Class 1
+
+
+==================================================
+8. SIMPLE EXAMPLE
+==================================================
+
+Suppose:
+
+z = 2
+
+Sigmoid:
+
+p = 1 / (1 + e⁻²)
+
+p ≈ 0.881
+
+Therefore:
+
+Predicted probability = 88.1%
+
+
+If threshold = 0.5:
+
+0.881 ≥ 0.5
+
+Prediction:
+
+Class 1
+
+
+==================================================
+9. CLASSIFICATION THRESHOLD
+==================================================
+
+The probability must be converted into a class.
+
+Common threshold:
+
+0.5
+
+Rule:
+
+If p ≥ 0.5
+    → Class 1
+
+If p < 0.5
+    → Class 0
+
+
+Example:
+
+Probability = 0.80
+→ Class 1
+
+Probability = 0.30
+→ Class 0
+
+
+IMPORTANT:
+
+0.5 is a common default threshold, but it is NOT always
+the best threshold for every problem.
+
+
+==================================================
+10. BINARY CLASSIFICATION
+==================================================
+
+Binary classification means there are TWO classes.
+
+Examples:
+
+Spam / Not Spam
+
+Pass / Fail
+
+Disease / No Disease
+
+Fraud / Not Fraud
+
+Approved / Rejected
+
+
+Usually represented as:
+
+Class 0
+Class 1
+
+
+Logistic Regression predicts:
+
+P(y = 1 | X)
+
+Meaning:
+
+Probability that the target belongs to Class 1
+given the input features.
+
+
+==================================================
+11. EXAMPLE — STUDENT PASS/FAIL
+==================================================
+
+Suppose:
+
+X = Hours Studied
+
+Target:
+
+0 = Fail
+1 = Pass
+
+
+The model learns:
+
+z = -4 + 1.5X
+
+Suppose:
+
+X = 3
+
+Then:
+
+z = -4 + 1.5(3)
+
+z = -4 + 4.5
+
+z = 0.5
+
+
+Apply sigmoid:
+
+p = 1 / (1 + e⁻⁰·⁵)
+
+p ≈ 0.622
+
+
+Therefore:
+
+Probability of Pass ≈ 62.2%
+
+Using threshold 0.5:
+
+0.622 ≥ 0.5
+
+Prediction:
+
+PASS (Class 1)
+
+
+==================================================
+12. WHAT DOES THE MODEL LEARN?
+==================================================
+
+Logistic Regression learns:
+
+1. Intercept (β₀)
+2. Coefficients (β₁, β₂, ...)
+
+
+Example:
+
+z = -3 + 2X₁ + 0.5X₂
+
+The model has learned:
+
+β₀ = -3
+β₁ = 2
+β₂ = 0.5
+
+
+These coefficients influence the linear score z,
+which is then converted into probability using sigmoid.
+
+
+==================================================
+13. MEANING OF COEFFICIENTS
+==================================================
+
+In Logistic Regression, coefficients are NOT interpreted
+directly as changes in probability.
+
+They affect the LOG-ODDS of the positive class.
+
+The relationship is:
+
+log(p / (1-p))
+=
+β₀ + β₁X₁ + β₂X₂ + ...
+
+
+The quantity:
+
+p / (1-p)
+
+is called ODDS.
+
+
+Therefore:
+
+Logistic Regression is linear in the LOG-ODDS,
+not directly in the probability.
+
+
+==================================================
+14. ODDS
+==================================================
+
+Odds are:
+
+Odds = p / (1-p)
+
+
+Example:
+
+p = 0.8
+
+Odds:
+
+0.8 / 0.2
+
+= 4
+
+Meaning:
+
+The odds of Class 1 are 4 to 1 relative to Class 0.
+
+
+Another example:
+
+p = 0.5
+
+Odds:
+
+0.5 / 0.5 = 1
+
+
+When:
+
+p > 0.5
+→ odds > 1
+
+p < 0.5
+→ odds < 1
+
+p = 0.5
+→ odds = 1
+
+
+==================================================
+15. LOG-ODDS / LOGIT
+==================================================
+
+The log-odds are called the:
+
+LOGIT
+
+Formula:
+
+logit(p) = ln(p / (1-p))
+
+
+Logistic Regression models:
+
+logit(p)
+=
+β₀ + β₁X₁ + β₂X₂ + ...
+
+
+So the complete relationship is:
+
+Linear Score
+     ↓
+Log-Odds
+     ↓
+Sigmoid
+     ↓
+Probability
+     ↓
+Class
+
+
+==================================================
+16. LOSS FUNCTION
+==================================================
+
+Logistic Regression does NOT normally use Mean Squared
+Error as its standard training loss.
+
+It commonly uses:
+
+LOG LOSS
+
+also called:
+
+BINARY CROSS-ENTROPY
+
+
+Formula:
+
+Loss =
+-[y log(p) + (1-y) log(1-p)]
+
+
+Where:
+
+y = actual class
+p = predicted probability
+
+
+==================================================
+17. WHY LOG LOSS?
+==================================================
+
+Log Loss strongly penalizes confident wrong predictions.
+
+Example:
+
+Actual class = 1
+
+Prediction probability = 0.90
+
+→ Good prediction
+→ Small loss
+
+
+Actual class = 1
+
+Prediction probability = 0.01
+
+→ Very confident wrong prediction
+→ Very large loss
+
+
+Therefore, Logistic Regression learns parameters
+that minimize log loss.
+
+
+==================================================
+18. TRAINING PROCESS
+==================================================
+
+Training process:
+
+Training Data
+      ↓
+Calculate linear score
+      ↓
+z = β₀ + β₁X₁ + ...
+      ↓
+Apply Sigmoid
+      ↓
+Get probability
+      ↓
+Calculate Log Loss
+      ↓
+Update parameters
+      ↓
+Repeat
+      ↓
+Final trained model
+
+
+==================================================
+19. MULTIPLE FEATURES
+==================================================
+
+Logistic Regression can use multiple features.
+
+Example:
+
+Predict whether a customer will purchase.
+
+Features:
+
+X₁ = Age
+X₂ = Income
+X₃ = Website Visits
+
+Model:
+
+z = β₀ + β₁Age + β₂Income + β₃Visits
+
+Then:
+
+p = sigmoid(z)
+
+Finally:
+
+p ≥ 0.5
+→ Purchase
+
+p < 0.5
+→ No Purchase
+
+
+==================================================
+20. MULTICLASS CLASSIFICATION
+==================================================
+
+Logistic Regression can also be extended to more than
+two classes.
+
+Example:
+
+Predict type of fruit:
+
+0 → Apple
+1 → Banana
+2 → Orange
+
+
+Common approaches include:
+
+1. One-vs-Rest (OvR)
+2. Multinomial Logistic Regression
+
+
+In multinomial classification, the model can produce a
+probability for each class.
+
+Example:
+
+Apple  → 0.10
+Banana → 0.70
+Orange → 0.20
+
+Highest probability:
+
+Banana
+
+
+==================================================
+21. SCIKIT-LEARN IMPLEMENTATION
+==================================================
+
+Import:
+
+from sklearn.linear_model import LogisticRegression
+
+
+Create model:
+
+model = LogisticRegression()
+
+
+Train:
+
+model.fit(X_train, y_train)
+
+
+Predict classes:
+
+y_pred = model.predict(X_test)
+
+
+Predict probabilities:
+
+y_prob = model.predict_proba(X_test)
+
+
+Complete example:
+
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+y_prob = model.predict_proba(X_test)
+
+
+==================================================
+22. predict() vs predict_proba()
+==================================================
+
+predict():
+
+Returns the predicted class.
+
+Example:
+
+model.predict(X_test)
+
+Output:
+
+[0, 1, 1, 0, 1]
+
+
+predict_proba():
+
+Returns probabilities for each class.
+
+Example:
+
+model.predict_proba(X_test)
+
+Output:
+
+[
+ [0.80, 0.20],
+ [0.10, 0.90],
+ [0.30, 0.70]
+]
+
+
+For binary classification:
+
+Column 1 → Probability of Class 0
+Column 2 → Probability of Class 1
+
+
+==================================================
+23. FEATURE SCALING
+==================================================
+
+Logistic Regression can work without scaling,
+but feature scaling is often useful, especially when
+features have very different numerical ranges or when
+regularization is used.
+
+Example:
+
+Age:
+20–60
+
+Income:
+20,000–2,00,000
+
+Scaling can put features on comparable numerical scales.
+
+Common approach:
+
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+
+X_train_scaled = scaler.fit_transform(X_train)
+
+X_test_scaled = scaler.transform(X_test)
+
+
+Then:
+
+model.fit(X_train_scaled, y_train)
+
+
+IMPORTANT:
+
+Fit the scaler on training data only.
+
+
+==================================================
+24. REGULARIZATION
+==================================================
+
+Logistic Regression commonly uses regularization to help
+control model complexity.
+
+Two common types:
+
+L1 Regularization
+L2 Regularization
+
+
+L1:
+
+Can push some coefficients exactly to zero.
+
+This can perform feature selection.
+
+
+L2:
+
+Penalizes large coefficients and generally shrinks
+them toward zero.
+
+
+In scikit-learn:
+
+LogisticRegression(
+    penalty="l2"
+)
+
+
+Regularization strength is controlled by:
+
+C
+
+
+Important:
+
+In scikit-learn, larger C means WEAKER regularization.
+
+Smaller C means STRONGER regularization.
+
+
+==================================================
+25. IMPORTANT HYPERPARAMETERS
+==================================================
+
+1. C
+
+Controls the strength of regularization.
+
+Small C:
+→ stronger regularization
+
+Large C:
+→ weaker regularization
+
+
+2. penalty
+
+Controls the type of regularization.
+
+Examples:
+
+"l1"
+"l2"
+
+
+3. solver
+
+Optimization algorithm used to train the model.
+
+Examples:
+
+"lbfgs"
+"liblinear"
+"saga"
+
+
+4. max_iter
+
+Maximum number of iterations allowed during training.
+
+
+==================================================
+26. DECISION BOUNDARY
+==================================================
+
+Logistic Regression creates a DECISION BOUNDARY that
+separates classes.
+
+For two features:
+
+          Class 1
+       ●  ●  ●  ●
+      ●  ●  ●
+--------------------  ← Decision Boundary
+    ○  ○  ○
+  ○  ○  ○  ○
+          Class 0
+
+
+The boundary is determined by:
+
+β₀ + β₁X₁ + β₂X₂ = 0
+
+
+For basic Logistic Regression without nonlinear
+feature transformations, this boundary is linear.
+
+
+==================================================
+27. LINEAR REGRESSION vs LOGISTIC REGRESSION
+==================================================
+
+Linear Regression:
+
+Used for:
+→ Regression
+
+Output:
+→ Continuous value
+
+Example:
+
+House Price = ₹50,00,000
+
+
+Logistic Regression:
+
+Used for:
+→ Classification
+
+Output:
+→ Probability between 0 and 1
+→ Then class prediction
+
+
+Example:
+
+Probability of Spam = 0.87
+
+Class = Spam
+
+
+CORE DIFFERENCE:
+
+Linear Regression
+→ Predict a number
+
+Logistic Regression
+→ Predict probability/class
+
+
+==================================================
+28. LOGISTIC REGRESSION vs KNN
+==================================================
+
+Logistic Regression:
+
+Learns a mathematical model
+using coefficients.
+
+KNN:
+
+Uses nearby training examples
+to make a prediction.
+
+Logistic Regression:
+→ Model-based
+
+KNN:
+→ Instance-based
+
+
+==================================================
+29. ADVANTAGES
+==================================================
+
+1. Simple and relatively easy to understand.
+
+2. Fast to train and predict on many typical datasets.
+
+3. Produces class probabilities.
+
+4. Coefficients can be interpreted through their effect
+   on log-odds.
+
+5. Works well as a classification baseline.
+
+6. Regularization can help control overfitting.
+
+7. Can handle multiple input features.
+
+
+==================================================
+30. LIMITATIONS
+==================================================
+
+1. Basic Logistic Regression creates a linear decision
+   boundary.
+
+2. It may perform poorly when the class relationship is
+   highly nonlinear unless suitable feature transformations
+   are added.
+
+3. Outliers and highly correlated features can affect
+   the model.
+
+4. Feature scaling may be useful depending on the data
+   and regularization.
+
+5. The model assumes a linear relationship between the
+   features and the log-odds of the target.
+
+
+==================================================
+31. WHEN TO USE LOGISTIC REGRESSION
+==================================================
+
+Use Logistic Regression when:
+
+- Target is categorical.
+- Especially useful for binary classification.
+- You want probability estimates.
+- A roughly linear decision boundary is reasonable.
+- You want an interpretable classification baseline.
+
+
+Examples:
+
+Email Features
+      ↓
+Logistic Regression
+      ↓
+Spam / Not Spam
+
+
+Customer Information
+      ↓
+Logistic Regression
+      ↓
+Buy / Not Buy
+
+
+Transaction Information
+      ↓
+Logistic Regression
+      ↓
+Fraud / Not Fraud
+
+
+==================================================
+32. COMPLETE FLOW
+==================================================
+
+Dataset
+   ↓
+Features (X) + Class Target (y)
+   ↓
+Train / Test Split
+   ↓
+Preprocessing
+   ↓
+Feature Scaling if appropriate
+   ↓
+Logistic Regression
+   ↓
+Linear Score
+   ↓
+z = β₀ + β₁X₁ + ...
+   ↓
+Sigmoid Function
+   ↓
+Probability
+   ↓
+Threshold
+   ↓
+Predicted Class
+   ↓
+Evaluate
+   ↓
+Tune Hyperparameters
+   ↓
+Final Model
+
+
+==================================================
+33. KEY POINTS TO REMEMBER
+==================================================
+
+1. Logistic Regression is a SUPERVISED CLASSIFICATION
+   algorithm.
+
+2. It is mainly used for BINARY CLASSIFICATION.
+
+3. It first calculates:
+
+   z = β₀ + β₁X₁ + β₂X₂ + ...
+
+4. It converts z into probability using the SIGMOID function:
+
+   p = 1 / (1 + e⁻ᶻ)
+
+5. Probability is between 0 and 1.
+
+6. A threshold is used to convert probability into a class.
+
+7. Common default threshold:
+
+   0.5
+
+8. Logistic Regression commonly uses LOG LOSS /
+   BINARY CROSS-ENTROPY for training.
+
+9. It models the LOG-ODDS linearly.
+
+10. Coefficients directly affect log-odds, not probability.
+
+11. Logistic Regression can be extended to multiclass
+    classification.
+
+12. predict() → predicted class.
+
+13. predict_proba() → predicted probabilities.
+
+14. Regularization helps control model complexity.
+
+15. In scikit-learn:
+
+   Smaller C → stronger regularization
+   Larger C  → weaker regularization
+
+16. Basic Logistic Regression produces a LINEAR
+    decision boundary.
+
+17. Main intuition:
+
+   FEATURES
+      ↓
+   LINEAR SCORE
+      ↓
+   SIGMOID
+      ↓
+   PROBABILITY
+      ↓
+   THRESHOLD
+      ↓
+   CLASS
