@@ -1,0 +1,1008 @@
+============================================================
+UNIT 10 — CNN ARCHITECTURES
+============================================================
+
+Unit 9 taught us HOW a basic CNN works:
+
+Image
+ ↓
+Convolution
+ ↓
+Activation
+ ↓
+Pooling
+ ↓
+Convolution
+ ↓
+Pooling
+ ↓
+Flatten
+ ↓
+Fully Connected
+ ↓
+Output
+
+Unit 10 focuses on IMPORTANT CNN ARCHITECTURES that were
+developed to make CNNs deeper, more accurate, and more
+efficient.
+
+The architectures in this unit are:
+
+1. LeNet
+2. AlexNet
+3. VGG
+4. GoogLeNet / Inception
+5. ResNet
+6. DenseNet
+7. Transfer Learning
+
+
+============================================================
+1. LENET
+============================================================
+
+LeNet is one of the earliest successful CNN architectures.
+
+It was designed for handwritten digit recognition.
+
+Example:
+
+Input:
+  handwritten digit
+
+      ↓
+Convolution
+      ↓
+Pooling
+      ↓
+Convolution
+      ↓
+Pooling
+      ↓
+Fully Connected
+      ↓
+Digit prediction
+
+
+Typical structure:
+
+Input
+  ↓
+Convolution
+  ↓
+Pooling
+  ↓
+Convolution
+  ↓
+Pooling
+  ↓
+Fully Connected
+  ↓
+Output
+
+
+Main idea:
+
+LeNet demonstrated that convolution + pooling + fully
+connected layers can effectively recognize visual patterns.
+
+
+IMPORTANT:
+
+LeNet is historically important because it established
+the basic CNN pattern used by many later architectures.
+
+
+MEMORY:
+
+LeNet
+→ Early CNN
+→ Handwritten digits
+→ Convolution + Pooling + Fully Connected
+
+
+============================================================
+2. ALEXNET
+============================================================
+
+AlexNet was a much deeper and more powerful CNN than LeNet.
+
+It became famous for its strong performance on ImageNet.
+
+AlexNet helped establish deep CNNs as a powerful approach
+for large-scale image classification.
+
+
+Basic idea:
+
+Input Image
+    ↓
+Convolution
+    ↓
+ReLU
+    ↓
+Pooling
+    ↓
+Convolution
+    ↓
+ReLU
+    ↓
+Pooling
+    ↓
+More Convolution
+    ↓
+Fully Connected
+    ↓
+Output
+
+
+IMPORTANT FEATURES OF ALEXNET:
+
+1. Deeper than earlier CNNs
+2. Used ReLU activation
+3. Used pooling
+4. Used dropout in fully connected layers
+5. Trained on a large image dataset
+6. Used GPUs for training
+
+
+WHY ReLU?
+
+Older networks commonly used sigmoid/tanh.
+
+AlexNet used ReLU extensively because it helped deep
+networks train more effectively.
+
+
+MEMORY:
+
+AlexNet
+→ Large-scale ImageNet success
+→ ReLU
+→ Deeper CNN
+→ GPU training
+→ Dropout
+
+
+============================================================
+3. VGG
+============================================================
+
+VGG is a CNN architecture known for its simple and
+systematic design.
+
+The key idea is:
+
+Use many small 3 × 3 convolution filters.
+
+Instead of using complicated large convolution filters,
+VGG repeatedly applies small 3 × 3 filters.
+
+
+Example:
+
+Input
+ ↓
+3×3 Conv
+ ↓
+3×3 Conv
+ ↓
+Pooling
+ ↓
+3×3 Conv
+ ↓
+3×3 Conv
+ ↓
+Pooling
+ ↓
+...
+ ↓
+Fully Connected
+ ↓
+Output
+
+
+VGG became available in different depths.
+
+Examples:
+
+VGG-16
+VGG-19
+
+
+The number represents the approximate number of layers
+with learnable weights in the commonly referenced model.
+
+
+MAIN IDEA:
+
+Small filters
++
+Many layers
+=
+Deep feature extraction
+
+
+WHY 3×3 FILTERS?
+
+Multiple small convolution layers can build increasingly
+complex features while keeping the architecture simple.
+
+
+VGG CHARACTERISTICS:
+
+→ Simple architecture
+→ Repeated 3×3 convolutions
+→ Pooling between blocks
+→ Deep network
+→ Large number of parameters
+
+
+MEMORY:
+
+VGG
+→ Very simple structure
+→ 3×3 convolutions
+→ Deep
+→ VGG-16 / VGG-19
+
+
+============================================================
+4. GOOGLENET / INCEPTION
+============================================================
+
+GoogLeNet introduced the Inception architecture.
+
+The main idea is:
+
+Instead of choosing only ONE filter size at a layer,
+use MULTIPLE filter sizes in parallel.
+
+
+For example:
+
+                 ┌── 1×1 Conv ──┐
+                 │               │
+Input ───────────┼── 3×3 Conv ───┼──→ Concatenate
+                 │               │
+                 ├── 5×5 Conv ───┤
+                 │               │
+                 └── Pooling ────┘
+
+
+This is called an:
+
+INCEPTION MODULE
+
+
+WHY?
+
+Different filters can detect patterns at different scales.
+
+Small filters:
+→ small/local features
+
+Larger filters:
+→ larger patterns
+
+
+So instead of asking:
+
+"Which filter size should I use?"
+
+Inception effectively uses several types in parallel.
+
+
+------------------------------------------------------------
+1×1 CONVOLUTION
+------------------------------------------------------------
+
+Inception also made extensive use of 1×1 convolutions.
+
+A 1×1 convolution can:
+
+→ combine information across channels
+→ reduce the number of channels
+→ reduce computation in appropriate architectures
+
+
+GOOGLENET CHARACTERISTICS:
+
+→ Inception modules
+→ Multiple filter sizes in parallel
+→ 1×1 convolutions
+→ Efficient architecture
+→ Multi-scale feature extraction
+
+
+MEMORY:
+
+Inception
+→ Parallel paths
+→ Different filter sizes
+→ Multi-scale features
+→ 1×1 convolutions
+
+
+============================================================
+5. RESNET
+============================================================
+
+ResNet = Residual Network.
+
+The major idea of ResNet is:
+
+RESIDUAL / SKIP CONNECTIONS
+
+
+Problem:
+
+As neural networks become deeper, simply adding more
+layers can make optimization difficult.
+
+ResNet introduced skip connections to help information
+and gradients flow through very deep networks.
+
+
+Normal network:
+
+Input
+  ↓
+Layer 1
+  ↓
+Layer 2
+  ↓
+Layer 3
+  ↓
+Output
+
+
+ResNet:
+
+          ┌───────────────────────┐
+          │                       │
+Input ───→ Layer 1 ─→ Layer 2 ───┼──→ Add
+  │                               │
+  └───────────────────────────────┘
+                  Skip Connection
+
+
+The original input is passed around some layers and then
+combined with their output.
+
+
+------------------------------------------------------------
+RESIDUAL LEARNING
+------------------------------------------------------------
+
+Instead of directly learning:
+
+H(x)
+
+the residual block learns:
+
+F(x)
+
+and then produces:
+
+Output = F(x) + x
+
+
+Where:
+
+x = original input
+F(x) = learned residual function
+
+
+This is the central mathematical idea of ResNet.
+
+
+WHY SKIP CONNECTIONS?
+
+They help:
+
+→ gradient flow
+→ optimization of very deep networks
+→ information flow through the network
+
+
+Examples:
+
+ResNet-18
+ResNet-34
+ResNet-50
+ResNet-101
+ResNet-152
+
+
+MEMORY:
+
+ResNet
+→ Residual Network
+→ Skip connections
+→ Very deep networks
+→ F(x) + x
+
+
+============================================================
+6. DENSENET
+============================================================
+
+DenseNet = Densely Connected Convolutional Network.
+
+Its main idea is:
+
+Each layer receives information from many previous layers.
+
+
+Normal network:
+
+Layer 1
+ ↓
+Layer 2
+ ↓
+Layer 3
+ ↓
+Layer 4
+
+
+DenseNet:
+
+Layer 1 ───────────────┐
+ ↓                     │
+Layer 2 ───────────────┤
+ ↓                     │
+Layer 3 ───────────────┤
+ ↓                     │
+Layer 4 ←───────────────┘
+
+
+More precisely:
+
+Layer 1 → Layer 2
+Layer 1 → Layer 3
+Layer 2 → Layer 3
+Layer 1 → Layer 4
+Layer 2 → Layer 4
+Layer 3 → Layer 4
+
+
+So each layer can access feature maps from earlier layers.
+
+
+MAIN IDEA:
+
+Feature reuse.
+
+
+------------------------------------------------------------
+RESNET vs DENSENET
+------------------------------------------------------------
+
+ResNet:
+
+Previous information
+       ↓
+Skip connection
+       ↓
+Addition
+
+Output = F(x) + x
+
+
+DenseNet:
+
+Previous feature maps
+       ↓
+Concatenation
+       ↓
+Next layer
+
+
+IMPORTANT DIFFERENCE:
+
+ResNet
+→ adds information
+
+DenseNet
+→ concatenates feature maps
+
+
+MEMORY:
+
+DenseNet
+→ Dense connections
+→ Feature reuse
+→ Concatenation
+
+
+============================================================
+7. TRANSFER LEARNING
+============================================================
+
+Transfer learning is different from the architectures above.
+
+It is a TECHNIQUE for reusing a model that has already
+learned useful features.
+
+
+Instead of training a CNN from zero:
+
+Random model
+   ↓
+Train on your dataset
+   ↓
+Need lots of data + computation
+
+
+Transfer learning:
+
+Pretrained model
+      ↓
+Already learned useful features
+      ↓
+Adapt it to your problem
+      ↓
+Your final model
+
+
+Example:
+
+A pretrained CNN has learned:
+
+Edges
+ ↓
+Textures
+ ↓
+Shapes
+ ↓
+Object parts
+
+
+You can reuse these learned features for a new task.
+
+
+------------------------------------------------------------
+PRETRAINED MODEL
+------------------------------------------------------------
+
+A pretrained model is a model that has already been trained
+on a large dataset.
+
+
+For example:
+
+Pretrained CNN
+      ↓
+Learned general visual features
+      ↓
+Your new dataset
+      ↓
+Adapt model
+      ↓
+New prediction
+
+
+------------------------------------------------------------
+FEATURE EXTRACTION
+------------------------------------------------------------
+
+One common transfer-learning approach is feature extraction.
+
+Keep the pretrained layers fixed.
+
+Example:
+
+Pretrained CNN
+
+Convolution layers
+       ↓
+       ↓
+       ↓
+   FROZEN
+       ↓
+New classification layer
+       ↓
+Your classes
+
+
+"Frozen" means those parameters are not updated during
+training.
+
+
+Example:
+
+Pretrained model learned general image features.
+
+Your dataset:
+
+1000 images of:
+→ cats
+→ dogs
+
+
+You can reuse the pretrained convolutional layers and
+train a new classification head.
+
+
+------------------------------------------------------------
+FREEZING LAYERS
+------------------------------------------------------------
+
+Freezing a layer means:
+
+Its weights are NOT updated during training.
+
+
+Example:
+
+Pretrained CNN
+
+Layer 1 → FROZEN
+Layer 2 → FROZEN
+Layer 3 → FROZEN
+Layer 4 → TRAINABLE
+Output  → TRAINABLE
+
+
+Why freeze layers?
+
+→ Save computation
+→ Train faster
+→ Useful when your dataset is small
+→ Preserve useful pretrained features
+
+
+------------------------------------------------------------
+UNFREEZING LAYERS
+------------------------------------------------------------
+
+You can later allow some pretrained layers to update.
+
+This is called:
+
+UNFREEZING.
+
+
+Example:
+
+Initially:
+
+Pretrained layers → Frozen
+New classification head → Trainable
+
+
+Later:
+
+Some deeper pretrained layers
+        ↓
+Unfreeze
+        ↓
+Fine-tune
+
+
+============================================================
+8. FINE-TUNING
+============================================================
+
+Fine-tuning means continuing training of a pretrained model
+on your new dataset, usually with a small learning rate.
+
+Example:
+
+Pretrained CNN
+      ↓
+Freeze most layers
+      ↓
+Train new classification head
+      ↓
+Unfreeze selected deeper layers
+      ↓
+Train with small learning rate
+      ↓
+Final model
+
+
+Why?
+
+The pretrained model already knows general visual features.
+
+Fine-tuning allows it to adapt those features to your
+specific task.
+
+
+------------------------------------------------------------
+TRANSFER LEARNING FLOW
+------------------------------------------------------------
+
+Large Dataset
+     ↓
+Train CNN
+     ↓
+PRETRAINED MODEL
+     ↓
+Your Dataset
+     ↓
+Replace / adapt final layer
+     ↓
+Freeze some layers
+     ↓
+Train
+     ↓
+Optionally unfreeze some layers
+     ↓
+Fine-tune
+     ↓
+Final Model
+
+
+============================================================
+9. WHY TRANSFER LEARNING IS USEFUL
+============================================================
+
+Training a large CNN from scratch can require:
+
+→ Large dataset
+→ Large computation
+→ More training time
+
+
+Transfer learning can reduce these requirements because
+the model already contains learned visual representations.
+
+
+Especially useful when:
+
+→ Your dataset is relatively small
+→ You have limited compute
+→ You need a strong starting point
+
+
+IMPORTANT:
+
+Transfer learning does NOT mean copying the final prediction
+of another model.
+
+You reuse its learned representations and adapt the model
+to your own task.
+
+
+============================================================
+10. CNN ARCHITECTURES — MAIN IDEA OF EACH
+============================================================
+
+LeNet
+→ Early successful CNN
+→ Handwritten digit recognition
+
+
+AlexNet
+→ Large-scale deep CNN success
+→ ReLU
+→ GPU training
+→ Dropout
+
+
+VGG
+→ Simple and deep
+→ Repeated 3×3 convolutions
+
+
+GoogLeNet / Inception
+→ Parallel convolution paths
+→ Different filter sizes
+→ Multi-scale feature extraction
+
+
+ResNet
+→ Residual learning
+→ Skip connections
+→ Very deep networks
+
+
+DenseNet
+→ Dense connections
+→ Feature reuse
+→ Concatenation
+
+
+Transfer Learning
+→ Reuse pretrained model
+→ Adapt to new task
+→ Freeze / unfreeze / fine-tune
+
+
+============================================================
+11. ARCHITECTURE EVOLUTION
+============================================================
+
+A useful way to remember the historical progression:
+
+LeNet
+  ↓
+Early CNN concept
+  ↓
+AlexNet
+  ↓
+Deep CNN + ReLU + large-scale training
+  ↓
+VGG
+  ↓
+Simple repeated small convolutions
+  ↓
+Inception
+  ↓
+Parallel multi-scale processing
+  ↓
+ResNet
+  ↓
+Skip connections for very deep networks
+  ↓
+DenseNet
+  ↓
+Dense feature reuse
+
+
+The important point is NOT to memorize every layer.
+
+Understand what major idea each architecture introduced.
+
+
+============================================================
+12. RESNET vs DENSENET vs INCEPTION
+============================================================
+
+INCEPTION
+→ Multiple paths
+→ Different filter sizes
+→ Multi-scale processing
+
+
+RESNET
+→ Skip connections
+→ Addition
+→ Residual learning
+
+
+DENSENET
+→ Dense connections
+→ Concatenation
+→ Feature reuse
+
+
+Memory:
+
+Inception = PARALLEL
+
+ResNet = SKIP
+
+DenseNet = CONNECT EVERYTHING
+
+
+============================================================
+13. COMPLETE UNIT 10 MENTAL MAP
+============================================================
+
+CNN ARCHITECTURES
+│
+├── LeNet
+│   └── Early CNN
+│
+├── AlexNet
+│   ├── Deep CNN
+│   ├── ReLU
+│   ├── Dropout
+│   └── GPU training
+│
+├── VGG
+│   ├── Simple architecture
+│   └── 3×3 convolutions
+│
+├── GoogLeNet / Inception
+│   ├── Parallel paths
+│   ├── Multiple filter sizes
+│   └── 1×1 convolutions
+│
+├── ResNet
+│   ├── Residual learning
+│   └── Skip connections
+│
+├── DenseNet
+│   ├── Dense connections
+│   └── Feature reuse
+│
+└── Transfer Learning
+    ├── Pretrained model
+    ├── Feature extraction
+    ├── Freeze layers
+    ├── Unfreeze layers
+    └── Fine-tuning
+
+
+============================================================
+14. EXAM / INTERVIEW KEY POINTS
+============================================================
+
+1. LeNet is an early successful CNN architecture used for
+   handwritten digit recognition.
+
+2. AlexNet demonstrated the effectiveness of deep CNNs for
+   large-scale image classification.
+
+3. AlexNet used ReLU extensively and benefited from GPU
+   training and dropout.
+
+4. VGG is known for its simple architecture and repeated
+   3×3 convolution layers.
+
+5. GoogLeNet introduced the Inception architecture.
+
+6. Inception processes information through multiple paths
+   with different filter sizes.
+
+7. ResNet introduced residual/skip connections.
+
+8. ResNet uses the idea:
+
+   Output = F(x) + x
+
+9. DenseNet connects each layer to many previous layers.
+
+10. DenseNet promotes feature reuse through dense
+    connections and concatenation.
+
+11. Transfer learning reuses a pretrained model for a new
+    task.
+
+12. Freezing means pretrained weights are not updated.
+
+13. Unfreezing allows selected pretrained layers to update.
+
+14. Fine-tuning adapts a pretrained model to a new task,
+    usually using a small learning rate.
+
+15. Transfer learning is especially useful when the new
+    dataset is relatively small.
+
+
+============================================================
+UNIT 10 CORE IDEA
+============================================================
+
+Do NOT memorize CNN architectures as random names.
+
+Remember the MAIN IDEA behind each:
+
+LeNet
+→ Early CNN
+
+AlexNet
+→ Deep CNN + ReLU + large-scale training
+
+VGG
+→ Simple repeated 3×3 convolutions
+
+Inception
+→ Multiple filter sizes in parallel
+
+ResNet
+→ Skip connections
+
+DenseNet
+→ Dense feature reuse
+
+Transfer Learning
+→ Reuse a pretrained model
+
+The evolution is basically:
+
+Better feature extraction
+        ↓
+Deeper networks
+        ↓
+More efficient architectures
+        ↓
+Better information/gradient flow
+        ↓
+Reuse pretrained knowledge
+============================================================

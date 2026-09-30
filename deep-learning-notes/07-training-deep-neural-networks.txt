@@ -1,0 +1,1252 @@
+# DEEP LEARNING — UNIT 7: TRAINING DEEP NEURAL NETWORKS
+
+==================================================
+1. WHAT DOES "TRAINING A NEURAL NETWORK" MEAN?
+==================================================
+
+Training means teaching a neural network to make
+better predictions by repeatedly adjusting its
+parameters (weights and biases).
+
+Basic process:
+
+Training Data
+      ↓
+Forward Propagation
+      ↓
+Prediction
+      ↓
+Loss
+      ↓
+Backpropagation
+      ↓
+Gradients
+      ↓
+Optimizer
+      ↓
+Update Weights & Biases
+      ↓
+Repeat
+
+
+==================================================
+2. EPOCH
+==================================================
+
+An EPOCH is one complete pass through the entire
+training dataset.
+
+Example:
+
+Training dataset:
+
+1000 samples
+
+If the model processes all 1000 samples once:
+
+→ 1 epoch
+
+
+If it processes them again:
+
+→ 2 epochs
+
+
+Example:
+
+Dataset
+  ↓
+All 1000 samples
+  ↓
+1 Epoch
+
+All 1000 samples again
+  ↓
+2 Epochs
+
+
+IMPORTANT:
+
+Epoch = Complete pass through the training dataset.
+
+
+==================================================
+3. BATCH
+==================================================
+
+A BATCH is a group of training samples processed
+together in one step.
+
+Example:
+
+Dataset = 1000 samples
+
+Batch size = 100
+
+
+Then:
+
+Batch 1 → samples 1–100
+Batch 2 → samples 101–200
+Batch 3 → samples 201–300
+...
+Batch 10 → samples 901–1000
+
+
+Therefore:
+
+1000 samples
+÷
+100 samples/batch
+=
+10 batches
+
+
+IMPORTANT:
+
+Batch = Number of samples processed together
+         before a parameter update.
+
+
+==================================================
+4. ITERATION
+==================================================
+
+An ITERATION is one parameter-update step.
+
+In mini-batch training:
+
+1 batch
+   ↓
+Forward pass
+   ↓
+Loss
+   ↓
+Backpropagation
+   ↓
+Parameter update
+   ↓
+1 iteration
+
+
+Example:
+
+1000 samples
+Batch size = 100
+
+10 batches
+   ↓
+10 iterations per epoch
+
+
+Therefore:
+
+Iterations per epoch
+=
+Number of training samples
+-------------------------
+Batch size
+
+For evenly divisible datasets.
+
+
+==================================================
+5. EPOCH vs BATCH vs ITERATION
+==================================================
+
+EPOCH:
+
+One complete pass through the entire training dataset.
+
+
+BATCH:
+
+A group of training samples processed together.
+
+
+ITERATION:
+
+One parameter-update step, usually corresponding
+to processing one batch.
+
+
+Example:
+
+Dataset = 1000 samples
+Batch size = 100
+Epochs = 5
+
+
+One epoch:
+
+1000 samples
+→ 10 batches
+→ 10 iterations
+
+
+Five epochs:
+
+10 × 5
+=
+50 iterations
+
+
+Simple memory:
+
+EPOCH
+→ Entire dataset
+
+
+BATCH
+→ Group of samples
+
+
+ITERATION
+→ One update
+
+
+==================================================
+6. TRAINING LOOP
+==================================================
+
+The training loop is the repeated process used to
+train a neural network.
+
+Basic loop:
+
+FOR each epoch:
+
+    FOR each batch:
+
+        1. Get batch
+        2. Forward pass
+        3. Calculate loss
+        4. Backpropagation
+        5. Calculate gradients
+        6. Update parameters
+
+
+Flow:
+
+Epoch
+ ↓
+Batch
+ ↓
+Forward Pass
+ ↓
+Loss
+ ↓
+Backward Pass
+ ↓
+Optimizer Step
+ ↓
+Next Batch
+ ↓
+...
+ ↓
+Next Epoch
+
+
+==================================================
+7. COMPLETE TRAINING LOOP
+==================================================
+
+Training Dataset
+      ↓
+   Epoch 1
+      ↓
+ ┌──────────────┐
+ │ Batch 1      │
+ │ Forward      │
+ │ Loss         │
+ │ Backward     │
+ │ Update       │
+ └──────────────┘
+      ↓
+ ┌──────────────┐
+ │ Batch 2      │
+ │ Forward      │
+ │ Loss         │
+ │ Backward     │
+ │ Update       │
+ └──────────────┘
+      ↓
+     ...
+      ↓
+Last Batch
+      ↓
+Epoch 1 complete
+      ↓
+Epoch 2
+      ↓
+Repeat
+
+
+==================================================
+8. TRAINING vs VALIDATION vs TESTING
+==================================================
+
+A dataset is commonly divided into:
+
+Training Data
+Validation Data
+Test Data
+
+
+Basic flow:
+
+Dataset
+   │
+   ├── Training Data
+   │
+   ├── Validation Data
+   │
+   └── Test Data
+
+
+Each has a different purpose.
+
+
+==================================================
+9. TRAINING DATA
+==================================================
+
+Training data is used to LEARN the model parameters.
+
+During training:
+
+Training Data
+     ↓
+Neural Network
+     ↓
+Prediction
+     ↓
+Loss
+     ↓
+Backpropagation
+     ↓
+Update Weights/Biases
+
+
+The model directly learns from training data.
+
+
+==================================================
+10. VALIDATION
+==================================================
+
+Validation data is used during development to evaluate
+the model on data that was NOT used to update its
+parameters.
+
+Purpose:
+
+→ Monitor generalization during training
+→ Compare configurations
+→ Tune hyperparameters
+→ Detect overfitting
+
+
+Example:
+
+Training:
+
+Training Data
+     ↓
+Learn parameters
+
+
+Validation:
+
+Validation Data
+     ↓
+Evaluate current model
+     ↓
+Choose/tune model settings
+
+
+IMPORTANT:
+
+Validation data is not normally used to directly update
+the model's weights during the training step.
+
+
+==================================================
+11. VALIDATION LOSS
+==================================================
+
+During training, we can monitor:
+
+Training Loss
+Validation Loss
+
+
+Example:
+
+Epoch 1:
+
+Training Loss = 0.80
+Validation Loss = 0.85
+
+
+Epoch 2:
+
+Training Loss = 0.60
+Validation Loss = 0.65
+
+
+Epoch 3:
+
+Training Loss = 0.40
+Validation Loss = 0.55
+
+
+This helps us understand how the model is learning.
+
+
+==================================================
+12. TESTING
+==================================================
+
+Test data is used for the FINAL evaluation of the
+trained model.
+
+Basic idea:
+
+Training
+→ Learn parameters
+
+
+Validation
+→ Tune/select model configuration
+
+
+Testing
+→ Final evaluation on unseen data
+
+
+The test set should be kept separate from the
+training process as much as possible.
+
+
+==================================================
+13. TRAINING vs VALIDATION vs TESTING
+==================================================
+
+TRAINING:
+
+Purpose:
+Learn model parameters.
+
+Used for:
+Weight/bias updates.
+
+
+VALIDATION:
+
+Purpose:
+Monitor performance and tune model/hyperparameters.
+
+Used during:
+Model development.
+
+
+TESTING:
+
+Purpose:
+Estimate final performance on unseen data.
+
+Used after:
+Model development/training decisions are complete.
+
+
+Simple memory:
+
+TRAIN
+→ Learn
+
+
+VALIDATE
+→ Tune
+
+
+TEST
+→ Final evaluation
+
+
+==================================================
+14. UNDERFITTING
+==================================================
+
+Underfitting occurs when a model is too simple or
+insufficiently trained to capture the important patterns
+in the data.
+
+The model performs poorly on:
+
+Training data
+AND
+Validation/Test data
+
+
+Typical pattern:
+
+Training performance → Poor
+Validation performance → Poor
+
+
+Example:
+
+Actual relationship:
+
+Complex
+
+
+Model:
+
+Too simple
+
+
+The model cannot learn enough of the underlying pattern.
+
+
+==================================================
+15. UNDERFITTING EXAMPLE
+==================================================
+
+Suppose:
+
+Training accuracy = 60%
+Validation accuracy = 58%
+
+
+Both are low.
+
+This suggests the model is not learning the training
+data well enough.
+
+Possible causes:
+
+→ Model too simple
+→ Too few training epochs
+→ Poor features/data representation
+→ Excessive regularization
+
+
+Possible solutions depend on the cause:
+
+→ Increase model capacity
+→ Train longer
+→ Improve features
+→ Reduce excessive regularization
+
+
+==================================================
+16. OVERFITTING
+==================================================
+
+Overfitting occurs when a model learns the training data
+too closely, including patterns that do not generalize
+well to unseen data.
+
+Typical pattern:
+
+Training performance → Very good
+Validation/Test performance → Worse
+
+
+Example:
+
+Training accuracy = 99%
+Validation accuracy = 75%
+
+
+The model performs extremely well on training data but
+much worse on unseen data.
+
+
+==================================================
+17. OVERFITTING INTUITION
+==================================================
+
+Training data:
+
+● ● ● ● ● ● ●
+
+
+A model that generalizes:
+
+    Smooth pattern
+       /
+      /
+     /
+
+
+An overfitted model may learn unnecessary details:
+
+   /\    /\
+  /  \__/  \__
+ /            \
+
+
+It fits the training observations very closely but
+may perform poorly on new observations.
+
+
+==================================================
+18. HOW TO DETECT OVERFITTING
+==================================================
+
+Monitor:
+
+Training Loss
+Validation Loss
+
+
+Example:
+
+Epoch 1:
+Train Loss = 0.8
+Validation Loss = 0.9
+
+
+Epoch 2:
+Train Loss = 0.5
+Validation Loss = 0.6
+
+
+Epoch 3:
+Train Loss = 0.3
+Validation Loss = 0.5
+
+
+Epoch 4:
+Train Loss = 0.15
+Validation Loss = 0.7
+
+
+Training loss continues decreasing,
+but validation loss starts increasing.
+
+This is a common sign of overfitting.
+
+
+==================================================
+19. UNDERFITTING vs OVERFITTING
+==================================================
+
+UNDERFITTING:
+
+Training performance → Poor
+Validation performance → Poor
+
+Model:
+Too simple / insufficiently trained
+
+
+OVERFITTING:
+
+Training performance → Very good
+Validation performance → Worse
+
+Model:
+Fits training data too closely
+
+
+GOOD FIT:
+
+Training performance → Good
+Validation performance → Good
+
+Model:
+Learns useful patterns that generalize
+
+
+Simple picture:
+
+UNDERFIT
+Too simple
+     ↓
+Poor training + poor validation
+
+
+GOOD FIT
+     ↓
+Good training + good validation
+
+
+OVERFIT
+Too closely fitted to training data
+     ↓
+Excellent training + worse validation
+
+
+==================================================
+20. BIAS
+==================================================
+
+In the bias-variance context, HIGH BIAS means the model
+has strong systematic error because it is too limited
+to represent the underlying pattern well.
+
+Typical result:
+
+High Bias
+   ↓
+Underfitting
+
+
+Example:
+
+Using a very simple model for a highly complex problem.
+
+
+IMPORTANT:
+
+This "bias" is different from the bias parameter
+inside a neuron.
+
+Here:
+
+Bias = model's systematic error / restrictive assumptions.
+
+
+==================================================
+21. VARIANCE
+==================================================
+
+Variance describes how much a model's learned behavior
+changes when the training data changes.
+
+HIGH VARIANCE often means the model is very sensitive
+to the training data.
+
+Typical result:
+
+High Variance
+   ↓
+Overfitting
+
+
+Example:
+
+A very complex model memorizes details of the training
+dataset and performs worse on unseen data.
+
+
+==================================================
+22. BIAS vs VARIANCE
+==================================================
+
+HIGH BIAS:
+
+Model too simple
+     ↓
+Underfitting
+
+
+HIGH VARIANCE:
+
+Model too sensitive / overly complex
+     ↓
+Overfitting
+
+
+Ideal:
+
+Balance between bias and variance
+     ↓
+Good generalization
+
+
+Simple memory:
+
+Bias ↑
+→ Underfitting tendency
+
+
+Variance ↑
+→ Overfitting tendency
+
+
+==================================================
+23. IMPORTANT: TWO DIFFERENT "BIAS" CONCEPTS
+==================================================
+
+Do NOT confuse:
+
+1. Bias parameter in a neuron
+2. Bias in bias-variance tradeoff
+
+
+NEURAL NETWORK BIAS:
+
+z = wx + b
+
+Here:
+
+b = learnable parameter.
+
+
+BIAS IN BIAS-VARIANCE:
+
+Refers to systematic error from model assumptions.
+
+
+They are two different concepts.
+
+
+==================================================
+24. GENERALIZATION
+==================================================
+
+Generalization is the ability of a trained model to
+perform well on NEW, UNSEEN data.
+
+Example:
+
+Training data
+     ↓
+Model learns useful patterns
+     ↓
+New unseen data
+     ↓
+Good predictions
+
+
+This means the model has generalized.
+
+
+==================================================
+25. WHY GENERALIZATION MATTERS
+==================================================
+
+The goal of machine learning is NOT simply:
+
+"Perform perfectly on training data."
+
+The real goal is:
+
+"Learn patterns that work on unseen data."
+
+
+Example:
+
+Training accuracy = 99%
+
+Test accuracy = 98%
+
+→ Good generalization.
+
+
+Training accuracy = 99%
+
+Test accuracy = 60%
+
+→ Poor generalization / likely overfitting.
+
+
+==================================================
+26. TRAINING PERFORMANCE vs GENERALIZATION
+==================================================
+
+Training performance:
+
+How well the model performs on data it learned from.
+
+
+Generalization performance:
+
+How well the model performs on unseen data.
+
+
+A model can have:
+
+Excellent training performance
+BUT
+Poor generalization.
+
+
+Therefore:
+
+Training performance ≠ Generalization performance
+
+
+==================================================
+27. COMPLETE TRAINING WORKFLOW
+==================================================
+
+Dataset
+   ↓
+Split Data
+   ↓
+Training Data ───────────────┐
+   ↓                         │
+Train Model                  │
+   ↓                         │
+Forward Pass                 │
+   ↓                         │
+Loss                         │
+   ↓                         │
+Backpropagation              │
+   ↓                         │
+Optimizer                    │
+   ↓                         │
+Update Parameters             │
+   ↓                         │
+Next Batch                   │
+   ↓                         │
+Next Epoch                   │
+   ↓                         │
+Validation Data ←────────────┘
+   ↓
+Monitor Performance
+   ↓
+Tune Hyperparameters
+   ↓
+Final Model
+   ↓
+Test Data
+   ↓
+Final Evaluation
+
+
+==================================================
+28. COMPLETE TRAINING CYCLE
+==================================================
+
+FOR EACH EPOCH:
+
+    FOR EACH BATCH:
+
+        1. Load batch
+
+        2. Forward propagation
+
+        3. Calculate loss
+
+        4. Backpropagation
+
+        5. Calculate gradients
+
+        6. Optimizer updates parameters
+
+    END BATCH LOOP
+
+    Evaluate on validation data
+
+END EPOCH LOOP
+
+        ↓
+
+Final model
+
+        ↓
+
+Evaluate on test data
+
+
+==================================================
+29. PYTORCH-STYLE TRAINING LOOP CONCEPT
+==================================================
+
+A simplified training loop looks like:
+
+for epoch in range(num_epochs):
+
+    model.train()
+
+    for X_batch, y_batch in train_loader:
+
+        optimizer.zero_grad()
+
+        predictions = model(X_batch)
+
+        loss = loss_function(predictions, y_batch)
+
+        loss.backward()
+
+        optimizer.step()
+
+
+Meaning:
+
+optimizer.zero_grad()
+→ Clear previous gradients.
+
+
+model(X_batch)
+→ Forward pass.
+
+
+loss = ...
+→ Calculate loss.
+
+
+loss.backward()
+→ Backpropagation / calculate gradients.
+
+
+optimizer.step()
+→ Update parameters.
+
+
+==================================================
+30. VALIDATION LOOP CONCEPT
+==================================================
+
+During validation:
+
+model.eval()
+
+with no_grad():
+
+    predictions = model(X_validation)
+
+    validation_loss = loss_function(
+        predictions,
+        y_validation
+    )
+
+
+Important:
+
+Validation does NOT perform parameter updates.
+
+
+Conceptually:
+
+Validation Data
+      ↓
+Forward Pass
+      ↓
+Calculate Validation Loss
+      ↓
+Monitor Performance
+
+
+No:
+
+Backpropagation
+Optimizer Update
+
+
+==================================================
+31. TEST LOOP CONCEPT
+==================================================
+
+After model development is complete:
+
+model.eval()
+
+Test Data
+   ↓
+Forward Pass
+   ↓
+Predictions
+   ↓
+Evaluation Metrics
+   ↓
+Final Performance
+
+
+The test set is intended to provide an unbiased final
+estimate of performance on unseen data.
+
+
+==================================================
+32. HOW TO IMPROVE OVERFITTING
+==================================================
+
+Common approaches include:
+
+→ More training data
+→ Data augmentation
+→ Regularization
+→ Dropout
+→ Early stopping
+→ Reduce model complexity
+→ Hyperparameter tuning
+
+
+These methods aim to improve generalization.
+
+
+==================================================
+33. HOW TO IMPROVE UNDERFITTING
+==================================================
+
+Possible approaches:
+
+→ Increase model capacity
+→ Train for more epochs
+→ Improve feature/data representation
+→ Reduce excessive regularization
+→ Tune hyperparameters
+
+
+The correct solution depends on why the model is
+underfitting.
+
+
+==================================================
+34. LEARNING CURVES
+==================================================
+
+Training and validation curves can help diagnose
+training behavior.
+
+Example:
+
+Loss
+ ↑
+ |\
+ | \
+ |  \       Training Loss
+ |   \
+ |    \________
+ |
+ |  \____
+ |       \___ Validation Loss
+ |
+ +--------------------→ Epochs
+
+
+If training loss keeps decreasing while validation loss
+starts increasing:
+
+→ Possible overfitting.
+
+
+If both remain high:
+
+→ Possible underfitting.
+
+
+==================================================
+35. KEY TERMINOLOGY
+==================================================
+
+EPOCH
+→ One complete pass through the training dataset.
+
+
+BATCH
+→ A group of training samples processed together.
+
+
+ITERATION
+→ One parameter-update step, typically corresponding
+  to one batch.
+
+
+TRAINING
+→ Learning model parameters from training data.
+
+
+VALIDATION
+→ Evaluating the model during development for monitoring
+  and hyperparameter/model selection.
+
+
+TESTING
+→ Final evaluation on unseen test data.
+
+
+UNDERFITTING
+→ Model fails to learn enough useful patterns.
+
+
+OVERFITTING
+→ Model fits training data too closely and generalizes
+  poorly.
+
+
+BIAS
+→ Systematic error associated with restrictive model
+  assumptions; high bias tends toward underfitting.
+
+
+VARIANCE
+→ Sensitivity of the learned model to the particular
+  training data; high variance tends toward overfitting.
+
+
+GENERALIZATION
+→ Ability to perform well on unseen data.
+
+
+==================================================
+36. KEY POINTS FOR EXAM / INTERVIEW
+==================================================
+
+1. Epoch = one complete pass through the training dataset.
+
+2. Batch = group of samples processed together.
+
+3. Iteration = one parameter-update step.
+
+4. If:
+
+   Dataset = 1000
+   Batch size = 100
+
+   Then:
+
+   10 iterations per epoch.
+
+
+5. Training data is used to learn weights and biases.
+
+6. Validation data is used during development to monitor
+   performance and tune/select model configurations.
+
+7. Test data is used for final evaluation.
+
+8. Underfitting:
+
+   Poor training performance
+   +
+   Poor validation performance
+
+
+9. Overfitting:
+
+   Very good training performance
+   +
+   Worse validation performance
+
+
+10. High bias tends toward underfitting.
+
+11. High variance tends toward overfitting.
+
+12. Generalization means good performance on unseen data.
+
+13. The goal is NOT merely low training loss.
+
+14. The goal is good performance on unseen data.
+
+15. Complete training loop:
+
+    Batch
+      ↓
+    Forward Pass
+      ↓
+    Loss
+      ↓
+    Backpropagation
+      ↓
+    Gradients
+      ↓
+    Optimizer
+      ↓
+    Parameter Update
+      ↓
+    Next Batch
+      ↓
+    Next Epoch
+      ↓
+    Validation
+      ↓
+    Final Test

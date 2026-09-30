@@ -1,0 +1,1114 @@
+# DEEP LEARNING — UNIT 6: OPTIMIZATION
+
+==================================================
+1. WHAT IS OPTIMIZATION?
+==================================================
+
+Optimization is the process of finding parameter values
+that minimize the loss function.
+
+In a neural network:
+
+Weights + Biases
+      ↓
+Prediction
+      ↓
+Loss
+      ↓
+Optimization
+      ↓
+Better Weights + Biases
+
+
+Main goal:
+
+MINIMIZE LOSS
+
+
+The optimizer uses gradients calculated by
+backpropagation to update the model's parameters.
+
+
+==================================================
+2. GRADIENT DESCENT
+==================================================
+
+Gradient Descent is an optimization algorithm used to
+minimize the loss function.
+
+It uses the gradient to decide:
+
+→ Which direction to move
+→ How large the parameter update should be
+
+
+Basic idea:
+
+Current Parameters
+       ↓
+Calculate Loss
+       ↓
+Calculate Gradient
+       ↓
+Move opposite to Gradient
+       ↓
+New Parameters
+       ↓
+Lower Loss
+
+
+Parameter update:
+
+θ_new = θ_old - η∇L
+
+
+Where:
+
+θ = parameter
+η = learning rate
+∇L = gradient of loss
+
+
+==================================================
+3. WHY DO WE MOVE OPPOSITE TO THE GRADIENT?
+==================================================
+
+The gradient points toward the direction of greatest
+increase in the loss.
+
+We want:
+
+Loss ↓
+
+
+Therefore, we move in the opposite direction.
+
+Gradient
+   ↓
+Direction of increasing loss
+
+Negative Gradient
+   ↓
+Direction of decreasing loss
+
+
+Therefore:
+
+θ_new = θ_old - η∇L
+
+
+==================================================
+4. SIMPLE GRADIENT DESCENT EXAMPLE
+==================================================
+
+Suppose:
+
+Current weight:
+
+w = 5
+
+
+Gradient:
+
+∂L/∂w = 2
+
+
+Learning rate:
+
+η = 0.1
+
+
+Update:
+
+w_new = w - η(∂L/∂w)
+
+w_new = 5 - (0.1 × 2)
+
+w_new = 4.8
+
+
+Therefore:
+
+Old weight = 5
+New weight = 4.8
+
+
+The weight moved in the direction that should reduce
+the loss locally.
+
+
+==================================================
+5. GRADIENT DESCENT AND THE LOSS SURFACE
+==================================================
+
+Imagine loss as a landscape:
+
+High Loss
+     \       /
+      \     /
+       \   /
+        \ /
+         ●
+       Low Loss
+
+
+The optimizer tries to move the parameters toward a
+low-loss region.
+
+Conceptually:
+
+High Loss
+    ↓
+Gradient
+    ↓
+Move downhill
+    ↓
+Lower Loss
+    ↓
+Repeat
+
+
+==================================================
+6. BATCH GRADIENT DESCENT
+==================================================
+
+Batch Gradient Descent uses the ENTIRE training dataset
+to calculate the gradient for one parameter update.
+
+Example:
+
+Training dataset:
+
+1000 samples
+
+Batch Gradient Descent:
+
+1000 samples
+     ↓
+Calculate predictions
+     ↓
+Calculate total/average loss
+     ↓
+Calculate gradient
+     ↓
+Update parameters
+     ↓
+Next update
+
+
+So one update uses all 1000 samples.
+
+
+==================================================
+7. BATCH GRADIENT DESCENT FLOW
+==================================================
+
+Entire Dataset
+      ↓
+Forward Pass
+      ↓
+Calculate Loss
+      ↓
+Calculate Gradient
+      ↓
+Update Parameters
+      ↓
+Repeat
+
+
+Advantages:
+
+→ Stable gradient estimate
+→ Smooth optimization path
+→ Can work well when the dataset fits efficiently
+  into memory
+
+
+Limitations:
+
+→ One update requires processing the entire dataset.
+→ Can be slow for very large datasets.
+→ Parameter updates happen less frequently.
+
+
+==================================================
+8. STOCHASTIC GRADIENT DESCENT (SGD)
+==================================================
+
+Stochastic Gradient Descent uses ONE training example
+at a time to calculate a gradient and update parameters.
+
+Example:
+
+1000 training samples
+
+SGD:
+
+Sample 1
+ ↓
+Gradient
+ ↓
+Update
+
+Sample 2
+ ↓
+Gradient
+ ↓
+Update
+
+Sample 3
+ ↓
+Gradient
+ ↓
+Update
+
+...
+
+
+One sample
+→ One parameter update.
+
+
+==================================================
+9. SGD FLOW
+==================================================
+
+Training Dataset
+      ↓
+Shuffle / select sample
+      ↓
+One sample
+      ↓
+Forward Pass
+      ↓
+Loss
+      ↓
+Gradient
+      ↓
+Update Parameters
+      ↓
+Next sample
+      ↓
+Repeat
+
+
+Advantages:
+
+→ Frequent updates
+→ Can be faster per update
+→ Useful for very large datasets
+→ Noise in updates can sometimes help exploration
+
+
+Limitations:
+
+→ Updates are noisy.
+→ Loss may fluctuate.
+→ The optimization path is less smooth.
+
+
+==================================================
+10. MINI-BATCH GRADIENT DESCENT
+==================================================
+
+Mini-Batch Gradient Descent uses a SMALL GROUP of
+training examples for each parameter update.
+
+Example:
+
+Dataset = 1000 samples
+
+Batch size = 32
+
+
+Process:
+
+Samples 1–32
+     ↓
+Gradient
+     ↓
+Update
+
+Samples 33–64
+     ↓
+Gradient
+     ↓
+Update
+
+...
+
+
+This is the most common approach for training neural
+networks.
+
+
+==================================================
+11. MINI-BATCH FLOW
+==================================================
+
+Dataset
+  ↓
+Divide into mini-batches
+  ↓
+Batch 1
+  ↓
+Forward Pass
+  ↓
+Loss
+  ↓
+Gradient
+  ↓
+Update
+  ↓
+Batch 2
+  ↓
+Forward Pass
+  ↓
+Loss
+  ↓
+Gradient
+  ↓
+Update
+  ↓
+...
+
+
+==================================================
+12. BATCH vs SGD vs MINI-BATCH
+==================================================
+
+BATCH GRADIENT DESCENT:
+
+Samples per update:
+→ Entire dataset
+
+Updates:
+→ Fewer
+
+Gradient:
+→ More stable
+
+
+SGD:
+
+Samples per update:
+→ 1
+
+Updates:
+→ Very frequent
+
+Gradient:
+→ Noisy
+
+
+MINI-BATCH:
+
+Samples per update:
+→ Small batch
+
+Updates:
+→ Frequent
+
+Gradient:
+→ More stable than SGD
+
+
+Simple memory:
+
+Batch:
+ALL
+
+SGD:
+ONE
+
+Mini-Batch:
+SOME
+
+
+==================================================
+13. EPOCH vs BATCH vs ITERATION
+==================================================
+
+EPOCH:
+
+One complete pass through the entire training dataset.
+
+
+Example:
+
+1000 samples
+
+1 epoch
+→ Model has processed all 1000 samples.
+
+
+BATCH:
+
+A group of samples processed together.
+
+
+Example:
+
+Batch size = 100
+
+100 samples per batch.
+
+
+ITERATION:
+
+One parameter update / one mini-batch processing step.
+
+
+Example:
+
+1000 samples
+Batch size = 100
+
+Iterations per epoch:
+
+1000 / 100 = 10
+
+
+Therefore:
+
+1 Epoch
+→ 10 Iterations
+
+
+==================================================
+14. MOMENTUM
+==================================================
+
+Momentum is an optimization technique that helps
+gradient descent move more smoothly and can accelerate
+movement in consistent directions.
+
+Basic gradient descent:
+
+Current gradient
+     ↓
+Update
+
+
+Momentum:
+
+Current gradient
+       +
+Previous update information
+       ↓
+New update
+
+
+The idea is similar to a ball gaining momentum while
+moving downhill.
+
+
+==================================================
+15. WHY MOMENTUM?
+==================================================
+
+Normal gradient descent can sometimes:
+
+→ Oscillate
+→ Move slowly in certain directions
+
+
+Momentum helps by accumulating information from
+previous updates.
+
+Conceptually:
+
+Gradient
+  ↓
+Update
+  ↓
+Momentum
+  ↓
+Next Update
+  ↓
+Smoother movement
+
+
+A simplified momentum update is:
+
+v_t = βv_{t-1} + (1-β)∇L
+
+θ_t = θ_{t-1} - ηv_t
+
+
+Where:
+
+v = velocity
+β = momentum-related coefficient
+η = learning rate
+
+
+Different formulations may use slightly different
+scaling conventions.
+
+
+==================================================
+16. INTUITION FOR MOMENTUM
+==================================================
+
+Imagine a ball rolling downhill.
+
+Without momentum:
+
+      ↓
+     ●
+    ↙
+   ↗
+  ↙
+ ↗
+
+
+Movement can zig-zag.
+
+
+With momentum:
+
+●
+ \
+  \
+   \
+    \
+     ↓
+
+
+The accumulated direction can make movement smoother
+and faster along consistent directions.
+
+
+==================================================
+17. RMSPROP
+==================================================
+
+RMSProp stands for:
+
+Root Mean Square Propagation.
+
+RMSProp adapts the effective learning rate for each
+parameter using a moving average of squared gradients.
+
+
+Basic idea:
+
+Large / frequently occurring gradients
+→ Reduce effective step size.
+
+
+Small gradients
+→ Allow relatively larger effective step size.
+
+
+Simplified formula:
+
+s_t =
+βs_{t-1}
++
+(1-β)(∇L)²
+
+
+Then:
+
+θ_t =
+θ_{t-1}
+-
+η
+----------------
+√(s_t) + ε
+× ∇L
+
+
+Where:
+
+s_t = moving average of squared gradients
+η = learning rate
+ε = small value preventing division by zero
+
+
+==================================================
+18. RMSPROP INTUITION
+==================================================
+
+Suppose one parameter repeatedly gets very large
+gradients.
+
+RMSProp:
+
+Large squared gradients
+        ↓
+Larger running average
+        ↓
+Larger denominator
+        ↓
+Smaller effective update
+
+
+For smaller gradients:
+
+Smaller denominator
+        ↓
+Relatively larger effective update
+
+
+Therefore RMSProp adapts the step size separately
+for different parameters.
+
+
+==================================================
+19. ADAM
+==================================================
+
+Adam stands for:
+
+Adaptive Moment Estimation.
+
+Adam combines ideas from:
+
+→ Momentum
+→ Adaptive learning rates similar to RMSProp
+
+
+It keeps track of:
+
+1. Moving average of gradients
+2. Moving average of squared gradients
+
+
+These are often called:
+
+First moment
+→ Average of gradients
+
+Second moment
+→ Average of squared gradients
+
+
+Simplified equations:
+
+m_t =
+β₁m_{t-1}
++
+(1-β₁)g_t
+
+
+v_t =
+β₂v_{t-1}
++
+(1-β₂)g_t²
+
+
+Then bias-corrected estimates are used:
+
+m̂_t = m_t / (1 - β₁ᵗ)
+
+v̂_t = v_t / (1 - β₂ᵗ)
+
+
+Parameter update:
+
+θ_t =
+θ_{t-1}
+-
+η × m̂_t
+----------------
+√v̂_t + ε
+
+
+==================================================
+20. WHY ADAM IS POPULAR
+==================================================
+
+Adam combines:
+
+Momentum-like behavior
+        +
+Adaptive step sizes
+        ↓
+Efficient optimization
+
+
+It is widely used for training neural networks.
+
+Typical starting point:
+
+Adam with a learning rate around:
+
+0.001
+
+But the appropriate learning rate depends on the
+model, data, optimizer configuration, and task.
+
+
+==================================================
+21. LEARNING RATE
+==================================================
+
+Learning rate determines how large a step the optimizer
+takes when updating parameters.
+
+Formula:
+
+θ_new = θ_old - η∇L
+
+
+η = learning rate
+
+
+Think of learning rate as:
+
+"How big a step should I take?"
+
+
+==================================================
+22. LEARNING RATE TOO LARGE
+==================================================
+
+If the learning rate is too large:
+
+Update
+  ↓
+Overshoot
+  ↓
+Overshoot again
+  ↓
+May oscillate or diverge
+
+
+Conceptually:
+
+Loss
+ |
+ | \    /\
+ |  \  /  \
+ |   \/    \
+ |    \    /
+ +----------------
+
+
+The model may fail to converge.
+
+
+==================================================
+23. LEARNING RATE TOO SMALL
+==================================================
+
+If the learning rate is too small:
+
+Updates become tiny.
+
+Training:
+
+●
+ ●
+  ●
+   ●
+    ●
+
+
+The model may take a very long time to reach
+a low-loss region.
+
+
+==================================================
+24. GOOD LEARNING RATE
+==================================================
+
+A suitable learning rate allows:
+
+Reasonable-sized updates
+       ↓
+Stable optimization
+       ↓
+Loss decreases
+       ↓
+Convergence
+
+
+Important:
+
+There is no single learning rate that is best for
+every neural network.
+
+
+==================================================
+25. LEARNING RATE AND OPTIMIZERS
+==================================================
+
+Learning rate is commonly a hyperparameter of the
+optimizer.
+
+Example:
+
+Adam:
+
+optimizer = Adam(learning_rate=0.001)
+
+
+SGD:
+
+optimizer = SGD(learning_rate=0.01)
+
+
+The optimizer determines HOW gradients are used,
+while the learning rate controls the overall step size.
+
+
+==================================================
+26. GRADIENT DESCENT vs OPTIMIZERS
+==================================================
+
+GRADIENT DESCENT:
+
+Basic idea:
+
+θ_new = θ_old - η∇L
+
+
+SGD:
+
+Uses one sample at a time.
+
+
+Mini-Batch SGD:
+
+Uses a mini-batch at a time.
+
+
+MOMENTUM:
+
+Adds information from previous updates.
+
+
+RMSProp:
+
+Adapts step sizes using a moving average of squared
+gradients.
+
+
+ADAM:
+
+Combines momentum-like first-moment tracking with
+adaptive scaling based on second-moment tracking.
+
+
+==================================================
+27. OPTIMIZER COMPARISON
+==================================================
+
+BATCH GD:
+
+Data per update:
+Entire dataset
+
+Main characteristic:
+Stable gradient
+
+
+SGD:
+
+Data per update:
+One sample
+
+Main characteristic:
+Noisy but frequent updates
+
+
+MINI-BATCH:
+
+Data per update:
+Small batch
+
+Main characteristic:
+Practical standard for neural-network training
+
+
+MOMENTUM:
+
+Uses:
+Current gradient + previous update information
+
+Main benefit:
+Smoother/faster movement in consistent directions
+
+
+RMSPROP:
+
+Uses:
+Moving average of squared gradients
+
+Main benefit:
+Adaptive parameter-wise step sizes
+
+
+ADAM:
+
+Uses:
+First + second moment estimates
+
+Main benefit:
+Adaptive optimization with momentum-like behavior
+
+
+==================================================
+28. COMPLETE OPTIMIZATION FLOW
+==================================================
+
+Training Data
+      ↓
+Mini-Batch
+      ↓
+Forward Propagation
+      ↓
+Prediction
+      ↓
+Loss
+      ↓
+Backpropagation
+      ↓
+Gradients
+      ↓
+Optimizer
+      ↓
+Learning Rate
+      ↓
+Parameter Update
+      ↓
+Next Mini-Batch
+      ↓
+Repeat
+
+
+==================================================
+29. HOW ALL PREVIOUS UNITS CONNECT
+==================================================
+
+NEURAL NETWORK:
+
+Input
+ ↓
+Weights + Biases
+ ↓
+Forward Propagation
+ ↓
+Prediction
+ ↓
+Loss Function
+ ↓
+Backpropagation
+ ↓
+Gradients
+ ↓
+Optimization
+ ↓
+Updated Weights + Biases
+ ↓
+Forward Propagation Again
+
+
+So far:
+
+Unit 1
+FOUNDATIONS
+→ What a neural network is
+
+
+Unit 2
+ANN
+→ How neurons and layers work
+
+
+Unit 3
+MATHEMATICS
+→ Math behind the computations
+
+
+Unit 4
+LOSS
+→ How prediction error is measured
+
+
+Unit 5
+BACKPROPAGATION
+→ How gradients are calculated
+
+
+Unit 6
+OPTIMIZATION
+→ How parameters are updated
+
+
+==================================================
+30. KEY POINTS FOR EXAM / INTERVIEW
+==================================================
+
+1. Optimization aims to minimize the loss function.
+
+2. Gradient Descent moves parameters in the opposite
+   direction of the gradient.
+
+3. Basic update:
+
+   θ_new = θ_old - η∇L
+
+
+4. Batch Gradient Descent uses the entire dataset
+   for one update.
+
+5. SGD uses one training example per update.
+
+6. Mini-Batch Gradient Descent uses a small group of
+   examples per update.
+
+7. Mini-batch training is the common practical approach
+   for neural networks.
+
+8. Momentum uses information from previous updates to
+   make optimization smoother.
+
+9. RMSProp adapts the effective step size using a
+   moving average of squared gradients.
+
+10. Adam combines momentum-like first-moment tracking
+    with second-moment-based adaptive scaling.
+
+11. Learning rate controls the size of parameter updates.
+
+12. Learning rate too large:
+    → unstable / overshooting / possible divergence.
+
+13. Learning rate too small:
+    → very slow training.
+
+14. Epoch:
+    → One complete pass through the training dataset.
+
+15. Batch:
+    → Group of training samples processed together.
+
+16. Iteration:
+    → One parameter-update step, typically for one
+      mini-batch.
+
+17. Backpropagation calculates gradients.
+
+18. The optimizer uses those gradients to update
+    parameters.
+
+19. Complete learning cycle:
+
+    Forward Pass
+        ↓
+    Loss
+        ↓
+    Backpropagation
+        ↓
+    Gradients
+        ↓
+    Optimizer
+        ↓
+    Parameter Update
+        ↓
+    Repeat

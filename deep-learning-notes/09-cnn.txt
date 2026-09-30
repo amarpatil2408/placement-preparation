@@ -1,0 +1,1194 @@
+============================================================
+UNIT 9 — CNN (CONVOLUTIONAL NEURAL NETWORKS)
+============================================================
+
+CNN = Convolutional Neural Network
+
+A CNN is a type of neural network mainly designed for working
+with images and other grid-like data.
+
+Main idea:
+
+Image
+  ↓
+Convolution
+  ↓
+Feature Maps
+  ↓
+Pooling
+  ↓
+More Convolution + Pooling
+  ↓
+Flatten
+  ↓
+Fully Connected Layer
+  ↓
+Output / Prediction
+
+
+------------------------------------------------------------
+1. WHY CNN?
+------------------------------------------------------------
+
+A normal ANN can process images, but it is not efficient for
+large images.
+
+Example:
+
+Image = 224 × 224 × 3
+
+Number of input values:
+
+224 × 224 × 3 = 150,528
+
+If a fully connected ANN connects all these pixels to neurons,
+the number of weights becomes very large.
+
+CNN solves this problem by:
+
+1. Detecting local patterns
+2. Reusing the same filter across the image
+3. Preserving spatial information
+4. Automatically learning useful features
+
+CNN can learn features such as:
+
+Simple features:
+→ edges
+→ corners
+→ lines
+
+More complex features:
+→ shapes
+→ textures
+→ eyes
+→ wheels
+
+Very complex features:
+→ faces
+→ objects
+→ complete patterns
+
+
+Example:
+
+Image of a cat
+
+Pixels
+  ↓
+Edges
+  ↓
+Shapes
+  ↓
+Eyes / ears / fur
+  ↓
+Cat
+
+
+KEY IDEA:
+
+CNN learns WHERE useful visual patterns occur
+and WHAT those patterns look like.
+
+
+------------------------------------------------------------
+2. IMAGE REPRESENTATION
+------------------------------------------------------------
+
+A computer represents an image as numbers.
+
+For a grayscale image:
+
+Image = 2D matrix
+
+Example:
+
+[  0   0  255
+   50 100  200
+   30 150  255 ]
+
+Each number represents pixel intensity.
+
+Usually:
+
+0   = black
+255 = white
+
+For a color RGB image:
+
+Image = 3D structure
+
+Height × Width × Channels
+
+Example:
+
+224 × 224 × 3
+
+The 3 channels are:
+
+R = Red
+G = Green
+B = Blue
+
+
+So:
+
+RGB image
+      ↓
+Red channel
+Green channel
+Blue channel
+
+
+Each pixel therefore has three values.
+
+Example:
+
+Pixel = [255, 0, 0]
+
+This represents strong red.
+
+
+IMPORTANT:
+
+Grayscale image:
+Height × Width × 1
+
+RGB image:
+Height × Width × 3
+
+
+------------------------------------------------------------
+3. CONVOLUTION
+------------------------------------------------------------
+
+Convolution is the main operation in CNNs.
+
+It means sliding a small matrix called a filter/kernel
+over the image and performing calculations at each position.
+
+Simple idea:
+
+Image
+  ↓
+Small filter moves across image
+  ↓
+Calculates values
+  ↓
+Produces Feature Map
+
+
+Example image:
+
+[ 1  2  3
+  4  5  6
+  7  8  9 ]
+
+Filter:
+
+[ 1  0
+  0  1 ]
+
+
+The filter is placed over a small region:
+
+[ 1  2
+  4  5 ]
+
+Element-wise multiplication:
+
+1×1 + 2×0 + 4×0 + 5×1
+
+= 1 + 0 + 0 + 5
+
+= 6
+
+Then the filter moves to another position and repeats.
+
+This continues across the entire image.
+
+
+CONVOLUTION FLOW:
+
+Image
+  ↓
+Place filter
+  ↓
+Element-wise multiplication
+  ↓
+Add results
+  ↓
+One output value
+  ↓
+Move filter
+  ↓
+Repeat
+  ↓
+Feature Map
+
+
+The output values form a FEATURE MAP.
+
+
+------------------------------------------------------------
+4. FILTERS / KERNELS
+------------------------------------------------------------
+
+Filter and kernel are commonly used interchangeably.
+
+A filter is a small matrix of learnable numbers.
+
+Example:
+
+[ 1   0  -1
+  1   0  -1
+  1   0  -1 ]
+
+During training, CNN learns the values of these filters.
+
+Different filters can learn different patterns.
+
+For example:
+
+Filter 1 → vertical edges
+Filter 2 → horizontal edges
+Filter 3 → corners
+Filter 4 → textures
+
+
+IMPORTANT:
+
+The filter is NOT manually programmed in a modern CNN.
+
+The CNN learns the filter weights during training using:
+
+Forward propagation
+      ↓
+Loss
+      ↓
+Backpropagation
+      ↓
+Optimizer
+      ↓
+Filter weights updated
+
+
+------------------------------------------------------------
+5. FEATURE MAPS
+------------------------------------------------------------
+
+A feature map is the output produced when a filter is
+applied to an image.
+
+Also called:
+
+Activation Map
+Feature Map
+
+
+Flow:
+
+Input Image
+     ↓
+   Filter
+     ↓
+ Convolution
+     ↓
+ Feature Map
+
+
+If a CNN has multiple filters:
+
+Input Image
+     ↓
+ ┌──────────┬──────────┬──────────┐
+ Filter 1   Filter 2   Filter 3
+     ↓          ↓          ↓
+ Feature    Feature    Feature
+ Map 1      Map 2      Map 3
+
+
+Each filter can detect a different feature.
+
+Therefore:
+
+Number of filters
+        ↓
+Number of output feature maps
+
+For example:
+
+32 filters
+→ 32 feature maps
+
+
+------------------------------------------------------------
+6. STRIDE
+------------------------------------------------------------
+
+Stride tells us how many pixels the filter moves at each step.
+
+Stride = 1
+
+The filter moves one pixel at a time.
+
+Example:
+
+→ move 1 pixel
+→ move 1 pixel
+→ move 1 pixel
+
+
+Stride = 2
+
+The filter moves two pixels at a time.
+
+→ move 2 pixels
+→ move 2 pixels
+→ move 2 pixels
+
+
+Effect:
+
+Smaller stride
+→ more positions
+→ larger output
+
+Larger stride
+→ fewer positions
+→ smaller output
+
+
+Example:
+
+Input = 5 × 5
+Filter = 3 × 3
+
+Stride = 1
+
+Output = 3 × 3
+
+
+Stride = 2
+
+Output = 2 × 2
+
+
+GENERAL FORMULA:
+
+Output size =
+floor((N + 2P - F) / S) + 1
+
+Where:
+
+N = input size
+P = padding
+F = filter size
+S = stride
+
+
+For height and width, calculate separately if necessary.
+
+
+------------------------------------------------------------
+7. PADDING
+------------------------------------------------------------
+
+Padding means adding extra pixels around the border of
+the input image.
+
+Usually the added values are 0.
+
+Example:
+
+Original:
+
+[ 1  2
+  3  4 ]
+
+With zero padding:
+
+[ 0  0  0  0
+  0  1  2  0
+  0  3  4  0
+  0  0  0  0 ]
+
+
+WHY PADDING?
+
+1. Prevent excessive reduction of image size
+2. Allow filters to process border pixels properly
+3. Preserve spatial information
+4. Can maintain the same input/output size
+
+
+Two common concepts:
+
+VALID padding
+→ No padding
+
+SAME padding
+→ Padding is added so output spatial size can be
+   maintained under appropriate stride settings.
+
+
+Example:
+
+Input = 5 × 5
+Filter = 3 × 3
+Stride = 1
+
+Without padding:
+
+Output = 3 × 3
+
+
+With suitable SAME padding:
+
+Output = 5 × 5
+
+
+KEY IDEA:
+
+Padding controls what happens at the image boundaries.
+
+
+------------------------------------------------------------
+8. POOLING
+------------------------------------------------------------
+
+Pooling reduces the spatial size of feature maps.
+
+Example:
+
+Before pooling:
+
+4 × 4
+
+After pooling:
+
+2 × 2
+
+
+WHY POOLING?
+
+1. Reduce computation
+2. Reduce spatial dimensions
+3. Keep important information
+4. Help make representations less sensitive to small
+   changes in position
+
+
+Common types:
+
+1. Max Pooling
+2. Average Pooling
+
+
+------------------------------------------------------------
+9. MAX POOLING
+------------------------------------------------------------
+
+Max pooling selects the maximum value from each region.
+
+Example:
+
+Feature map:
+
+[ 1  3  2  4
+  5  6  1  2
+  7  2  8  3
+  4  1  5  9 ]
+
+
+Using a 2 × 2 pooling window:
+
+First region:
+
+[ 1  3
+  5  6 ]
+
+Maximum = 6
+
+
+Second region:
+
+[ 2  4
+  1  2 ]
+
+Maximum = 4
+
+
+Continue for all regions.
+
+Output:
+
+[ 6  4
+  7  9 ]
+
+
+MAX POOLING:
+
+Keeps the strongest activation in each region.
+
+
+------------------------------------------------------------
+10. AVERAGE POOLING
+------------------------------------------------------------
+
+Average pooling calculates the average value of each region.
+
+Example:
+
+[ 1  3
+  5  7 ]
+
+Average:
+
+(1 + 3 + 5 + 7) / 4
+
+= 4
+
+
+So the region becomes:
+
+4
+
+
+AVERAGE POOLING:
+
+Keeps the average activation of each region.
+
+
+MAX vs AVERAGE:
+
+Max Pooling
+→ selects maximum
+→ keeps strongest detected feature
+
+Average Pooling
+→ calculates average
+→ keeps average information
+
+
+Memory trick:
+
+MAX = strongest signal
+
+AVERAGE = average signal
+
+
+------------------------------------------------------------
+11. FLATTENING
+------------------------------------------------------------
+
+After convolution and pooling, we have feature maps.
+
+But a fully connected layer expects a 1D vector.
+
+Flattening converts the feature maps into one long vector.
+
+
+Example:
+
+Feature map:
+
+[ 1  2
+  3  4 ]
+
+Flatten:
+
+[1, 2, 3, 4]
+
+
+Example with multiple feature maps:
+
+Feature Maps
+     ↓
+[Map 1]
+[Map 2]
+[Map 3]
+     ↓
+Flatten
+     ↓
+One long vector
+
+
+So:
+
+3D feature representation
+        ↓
+     Flatten
+        ↓
+1D vector
+
+
+IMPORTANT:
+
+Flattening does NOT perform learning.
+
+It only changes the shape of the data.
+
+
+------------------------------------------------------------
+12. FULLY CONNECTED LAYER
+------------------------------------------------------------
+
+The fully connected layer is similar to a traditional
+neural network layer.
+
+Every neuron is connected to every input value.
+
+Example:
+
+Flattened features
+       ↓
+Fully Connected Layer
+       ↓
+Output neurons
+
+
+The fully connected layer uses the extracted features to
+make the final decision.
+
+Example:
+
+CNN extracts:
+
+→ ears
+→ eyes
+→ fur
+→ face shape
+
+Fully connected layer combines these features.
+
+Output:
+
+Cat = 0.92
+Dog = 0.05
+Horse = 0.03
+
+
+For multiclass classification, the final layer commonly
+uses Softmax to produce class probabilities.
+
+
+------------------------------------------------------------
+13. COMPLETE CNN ARCHITECTURE
+------------------------------------------------------------
+
+A basic CNN can look like:
+
+Input Image
+     ↓
+Convolution
+     ↓
+Activation (e.g. ReLU)
+     ↓
+Pooling
+     ↓
+Convolution
+     ↓
+Activation
+     ↓
+Pooling
+     ↓
+Flatten
+     ↓
+Fully Connected Layer
+     ↓
+Output Layer
+
+
+More detailed:
+
+IMAGE
+  ↓
+┌──────────────────────┐
+│ Convolution          │
+│ + ReLU               │
+└──────────────────────┘
+  ↓
+┌──────────────────────┐
+│ Max Pooling          │
+└──────────────────────┘
+  ↓
+┌──────────────────────┐
+│ Convolution          │
+│ + ReLU               │
+└──────────────────────┘
+  ↓
+┌──────────────────────┐
+│ Max Pooling          │
+└──────────────────────┘
+  ↓
+┌──────────────────────┐
+│ Flatten              │
+└──────────────────────┘
+  ↓
+┌──────────────────────┐
+│ Fully Connected      │
+└──────────────────────┘
+  ↓
+┌──────────────────────┐
+│ Output Layer         │
+└──────────────────────┘
+
+
+------------------------------------------------------------
+14. WHAT EACH PART DOES
+------------------------------------------------------------
+
+Input Image
+→ provides pixel data
+
+Convolution
+→ detects local patterns
+
+Filter / Kernel
+→ learns patterns such as edges and textures
+
+Feature Map
+→ shows where a learned feature appears
+
+ReLU
+→ introduces non-linearity
+
+Pooling
+→ reduces spatial dimensions
+
+Flattening
+→ converts feature maps into a vector
+
+Fully Connected Layer
+→ combines extracted features
+
+Output Layer
+→ produces final prediction
+
+
+------------------------------------------------------------
+15. WHY CNN IS BETTER FOR IMAGES THAN A BASIC ANN
+------------------------------------------------------------
+
+Basic ANN:
+
+Image
+ ↓
+Flatten all pixels
+ ↓
+Fully Connected layers
+
+Problem:
+→ huge number of parameters
+→ loses natural spatial structure
+→ inefficient for images
+
+
+CNN:
+
+Image
+ ↓
+Convolution
+ ↓
+Feature extraction
+ ↓
+Pooling
+ ↓
+Feature extraction
+ ↓
+Classification
+
+Advantages:
+
+1. Local connectivity
+2. Parameter sharing
+3. Fewer parameters
+4. Preserves spatial structure
+5. Automatically learns visual features
+
+
+------------------------------------------------------------
+16. LOCAL CONNECTIVITY
+------------------------------------------------------------
+
+A CNN filter looks at a small local region instead of the
+entire image at once.
+
+Example:
+
+Large image
+     ↓
+Small region
+     ↓
+Filter detects local pattern
+
+
+This allows CNNs to detect:
+
+edges
+→ shapes
+→ objects
+
+
+------------------------------------------------------------
+17. PARAMETER SHARING
+------------------------------------------------------------
+
+The same filter is reused across different locations.
+
+Example:
+
+Filter:
+
+[ a b
+  c d ]
+
+The same filter moves across the entire image.
+
+Therefore, CNN does NOT need a completely different set of
+weights for every image location.
+
+This greatly reduces the number of parameters.
+
+
+------------------------------------------------------------
+18. SIMPLE IMAGE EXAMPLE
+------------------------------------------------------------
+
+Suppose we want to classify:
+
+        🐱
+       CAT
+
+CNN process:
+
+Image
+  ↓
+Convolution
+  ↓
+Detect edges
+  ↓
+Pooling
+  ↓
+Detect shapes
+  ↓
+Convolution
+  ↓
+Detect eyes, ears, fur patterns
+  ↓
+Pooling
+  ↓
+Flatten
+  ↓
+Fully Connected Layer
+  ↓
+Output
+  ↓
+CAT
+
+
+The important idea is:
+
+Early layers
+→ simple features
+
+Middle layers
+→ shapes and patterns
+
+Deeper layers
+→ complex object features
+
+
+------------------------------------------------------------
+19. CNN LEARNING PROCESS
+------------------------------------------------------------
+
+During training:
+
+1. Image enters CNN
+2. Convolution extracts features
+3. Activation adds non-linearity
+4. Pooling reduces dimensions
+5. More convolution layers extract higher-level features
+6. Flattening converts features into a vector
+7. Fully connected layer produces prediction
+8. Loss function calculates error
+9. Backpropagation calculates gradients
+10. Optimizer updates weights
+11. Repeat for many batches/epochs
+
+
+Complete:
+
+Image
+ ↓
+CNN Forward Pass
+ ↓
+Prediction
+ ↓
+Loss
+ ↓
+Backpropagation
+ ↓
+Gradients
+ ↓
+Optimizer
+ ↓
+Update CNN weights
+ ↓
+Repeat
+
+
+The FILTERS/KERNELS are learned during this training process.
+
+
+------------------------------------------------------------
+20. IMPORTANT CNN TERMINOLOGY
+------------------------------------------------------------
+
+CNN
+→ Convolutional Neural Network
+
+Kernel / Filter
+→ small learnable matrix used for convolution
+
+Convolution
+→ operation that applies a filter across an input
+
+Feature Map
+→ output produced by a filter
+
+Stride
+→ number of pixels the filter moves each step
+
+Padding
+→ extra border added around input
+
+Pooling
+→ reduces spatial dimensions
+
+Max Pooling
+→ keeps maximum value
+
+Average Pooling
+→ keeps average value
+
+Flattening
+→ converts multidimensional feature maps into 1D vector
+
+Fully Connected Layer
+→ combines extracted features for prediction
+
+
+------------------------------------------------------------
+21. CNN VS ANN
+------------------------------------------------------------
+
+ANN:
+
+Input
+ ↓
+Fully Connected
+ ↓
+Fully Connected
+ ↓
+Output
+
+
+CNN:
+
+Image
+ ↓
+Convolution
+ ↓
+Pooling
+ ↓
+Convolution
+ ↓
+Pooling
+ ↓
+Flatten
+ ↓
+Fully Connected
+ ↓
+Output
+
+
+ANN:
+→ treats input more like a general feature vector
+
+CNN:
+→ specifically exploits spatial/local structure
+
+
+------------------------------------------------------------
+22. MOST IMPORTANT FORMULA
+------------------------------------------------------------
+
+Convolution output size:
+
+Output =
+floor((N + 2P - F) / S) + 1
+
+Where:
+
+N = input size
+P = padding
+F = filter/kernel size
+S = stride
+
+
+Example:
+
+N = 5
+P = 0
+F = 3
+S = 1
+
+Output:
+
+(5 + 0 - 3) / 1 + 1
+
+= 3
+
+
+Therefore:
+
+5 × 5 input
+3 × 3 filter
+stride = 1
+no padding
+
+→ 3 × 3 output
+
+
+------------------------------------------------------------
+23. THE COMPLETE CNN MENTAL MODEL
+------------------------------------------------------------
+
+Think of CNN as a feature detector:
+
+IMAGE
+  ↓
+"Find simple patterns"
+  ↓
+CONVOLUTION
+  ↓
+"Where are those patterns?"
+  ↓
+FEATURE MAP
+  ↓
+"Reduce unnecessary spatial information"
+  ↓
+POOLING
+  ↓
+"Find more complex patterns"
+  ↓
+MORE CONVOLUTION
+  ↓
+"Compress the learned representation"
+  ↓
+FLATTEN
+  ↓
+"Make the decision"
+  ↓
+FULLY CONNECTED
+  ↓
+PREDICTION
+
+
+------------------------------------------------------------
+24. ONE-LINE MEMORY MAP
+------------------------------------------------------------
+
+CNN:
+
+Image
+→ Convolution
+→ Feature Maps
+→ ReLU
+→ Pooling
+→ More Convolution
+→ More Pooling
+→ Flatten
+→ Fully Connected
+→ Output
+
+
+------------------------------------------------------------
+25. EXAM / INTERVIEW KEY POINTS
+------------------------------------------------------------
+
+1. CNN is mainly used for image and spatial data.
+
+2. Convolution uses learnable filters/kernels to detect
+   local patterns.
+
+3. Feature maps are produced by convolution.
+
+4. Filters are learned during training using backpropagation
+   and an optimizer.
+
+5. Stride controls how far the filter moves.
+
+6. Padding adds pixels around the input boundary.
+
+7. Pooling reduces spatial dimensions.
+
+8. Max pooling selects the maximum value.
+
+9. Average pooling calculates the average value.
+
+10. Flattening converts feature maps into a 1D vector.
+
+11. Fully connected layers use extracted features for
+    final prediction.
+
+12. CNNs use local connectivity and parameter sharing.
+
+13. Early CNN layers usually learn simple features.
+
+14. Deeper CNN layers usually learn more complex features.
+
+15. CNN training still follows the general neural-network
+    process:
+
+    Forward Pass
+         ↓
+    Loss
+         ↓
+    Backpropagation
+         ↓
+    Optimizer
+         ↓
+    Weight Update
+         ↓
+    Repeat
+
+
+============================================================
+UNIT 9 CORE IDEA
+============================================================
+
+CNN does not directly try to understand the entire image.
+
+It gradually learns:
+
+Pixels
+  ↓
+Edges
+  ↓
+Textures
+  ↓
+Shapes
+  ↓
+Object parts
+  ↓
+Objects
+  ↓
+Prediction
+
+That hierarchical feature learning is the central idea
+behind Convolutional Neural Networks.
+============================================================

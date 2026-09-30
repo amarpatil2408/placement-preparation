@@ -1,0 +1,977 @@
+# DEEP LEARNING — UNIT 8: REGULARIZATION
+
+==================================================
+1. WHAT IS REGULARIZATION?
+==================================================
+
+Regularization is a set of techniques used to reduce
+OVERFITTING and improve the model's ability to
+GENERALIZE to unseen data.
+
+Problem:
+
+Model becomes too focused on training data
+        ↓
+Training performance becomes very good
+        ↓
+Validation/Test performance becomes worse
+        ↓
+OVERFITTING
+
+
+Regularization tries to prevent this.
+
+Basic idea:
+
+Overfitting
+    ↓
+Regularization
+    ↓
+Simpler / more robust learning
+    ↓
+Better generalization
+
+
+Common regularization techniques:
+
+1. L1 Regularization
+2. L2 Regularization
+3. Dropout
+4. Early Stopping
+5. Data Augmentation
+6. Batch Normalization
+
+
+==================================================
+2. L1 REGULARIZATION
+==================================================
+
+L1 regularization adds a penalty based on the
+ABSOLUTE VALUES of the model's weights.
+
+Basic idea:
+
+Original Loss
+     +
+L1 Penalty
+     ↓
+Total Loss
+
+
+Formula:
+
+L_total
+=
+L_original
++
+λ Σ|wᵢ|
+
+
+Where:
+
+λ = regularization strength
+wᵢ = model weights
+
+
+The optimizer minimizes this total loss.
+
+
+==================================================
+3. WHY L1 REGULARIZATION?
+==================================================
+
+L1 regularization encourages some weights to become
+exactly or very close to ZERO.
+
+Example:
+
+Before:
+
+[0.8, 0.02, -0.7, 0.001, 0.5]
+
+
+After strong L1 regularization:
+
+[0.8, 0, -0.7, 0, 0.5]
+
+
+This can create a SPARSE model.
+
+Sparse means:
+
+Many weights = 0
+
+
+Therefore, L1 can also perform a form of
+FEATURE SELECTION.
+
+
+==================================================
+4. L1 INTUITION
+==================================================
+
+Without regularization:
+
+Model may use many features/weights.
+
+With L1:
+
+The model is encouraged to reduce unnecessary
+weights toward zero.
+
+Conceptually:
+
+Many weights
+     ↓
+L1 penalty
+     ↓
+Some weights become zero
+     ↓
+Simpler / sparse model
+
+
+==================================================
+5. L2 REGULARIZATION
+==================================================
+
+L2 regularization adds a penalty based on the
+SQUARE of the weights.
+
+Formula:
+
+L_total
+=
+L_original
++
+λ Σwᵢ²
+
+
+Where:
+
+λ = regularization strength
+wᵢ = model weights
+
+
+The optimizer minimizes:
+
+Original Loss + L2 Penalty
+
+
+==================================================
+6. WHY L2 REGULARIZATION?
+==================================================
+
+L2 encourages weights to become SMALLER rather than
+usually forcing them exactly to zero.
+
+Example:
+
+Before:
+
+[5.0, 2.5, 1.5, 0.8]
+
+
+After L2:
+
+[2.8, 1.7, 1.0, 0.6]
+
+
+The exact values depend on the training process
+and regularization strength.
+
+The main idea:
+
+Large weights
+     ↓
+L2 penalty
+     ↓
+Weights pushed toward smaller values
+
+
+==================================================
+7. L1 vs L2
+==================================================
+
+L1:
+
+Penalty:
+
+λΣ|wᵢ|
+
+Effect:
+
+Can drive some weights to zero.
+
+Result:
+
+Sparse weights.
+
+
+L2:
+
+Penalty:
+
+λΣwᵢ²
+
+Effect:
+
+Encourages weights to become smaller.
+
+Result:
+
+Usually non-zero but smaller weights.
+
+
+Simple memory:
+
+L1
+→ Absolute
+→ Sparse
+→ Can produce zeros
+
+
+L2
+→ Squared
+→ Small weights
+
+
+==================================================
+8. REGULARIZATION STRENGTH — λ
+==================================================
+
+λ controls how strongly regularization affects
+training.
+
+Small λ:
+
+Weak regularization
+     ↓
+Model has more freedom
+
+
+Large λ:
+
+Strong regularization
+     ↓
+Model is more strongly constrained
+
+
+If regularization is too strong:
+
+Model may underfit.
+
+
+Therefore:
+
+Too little regularization
+→ Overfitting risk
+
+
+Too much regularization
+→ Underfitting risk
+
+
+==================================================
+9. DROPOUT
+==================================================
+
+Dropout is a regularization technique that randomly
+disables a fraction of neurons during training.
+
+Example:
+
+Before dropout:
+
+○ ○ ○ ○ ○ ○
+│ │ │ │ │ │
+All neurons active
+
+
+During training:
+
+○ X ○ X ○ ○
+
+Some neurons are temporarily dropped.
+
+
+The dropped neurons do NOT participate in that
+training step.
+
+
+==================================================
+10. DROPOUT RATE
+==================================================
+
+Dropout rate tells us the fraction of units that are
+randomly dropped during training.
+
+Example:
+
+dropout rate = 0.2
+
+Approximately 20% of the units are dropped for
+a given training step.
+
+Remaining units continue training.
+
+
+IMPORTANT:
+
+Dropout is applied during TRAINING.
+
+During normal evaluation/inference:
+
+Dropout is turned OFF.
+
+The complete network is used.
+
+
+==================================================
+11. WHY DROPOUT HELPS?
+==================================================
+
+Without dropout:
+
+The network may become too dependent on particular
+neurons.
+
+With dropout:
+
+Different subsets of neurons are used during
+different training steps.
+
+This encourages the network to learn more robust
+representations and can reduce overfitting.
+
+
+Simple idea:
+
+Network
+   ↓
+Randomly remove some neurons during training
+   ↓
+Network cannot rely too heavily on specific neurons
+   ↓
+Better generalization
+
+
+==================================================
+12. DROPOUT EXAMPLE
+==================================================
+
+Suppose a hidden layer has:
+
+10 neurons
+
+
+Dropout rate:
+
+0.3
+
+
+During one training step, roughly:
+
+3 neurons
+
+may be dropped.
+
+Remaining:
+
+7 neurons
+
+
+The exact neurons dropped are randomly selected.
+
+
+Next training step:
+
+A different subset may be dropped.
+
+
+==================================================
+13. EARLY STOPPING
+==================================================
+
+Early stopping is a regularization technique that
+stops training when validation performance stops
+improving.
+
+Basic idea:
+
+Training continues:
+
+Epoch 1
+Epoch 2
+Epoch 3
+Epoch 4
+...
+
+
+Monitor:
+
+Validation Loss
+
+
+If validation performance stops improving for a
+specified number of epochs:
+
+→ Stop training.
+
+
+==================================================
+14. EARLY STOPPING EXAMPLE
+==================================================
+
+Suppose:
+
+Epoch 1:
+Validation Loss = 0.80
+
+Epoch 2:
+Validation Loss = 0.60
+
+Epoch 3:
+Validation Loss = 0.45
+
+Epoch 4:
+Validation Loss = 0.40
+
+Epoch 5:
+Validation Loss = 0.42
+
+Epoch 6:
+Validation Loss = 0.50
+
+
+Validation loss was best at Epoch 4.
+
+After that it started getting worse.
+
+Continuing training may increase overfitting.
+
+Therefore:
+
+Stop around the best validation point.
+
+
+==================================================
+15. PATIENCE IN EARLY STOPPING
+==================================================
+
+Patience specifies how many epochs we wait after
+validation performance stops improving before stopping.
+
+Example:
+
+patience = 3
+
+
+Meaning:
+
+Allow up to 3 epochs without improvement before
+stopping.
+
+
+This prevents stopping too quickly because validation
+performance can fluctuate.
+
+
+==================================================
+16. DATA AUGMENTATION
+==================================================
+
+Data augmentation creates modified versions of existing
+training examples while preserving the correct label.
+
+It is especially common in COMPUTER VISION.
+
+
+Example:
+
+Original image
+      ↓
+Rotate
+      ↓
+New training image
+
+
+Other transformations:
+
+→ Flip
+→ Crop
+→ Rotate
+→ Shift
+→ Zoom
+→ Adjust brightness/contrast
+→ Add small amounts of noise
+
+
+==================================================
+17. DATA AUGMENTATION EXAMPLE
+==================================================
+
+Suppose we have:
+
+1000 cat images.
+
+
+Instead of only showing those exact images, training
+may use transformations such as:
+
+Image 1
+ ↓
+Horizontal Flip
+
+Image 2
+ ↓
+Small Rotation
+
+Image 3
+ ↓
+Crop
+
+Image 4
+ ↓
+Zoom
+
+
+The model sees more varied examples.
+
+This can improve robustness and reduce overfitting.
+
+
+==================================================
+18. IMPORTANT DATA AUGMENTATION RULE
+==================================================
+
+An augmentation should preserve the meaning/label.
+
+Example:
+
+Cat image
+→ Small rotation
+→ Still a cat
+
+Good augmentation.
+
+
+But:
+
+Digit "6"
+→ Transformation that makes it look like "9"
+
+Could change the label.
+
+Bad augmentation for that task.
+
+
+Therefore:
+
+Augmentation must make sense for the dataset and task.
+
+
+==================================================
+19. TRAINING DATA vs VALIDATION/TEST DATA
+==================================================
+
+Data augmentation is generally applied to TRAINING
+data to increase training diversity.
+
+Validation and test data should represent the real
+evaluation distribution.
+
+Therefore, we normally do not apply random training
+augmentations to validation/test data in the same way.
+
+
+==================================================
+20. BATCH NORMALIZATION
+==================================================
+
+Batch Normalization (BatchNorm) normalizes activations
+within a mini-batch during training and then applies
+learnable scale and shift parameters.
+
+Basic idea:
+
+Layer output
+     ↓
+Normalize
+     ↓
+Scale
+     ↓
+Shift
+     ↓
+Next layer
+
+
+For a batch of activations, a simplified form is:
+
+x̂ =
+(x - μ_B)
+-----------
+√(σ_B² + ε)
+
+
+Then:
+
+y = γx̂ + β
+
+
+Where:
+
+μ_B = batch mean
+σ_B² = batch variance
+ε = small value for numerical stability
+γ = learnable scale parameter
+β = learnable shift parameter
+
+
+==================================================
+21. WHY BATCH NORMALIZATION?
+==================================================
+
+Batch normalization can:
+
+→ Help stabilize training
+→ Often allow higher learning rates
+→ Improve optimization behavior
+→ Provide some regularization effect
+
+
+It is important to understand:
+
+BatchNorm is primarily a technique for stabilizing
+and improving training, although it can also have
+a regularizing effect.
+
+
+==================================================
+22. BATCH NORMALIZATION FLOW
+==================================================
+
+Activations
+    ↓
+Calculate batch mean
+    ↓
+Calculate batch variance
+    ↓
+Normalize
+    ↓
+Scale (γ)
+    ↓
+Shift (β)
+    ↓
+Next layer
+
+
+During training:
+
+Use statistics from the current mini-batch.
+
+
+During inference:
+
+Use running estimates accumulated during training.
+
+
+==================================================
+23. L1 vs L2 vs DROPOUT vs EARLY STOPPING
+==================================================
+
+L1:
+
+How?
+
+Adds absolute-weight penalty.
+
+Main effect:
+
+Can produce sparse weights.
+
+
+L2:
+
+How?
+
+Adds squared-weight penalty.
+
+Main effect:
+
+Encourages smaller weights.
+
+
+DROPOUT:
+
+How?
+
+Randomly disables neurons during training.
+
+Main effect:
+
+Reduces reliance on specific neurons.
+
+
+EARLY STOPPING:
+
+How?
+
+Stops training when validation performance stops
+improving.
+
+Main effect:
+
+Prevents unnecessary training and overfitting.
+
+
+==================================================
+24. DATA AUGMENTATION vs DROPOUT
+==================================================
+
+DATA AUGMENTATION:
+
+Works on:
+
+Training data.
+
+
+Method:
+
+Create varied versions of training examples.
+
+
+Example:
+
+Image
+→ Flip
+→ Rotate
+→ Crop
+
+
+DROPOUT:
+
+Works on:
+
+Neural-network units during training.
+
+
+Method:
+
+Randomly disable some neurons.
+
+
+So:
+
+Data Augmentation
+→ Changes the DATA.
+
+
+Dropout
+→ Changes which NEURONS participate.
+
+
+==================================================
+25. BATCH NORMALIZATION vs REGULARIZATION
+==================================================
+
+Batch Normalization is not simply another penalty
+term like L1/L2.
+
+Its primary purpose is to normalize activations and
+stabilize training.
+
+However, its stochastic batch statistics can introduce
+some regularization effect.
+
+
+So remember:
+
+L1/L2
+→ Explicit regularization penalties.
+
+
+Dropout
+→ Explicitly random neuron dropping.
+
+
+Early Stopping
+→ Stops training based on validation behavior.
+
+
+Data Augmentation
+→ Increases training-data diversity.
+
+
+BatchNorm
+→ Normalizes activations and can also regularize.
+
+
+==================================================
+26. COMPLETE REGULARIZATION FLOW
+==================================================
+
+Problem:
+
+OVERFITTING
+     ↓
+Choose appropriate technique
+     │
+     ├── L1
+     │     ↓
+     │   Sparse weights
+     │
+     ├── L2
+     │     ↓
+     │   Smaller weights
+     │
+     ├── Dropout
+     │     ↓
+     │   Random neuron dropping
+     │
+     ├── Early Stopping
+     │     ↓
+     │   Stop when validation stops improving
+     │
+     ├── Data Augmentation
+     │     ↓
+     │   More varied training examples
+     │
+     └── Batch Normalization
+           ↓
+         Stable activation/training behavior
+         + possible regularization effect
+
+
+==================================================
+27. COMPLETE TRAINING PICTURE
+==================================================
+
+Training Data
+      ↓
+Data Augmentation
+      ↓
+Neural Network
+      ↓
+Batch Normalization
+      ↓
+Dropout
+      ↓
+Prediction
+      ↓
+Loss
+      ↓
+L1 / L2 Regularization
+      ↓
+Backpropagation
+      ↓
+Optimizer
+      ↓
+Parameter Update
+      ↓
+Validation
+      ↓
+Early Stopping
+      ↓
+Final Model
+
+
+NOTE:
+
+Not every model uses every technique.
+
+Regularization methods are selected based on the
+architecture, data, and observed training behavior.
+
+
+==================================================
+28. KEY POINTS FOR EXAM / INTERVIEW
+==================================================
+
+1. Regularization helps reduce overfitting and improve
+   generalization.
+
+2. L1 adds a penalty based on absolute weight values:
+
+   λΣ|wᵢ|
+
+3. L1 can drive some weights to zero and produce
+   sparse models.
+
+4. L2 adds a penalty based on squared weights:
+
+   λΣwᵢ²
+
+5. L2 encourages weights to become smaller.
+
+6. λ controls regularization strength.
+
+7. Too much regularization can cause underfitting.
+
+8. Dropout randomly disables a fraction of neurons
+   during training.
+
+9. Dropout is turned off during normal inference.
+
+10. Early stopping monitors validation performance
+    and stops training when improvement stops.
+
+11. Patience controls how long early stopping waits
+    for improvement.
+
+12. Data augmentation creates varied training examples
+    while preserving their labels.
+
+13. Data augmentation is especially common in computer
+    vision.
+
+14. Batch Normalization normalizes activations within
+    mini-batches during training and applies learnable
+    scale and shift.
+
+15. BatchNorm primarily helps stabilize training and
+    can also have a regularizing effect.
+
+16. Important distinction:
+
+    L1/L2
+    → Penalize weights.
+
+    Dropout
+    → Randomly drop neurons.
+
+    Early Stopping
+    → Stop training at the right time.
+
+    Data Augmentation
+    → Increase training-data diversity.
+
+    BatchNorm
+    → Normalize activations and stabilize training.
+
+
+==================================================
+29. ONE-LINE MEMORY TRICK
+==================================================
+
+L1
+→ "Make some weights ZERO."
+
+
+L2
+→ "Make weights SMALL."
+
+
+Dropout
+→ "Randomly remove neurons."
+
+
+Early Stopping
+→ "Stop before overfitting gets worse."
+
+
+Data Augmentation
+→ "Create more varied training examples."
+
+
+Batch Normalization
+→ "Normalize activations to stabilize training."
