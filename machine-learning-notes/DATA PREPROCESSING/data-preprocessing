@@ -1,0 +1,622 @@
+# 2. DATA PREPROCESSING
+
+Data preprocessing = preparing raw data so that it can be given to a machine learning model.
+
+RAW DATA
+   ↓
+Data Cleaning
+   ↓
+Handle Missing Values
+   ↓
+Remove Duplicates
+   ↓
+Handle Outliers
+   ↓
+Encode Categorical Data
+   ↓
+Feature Scaling
+   ↓
+Feature Selection / Extraction
+   ↓
+Feature Engineering
+   ↓
+CLEAN + MODEL-READY DATA
+
+
+==================================================
+1. DATA CLEANING
+==================================================
+
+Definition:
+Data cleaning is the process of finding and fixing incorrect,
+incomplete, inconsistent, or unnecessary data.
+
+Example:
+
+Age     Salary
+22      40000
+25      50000
+-5      45000
+25      50000
+
+Problems:
+- Age = -5 → invalid value
+- Duplicate row → unnecessary duplicate
+
+Common cleaning tasks:
+- Handle missing values
+- Remove duplicates
+- Fix incorrect values
+- Handle inconsistent formats
+- Handle outliers
+- Remove irrelevant data
+
+
+==================================================
+2. MISSING VALUES
+==================================================
+
+Definition:
+A missing value means a value is absent from a dataset.
+
+Example:
+
+Age    Salary
+22     40000
+25     NaN
+30     60000
+
+NaN = Not a Number / missing value.
+
+Why handle them?
+Many ML algorithms cannot work properly with missing values.
+
+Common approaches:
+
+1. Remove rows
+
+   df.dropna()
+
+   Use when only a small number of rows contain missing values.
+
+2. Fill with mean
+
+   Missing value → average of the column
+
+3. Fill with median
+
+   Missing value → middle value
+
+   Median is often useful when the data contains outliers.
+
+4. Fill with mode
+
+   Missing value → most frequent value
+
+   Commonly used for categorical data.
+
+Example:
+
+Age:
+20, 22, 24, NaN, 26
+
+Mean = 23
+Missing value → 23
+
+
+==================================================
+3. DUPLICATES
+==================================================
+
+Definition:
+Duplicate data means the same record appears more than once.
+
+Example:
+
+ID    Name    Age
+1     John    22
+2     Alex    25
+1     John    22
+
+The first and third rows are duplicates.
+
+Why remove duplicates?
+Duplicates can give certain observations more importance
+than they should have.
+
+Pandas:
+
+df.duplicated()
+→ identifies duplicate rows
+
+df.drop_duplicates()
+→ removes duplicate rows
+
+
+==================================================
+4. OUTLIERS
+==================================================
+
+Definition:
+An outlier is a data point that is unusually far from
+the other observations.
+
+Example:
+
+Salary:
+30000
+32000
+35000
+34000
+33000
+900000  ← outlier
+
+The value 900000 is extremely different from the others.
+
+Why are outliers important?
+
+They can:
+- Distort statistical calculations
+- Affect some ML algorithms
+- Affect the model's learned relationship
+
+Common methods to detect outliers:
+
+1. IQR Method
+2. Z-Score
+3. Box Plot
+4. Domain knowledge
+
+IQR:
+
+IQR = Q3 - Q1
+
+Lower Bound = Q1 - 1.5 × IQR
+
+Upper Bound = Q3 + 1.5 × IQR
+
+Values outside these bounds are commonly treated as outliers.
+
+Important:
+An outlier is not automatically an error.
+It may be a genuine observation.
+
+
+==================================================
+5. CATEGORICAL DATA
+==================================================
+
+Definition:
+Categorical data contains categories rather than numerical
+measurements.
+
+Example:
+
+Gender:
+Male
+Female
+
+City:
+Mumbai
+Pune
+Delhi
+
+Education:
+School
+Bachelor
+Master
+
+Most ML algorithms require numerical input.
+
+Therefore:
+
+Categorical Data
+       ↓
+Encoding
+       ↓
+Numerical Data
+
+
+==================================================
+6. LABEL ENCODING
+==================================================
+
+Definition:
+Label encoding converts categories into numerical labels.
+
+Example:
+
+Education:
+
+School    → 0
+Bachelor  → 1
+Master    → 2
+
+Another example:
+
+Color:
+
+Red    → 0
+Blue   → 1
+Green  → 2
+
+Important:
+The numbers may create an apparent order.
+
+Example:
+
+School = 0
+Bachelor = 1
+Master = 2
+
+This makes sense if the categories actually have an order.
+
+For unordered categories such as:
+
+Red
+Blue
+Green
+
+0, 1, 2 does NOT naturally mean Green > Blue > Red.
+
+Therefore, label encoding is generally more suitable for
+ordinal categories.
+
+
+==================================================
+7. ONE-HOT ENCODING
+==================================================
+
+Definition:
+One-hot encoding converts each category into a separate
+binary column.
+
+Example:
+
+Color
+-----
+Red
+Blue
+Green
+
+becomes:
+
+Color_Red    Color_Blue    Color_Green
+    1            0              0
+    0            1              0
+    0            0              1
+
+Each row has:
+1 → category is present
+0 → category is absent
+
+Why use it?
+
+It avoids creating an artificial numerical order between
+nominal categories.
+
+Example:
+
+Red = 0
+Blue = 1
+Green = 2
+
+could incorrectly suggest:
+
+Green > Blue > Red
+
+One-hot encoding avoids this.
+
+
+==================================================
+8. FEATURE SCALING
+==================================================
+
+Definition:
+Feature scaling transforms numerical features so that their
+values are on a comparable scale.
+
+Example:
+
+Age:
+20 - 60
+
+Salary:
+20,000 - 2,00,000
+
+Salary has much larger numerical values than Age.
+
+Some algorithms can be affected by these differences.
+
+Feature Scaling
+       │
+       ├── Standardization
+       │
+       └── Normalization
+
+
+--------------------------------------------------
+8.1 STANDARDIZATION
+--------------------------------------------------
+
+Definition:
+Standardization transforms data so that it has approximately:
+
+Mean = 0
+Standard Deviation = 1
+
+Formula:
+
+z = (x - μ) / σ
+
+where:
+
+x = original value
+μ = mean
+σ = standard deviation
+
+Example:
+
+Original values:
+10, 20, 30
+
+After standardization, the values are centered around 0.
+
+Scikit-learn:
+
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+Important:
+Standardization does NOT force values into the range 0 to 1.
+
+
+--------------------------------------------------
+8.2 NORMALIZATION
+--------------------------------------------------
+
+Definition:
+Normalization commonly scales values to a fixed range,
+often 0 to 1.
+
+Common Min-Max formula:
+
+x' = (x - xmin) / (xmax - xmin)
+
+Example:
+
+Values:
+10, 20, 30
+
+Minimum = 10
+Maximum = 30
+
+10 → 0
+20 → 0.5
+30 → 1
+
+Scikit-learn:
+
+from sklearn.preprocessing import MinMaxScaler
+
+scaler = MinMaxScaler()
+X_scaled = scaler.fit_transform(X)
+
+Important:
+Normalization and standardization are different techniques.
+
+
+==================================================
+9. FEATURE SELECTION
+==================================================
+
+Definition:
+Feature selection means selecting the most useful existing
+features and removing irrelevant or unnecessary features.
+
+Example:
+
+Dataset:
+
+Age
+Salary
+Experience
+Favorite_Color
+Employee_ID
+
+Suppose Employee_ID and Favorite_Color do not help predict
+the target.
+
+We can select:
+
+Age
+Salary
+Experience
+
+So:
+
+Original Features
+       ↓
+Select useful features
+       ↓
+Reduced Feature Set
+
+Benefits:
+- Reduces unnecessary data
+- Can reduce training time
+- Can reduce overfitting
+- Can improve model performance
+
+
+==================================================
+10. FEATURE EXTRACTION
+==================================================
+
+Definition:
+Feature extraction means creating a new representation or
+new features from existing data.
+
+Example:
+
+Suppose we have:
+
+Height
+Weight
+
+We can create:
+
+BMI = Weight / Height²
+
+BMI is a new feature derived from existing features.
+
+Another example:
+
+An image contains thousands of pixels.
+
+Feature extraction can transform those pixels into a smaller
+set of useful representations.
+
+Difference:
+
+Feature Selection:
+Choose existing features.
+
+Feature Extraction:
+Create new features/representations from existing data.
+
+Example:
+
+Original:
+Age, Salary, Experience
+
+Feature Selection:
+Age, Salary
+
+Feature Extraction:
+Age + Experience → Career_Index
+
+
+==================================================
+11. FEATURE ENGINEERING
+==================================================
+
+Definition:
+Feature engineering is the process of creating, transforming,
+or modifying features to make them more useful for a machine
+learning model.
+
+Example:
+
+Raw data:
+
+Date:
+2026-10-02
+
+We can create:
+
+Year = 2026
+Month = 10
+Day = 2
+Day_of_Week = Friday
+
+Another example:
+
+Raw:
+Height
+Weight
+
+Create:
+
+BMI = Weight / Height²
+
+Feature engineering can include:
+
+- Creating new features
+- Transforming existing features
+- Combining features
+- Extracting information from existing data
+- Converting data into a more useful representation
+
+
+==================================================
+IMPORTANT DIFFERENCES
+==================================================
+
+DATA CLEANING
+→ Fix problems in the data.
+
+FEATURE SELECTION
+→ Choose useful existing features.
+
+FEATURE EXTRACTION
+→ Create a new representation/features from existing data.
+
+FEATURE ENGINEERING
+→ Broader process of creating/transforming features to make
+  them more useful for ML.
+
+
+==================================================
+COMPLETE DATA PREPROCESSING FLOW
+==================================================
+
+Raw Dataset
+     ↓
+Data Cleaning
+     ↓
+Missing Values
+     ↓
+Duplicates
+     ↓
+Outliers
+     ↓
+Categorical Data
+     ↓
+Encoding
+├── Label Encoding
+└── One-Hot Encoding
+     ↓
+Feature Scaling
+├── Standardization
+└── Normalization
+     ↓
+Feature Selection
+     ↓
+Feature Extraction
+     ↓
+Feature Engineering
+     ↓
+Model-Ready Dataset
+
+
+==================================================
+KEY POINTS TO REMEMBER
+==================================================
+
+1. Data preprocessing prepares raw data for ML.
+
+2. Missing values must be handled before training when the
+   chosen model/pipeline cannot accept them.
+
+3. Duplicates can give repeated observations too much influence.
+
+4. Outliers are unusually distant observations.
+
+5. Categorical data must often be encoded into numerical form.
+
+6. Label Encoding → categories become numbers.
+
+7. One-Hot Encoding → each category becomes a binary column.
+
+8. Standardization → mean ≈ 0 and standard deviation ≈ 1.
+
+9. Normalization → commonly scales values to 0–1.
+
+10. Feature Selection → select existing useful features.
+
+11. Feature Extraction → create a new representation/features.
+
+12. Feature Engineering → create/transform features to improve
+    their usefulness to the model.

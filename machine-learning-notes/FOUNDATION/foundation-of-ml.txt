@@ -1,0 +1,267 @@
+# 1. FOUNDATIONS OF MACHINE LEARNING
+
+## 1. What is Machine Learning?
+
+Definition:
+Machine Learning (ML) is a field of AI where computers learn patterns from data and use those patterns to make predictions or decisions without being explicitly programmed for every case.
+
+Basic Flow:
+
+Data → Learning Algorithm → Model → Prediction
+
+Example:
+House Data (size, bedrooms, location, price)
+        ↓
+   ML Algorithm
+        ↓
+      Model
+        ↓
+Predict price of a new house
+
+
+## 2. Types of Machine Learning
+
+Machine Learning
+│
+├── Supervised Learning
+│   └── Learns from labeled data
+│
+├── Unsupervised Learning
+│   └── Finds patterns in unlabeled data
+│
+└── Reinforcement Learning
+    └── Learns through rewards and penalties
+
+
+## 3. Dataset
+
+Definition:
+A dataset is a structured collection of data used to train and evaluate machine learning models.
+
+Example:
+
+| Size | Bedrooms | Location | Price |
+|------|----------|----------|-------|
+| 1200 | 2 | Pune | ₹60L |
+| 1500 | 3 | Mumbai | ₹90L |
+
+The complete table is the dataset.
+
+
+## 4. Features & Target
+
+Feature:
+A feature is an input variable used by the model to make a prediction.
+
+Target:
+The target is the output that the model tries to predict.
+
+Example:
+
+Features → Size, Bedrooms, Location
+Target   → Price
+
+In ML notation:
+
+X = Features
+y = Target
+
+
+## 5. Samples / Instances
+
+Definition:
+A sample or instance is one individual observation/record in a dataset.
+
+Example:
+
+| Size | Bedrooms | Price |
+|------|----------|-------|
+| 1200 | 2 | ₹60L |
+| 1500 | 3 | ₹90L |
+| 1000 | 2 | ₹45L |
+
+Number of samples = 3
+
+Remember:
+Dataset = collection of samples
+Sample = one observation
+
+
+## 6. Training / Validation / Test Data
+
+Dataset
+│
+├── Training Data
+│   └── Used to train the model
+│
+├── Validation Data
+│   └── Used to tune and evaluate during development
+│
+└── Test Data
+    └── Used for final evaluation
+
+Training Data:
+Used to learn the model's parameters.
+
+Validation Data:
+Used during development to compare/tune models and hyperparameters.
+
+Test Data:
+Used at the end to evaluate performance on unseen data.
+
+
+## 7. Parameters & Hyperparameters
+
+Parameters:
+Values learned by the model from training data.
+
+Example:
+For linear regression:
+
+y = wx + b
+
+w = weight
+b = bias
+
+Hyperparameters:
+Settings chosen before or during training rather than learned directly from the training data.
+
+Examples:
+- Learning rate
+- Number of trees
+- Maximum tree depth
+- Number of neighbors in KNN
+
+Remember:
+
+Parameters → Model learns them
+Hyperparameters → We choose/tune them
+
+
+## 8. Model
+
+Definition:
+A model is the learned mathematical representation of patterns in data that is used to make predictions.
+
+Flow:
+
+Training Data
+     ↓
+Learning Algorithm
+     ↓
+Trained Model
+     ↓
+New Data
+     ↓
+Prediction
+
+
+## 9. Training
+
+Definition:
+Training is the process of using data to adjust a model's parameters so that its predictions become more accurate.
+
+Basic process:
+
+Training Data
+     ↓
+Model makes prediction
+     ↓
+Calculate error/loss
+     ↓
+Update parameters
+     ↓
+Repeat
+     ↓
+Trained Model
+
+
+## 10. Prediction / Inference
+
+Prediction:
+The output produced by a trained model for new input data.
+
+Inference:
+The process of using a trained model to generate predictions on new data.
+
+Remember:
+
+Training = Learning from data
+Inference = Using what was learned
+
+Example:
+
+Training:
+House data → Model learns
+
+Inference:
+New house → Trained Model → Predicted Price
+
+
+## 11. Underfitting vs Overfitting
+
+### Underfitting
+
+Definition:
+Underfitting occurs when a model is too simple to learn the important patterns in the data.
+
+Training Performance → Poor
+Test Performance     → Poor
+
+Main problem:
+The model has not learned enough.
+
+### Overfitting
+
+Definition:
+Overfitting occurs when a model learns the training data too closely, including noise, and performs poorly on unseen data.
+
+Training Performance → Very Good
+Test Performance     → Poor
+
+Main problem:
+The model does not generalize well.
+
+### Comparison
+
+| Aspect | Underfitting | Good Fit | Overfitting |
+|--------|--------------|----------|-------------|
+| Model | Too simple | Appropriate | Too complex |
+| Training performance | Poor | Good | Very good |
+| Test performance | Poor | Good | Poor |
+| Main issue | Learns too little | Generalizes well | Learns noise |
+
+Goal:
+
+Training Data
+     ↓
+   Model
+     ↓
+Learns useful patterns
+     ↓
+Performs well on unseen data
+
+This is called good generalization.
+
+
+# FOUNDATION FLOW
+
+Dataset
+   ↓
+Features (X) + Target (y)
+   ↓
+Split Data
+   ↓
+Training / Validation / Test
+   ↓
+Training
+   ↓
+Model
+   ↓
+New Input
+   ↓
+Prediction / Inference
+   ↓
+Evaluation
+   ↓
+Good Generalization

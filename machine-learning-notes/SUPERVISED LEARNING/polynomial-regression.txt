@@ -1,0 +1,730 @@
+# POLYNOMIAL REGRESSION
+
+==================================================
+1. DEFINITION
+==================================================
+
+Polynomial Regression is a supervised learning algorithm used
+to predict a continuous target when the relationship between
+the input feature(s) and target is NON-LINEAR.
+
+It extends Linear Regression by adding polynomial terms such as:
+
+X², X³, X⁴, ...
+
+Example:
+
+Instead of:
+
+ŷ = β₀ + β₁X
+
+Polynomial Regression can use:
+
+ŷ = β₀ + β₁X + β₂X²
+
+or:
+
+ŷ = β₀ + β₁X + β₂X² + β₃X³
+
+
+==================================================
+2. BASIC IDEA
+==================================================
+
+Linear Regression tries to fit a STRAIGHT LINE.
+
+Example:
+
+       /
+      /
+     /
+    /
+   /
+
+But sometimes the actual data follows a curve.
+
+Example:
+
+      *
+    *   *
+   *     *
+  *       *
+ *         *
+
+A straight line may not fit this data well.
+
+Polynomial Regression adds powers of the features so that
+the model can fit a curved relationship.
+
+
+==================================================
+3. WHY DO WE NEED POLYNOMIAL REGRESSION?
+==================================================
+
+Suppose:
+
+X = Experience
+y = Salary
+
+If salary increases approximately at a constant rate:
+
+X → y
+
+Linear Regression can work well.
+
+But suppose salary increases slowly at first, then rapidly,
+then levels off.
+
+The relationship is not well represented by a straight line.
+
+Therefore:
+
+Linear Regression
+       ↓
+Straight relationship
+
+Polynomial Regression
+       ↓
+Curved relationship
+
+
+==================================================
+4. EQUATION
+==================================================
+
+For one feature:
+
+ŷ = β₀ + β₁X + β₂X² + β₃X³ + ... + βₙXⁿ
+
+Where:
+
+ŷ  = predicted value
+β₀ = intercept
+β₁ = coefficient of X
+β₂ = coefficient of X²
+β₃ = coefficient of X³
+βₙ = coefficient of Xⁿ
+X  = input feature
+n  = polynomial degree
+
+
+==================================================
+5. POLYNOMIAL DEGREE
+==================================================
+
+Degree determines the highest power of X used by the model.
+
+Degree 1:
+
+ŷ = β₀ + β₁X
+
+This is essentially Linear Regression.
+
+
+Degree 2:
+
+ŷ = β₀ + β₁X + β₂X²
+
+This produces a quadratic curve.
+
+
+Degree 3:
+
+ŷ = β₀ + β₁X + β₂X² + β₃X³
+
+This can produce a more complex curve.
+
+
+Degree 4:
+
+ŷ = β₀ + β₁X + β₂X² + β₃X³ + β₄X⁴
+
+
+Therefore:
+
+Degree ↑
+   ↓
+Model becomes more flexible
+   ↓
+Can capture more complex patterns
+
+But:
+
+Degree too high
+   ↓
+Risk of overfitting
+
+
+==================================================
+6. SIMPLE INTUITION
+==================================================
+
+Suppose the actual relationship looks like:
+
+        *
+      *   *
+    *       *
+   *         *
+  *           *
+
+Linear Regression:
+
+        /
+       /
+      /
+     /
+    /
+
+Polynomial Regression:
+
+        *
+      *   *
+    *       *
+   *         *
+
+Polynomial Regression gives the model the ability to bend
+the prediction curve.
+
+
+==================================================
+7. IMPORTANT CONCEPT:
+   POLYNOMIAL REGRESSION IS STILL LINEAR REGRESSION
+==================================================
+
+This is a very important point.
+
+Consider:
+
+ŷ = β₀ + β₁X + β₂X²
+
+It looks nonlinear because X² exists.
+
+But the model is still LINEAR with respect to its PARAMETERS:
+
+β₀, β₁, β₂
+
+Therefore Polynomial Regression can be implemented using
+Linear Regression after transforming the features.
+
+
+==================================================
+8. FEATURE TRANSFORMATION
+==================================================
+
+This is the key idea behind Polynomial Regression.
+
+Original feature:
+
+X
+
+Transform it into:
+
+X
+X²
+X³
+...
+
+Example:
+
+Original:
+
+X = [1, 2, 3, 4]
+
+Degree = 2
+
+Transformed features:
+
+X    X²
+1     1
+2     4
+3     9
+4    16
+
+Now Linear Regression can use:
+
+X and X²
+
+to learn:
+
+ŷ = β₀ + β₁X + β₂X²
+
+
+==================================================
+9. SCIKIT-LEARN IMPLEMENTATION
+==================================================
+
+Scikit-learn provides:
+
+PolynomialFeatures
+
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+
+poly = PolynomialFeatures(degree=2)
+
+X_poly = poly.fit_transform(X)
+
+model = LinearRegression()
+
+model.fit(X_poly, y)
+
+y_pred = model.predict(X_poly)
+
+
+Flow:
+
+Original X
+    ↓
+PolynomialFeatures
+    ↓
+X, X², X³, ...
+    ↓
+LinearRegression
+    ↓
+Prediction
+
+
+==================================================
+10. WHAT DOES PolynomialFeatures DO?
+==================================================
+
+Suppose:
+
+X = [2, 3]
+
+degree = 2
+
+PolynomialFeatures transforms the feature into:
+
+[1, X, X²]
+
+For X = 2:
+
+[1, 2, 4]
+
+For X = 3:
+
+[1, 3, 9]
+
+The "1" represents the bias/intercept term.
+
+Therefore:
+
+X
+ ↓
+[1, X, X²]
+ ↓
+Linear Regression
+
+
+==================================================
+11. DEGREE = 1
+==================================================
+
+If:
+
+degree = 1
+
+Features are approximately:
+
+[1, X]
+
+Model:
+
+ŷ = β₀ + β₁X
+
+This is Linear Regression.
+
+
+==================================================
+12. DEGREE = 2
+==================================================
+
+If:
+
+degree = 2
+
+Features:
+
+[1, X, X²]
+
+Model:
+
+ŷ = β₀ + β₁X + β₂X²
+
+This produces a quadratic curve.
+
+
+==================================================
+13. DEGREE = 3
+==================================================
+
+If:
+
+degree = 3
+
+Features:
+
+[1, X, X², X³]
+
+Model:
+
+ŷ = β₀ + β₁X + β₂X² + β₃X³
+
+This can produce a more flexible curve.
+
+
+==================================================
+14. EXAMPLE
+==================================================
+
+Suppose:
+
+X = Hours of Exercise
+y = Calories Burned
+
+Actual relationship is curved.
+
+We use:
+
+degree = 2
+
+Model:
+
+ŷ = β₀ + β₁X + β₂X²
+
+Suppose the model learns:
+
+β₀ = 100
+β₁ = 20
+β₂ = 5
+
+Then:
+
+ŷ = 100 + 20X + 5X²
+
+For:
+
+X = 3
+
+ŷ = 100 + 20(3) + 5(3²)
+
+ŷ = 100 + 60 + 45
+
+ŷ = 205
+
+Predicted Calories = 205
+
+
+==================================================
+15. TRAINING PROCESS
+==================================================
+
+Polynomial Regression training:
+
+Raw Features
+     ↓
+Polynomial Feature Transformation
+     ↓
+Create X, X², X³, ...
+     ↓
+Linear Regression
+     ↓
+Learn β₀, β₁, β₂, ...
+     ↓
+Predictions
+     ↓
+Calculate Error
+     ↓
+Evaluate Model
+
+
+==================================================
+16. POLYNOMIAL REGRESSION VS LINEAR REGRESSION
+==================================================
+
+Linear Regression:
+
+ŷ = β₀ + β₁X
+
+Relationship:
+
+X → y
+
+Straight line.
+
+
+Polynomial Regression:
+
+ŷ = β₀ + β₁X + β₂X² + ...
+
+Relationship:
+
+X → y
+
+Curved line.
+
+
+CORE DIFFERENCE:
+
+Linear Regression:
+Uses original features.
+
+Polynomial Regression:
+Creates polynomial features and then applies
+Linear Regression.
+
+
+==================================================
+17. UNDERFITTING AND OVERFITTING
+==================================================
+
+The polynomial degree is extremely important.
+
+
+Degree too LOW:
+
+Actual relationship:
+      *
+    *   *
+   *     *
+  *       *
+
+Model:
+──────────────
+
+The model is too simple.
+
+→ Underfitting
+
+
+Degree appropriate:
+
+Model follows the actual pattern reasonably well.
+
+→ Good fit
+
+
+Degree too HIGH:
+
+The curve may pass through almost every training point:
+
+*─╮
+  ╰╮
+   ╰─╮
+     ╰╮
+      *
+
+The model learns noise instead of the general pattern.
+
+→ Overfitting
+
+
+==================================================
+18. BIAS-VARIANCE INTUITION
+==================================================
+
+Low polynomial degree:
+
+Model too simple
+      ↓
+High Bias
+      ↓
+Underfitting
+
+
+Very high polynomial degree:
+
+Model too complex
+      ↓
+High Variance
+      ↓
+Overfitting
+
+
+Goal:
+
+Choose an appropriate degree that generalizes well
+to unseen data.
+
+
+==================================================
+19. TRAINING VS TESTING
+==================================================
+
+IMPORTANT:
+
+Do NOT choose the polynomial degree only because it gives
+excellent training performance.
+
+A high-degree model may memorize the training data.
+
+Correct idea:
+
+Training Data
+     ↓
+Transform Features
+     ↓
+Train Model
+     ↓
+Validation / Cross-Validation
+     ↓
+Choose Appropriate Degree
+     ↓
+Evaluate on Test Data
+
+
+==================================================
+20. ADVANTAGES
+==================================================
+
+1. Can model nonlinear relationships.
+
+2. Simple to understand.
+
+3. Can be implemented using Linear Regression.
+
+4. Useful when the relationship is curved but reasonably
+   smooth.
+
+5. Degree can be adjusted to control model complexity.
+
+
+==================================================
+21. LIMITATIONS
+==================================================
+
+1. High polynomial degrees can cause overfitting.
+
+2. High-degree polynomial features can become computationally
+   expensive.
+
+3. Polynomial features can create very large numerical values.
+
+4. Coefficients can become difficult to interpret.
+
+5. Choosing the correct degree is important.
+
+6. Extrapolation outside the training range can be unreliable.
+
+
+==================================================
+22. WHEN TO USE POLYNOMIAL REGRESSION
+==================================================
+
+Use it when:
+
+- Target is continuous.
+- Relationship between feature and target is nonlinear.
+- A curved relationship appears reasonable.
+- Linear Regression underfits the data.
+- You need a relatively simple nonlinear regression model.
+
+
+==================================================
+23. MULTIPLE FEATURES
+==================================================
+
+Polynomial Regression can also work with multiple features.
+
+Suppose:
+
+X₁ = Area
+X₂ = Bedrooms
+
+For degree 2, polynomial features can include:
+
+1
+X₁
+X₂
+X₁²
+X₁X₂
+X₂²
+
+Therefore the model can learn:
+
+ŷ = β₀
+   + β₁X₁
+   + β₂X₂
+   + β₃X₁²
+   + β₄X₁X₂
+   + β₅X₂²
+
+
+The interaction term:
+
+X₁X₂
+
+allows the model to capture how two features can jointly
+affect the target.
+
+
+==================================================
+24. POLYNOMIAL REGRESSION COMPLETE FLOW
+==================================================
+
+Dataset
+   ↓
+Features X + Target y
+   ↓
+Train / Test Split
+   ↓
+Polynomial Feature Transformation
+   ↓
+X → X, X², X³, ...
+   ↓
+Linear Regression
+   ↓
+Train Model
+   ↓
+Predictions
+   ↓
+Evaluate
+   ↓
+Choose Appropriate Degree
+   ↓
+Final Model
+
+
+==================================================
+25. KEY POINTS TO REMEMBER
+==================================================
+
+1. Polynomial Regression is used for nonlinear relationships.
+
+2. It adds polynomial terms such as X², X³, etc.
+
+3. General equation:
+
+   ŷ = β₀ + β₁X + β₂X² + ... + βₙXⁿ
+
+4. Polynomial degree controls model complexity.
+
+5. Degree 1 ≈ Linear Regression.
+
+6. Polynomial Regression is still linear with respect to
+   its coefficients.
+
+7. PolynomialFeatures performs the feature transformation.
+
+8. LinearRegression learns the coefficients after transformation.
+
+9. Low degree → possible underfitting.
+
+10. High degree → possible overfitting.
+
+11. The correct degree should be selected using validation
+    or cross-validation, not simply training performance.
+
+12. Polynomial Regression can also include multiple features
+    and interaction terms.
+
+13. Main idea:
+
+   Original Feature
+         ↓
+   Polynomial Features
+         ↓
+   Linear Regression
+         ↓
+      Curved Model

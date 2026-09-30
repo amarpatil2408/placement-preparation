@@ -1,0 +1,265 @@
+# SIMPLE LINEAR REGRESSION
+
+## 1. Definition
+
+Simple Linear Regression is a supervised learning algorithm used to predict a continuous numerical target using one input feature.
+
+It assumes that the relationship between the input (X) and target (y) can be represented approximately by a straight line.
+
+Example:
+Study Hours → Exam Score
+
+
+## 2. Basic Idea
+
+The model tries to find the best-fitting straight line through the data points.
+
+      y
+      │
+  90  │                 ●
+      │             ●
+  70  │          ●
+      │       ●
+  50  │    ●
+      │ ●
+      └──────────────────── x
+        Study Hours
+
+The line represents the relationship learned by the model.
+
+
+## 3. Mathematical Equation
+
+The equation of Simple Linear Regression is:
+
+y = mx + b
+
+Where:
+
+y = predicted target
+x = input feature
+m = slope / coefficient
+b = intercept
+
+In Machine Learning notation:
+
+ŷ = β₀ + β₁x
+
+Where:
+
+ŷ  = predicted value
+β₀ = intercept
+β₁ = coefficient / slope
+x  = input feature
+
+
+## 4. What Does the Model Learn?
+
+The model learns two parameters:
+
+1. Slope (β₁)
+2. Intercept (β₀)
+
+These parameters determine the position and direction of the regression line.
+
+Example:
+
+ŷ = 10 + 5x
+
+Here:
+
+β₀ = 10
+β₁ = 5
+
+If x = 4:
+
+ŷ = 10 + (5 × 4)
+ŷ = 30
+
+
+## 5. Meaning of Slope
+
+The slope tells us how much the predicted target changes when the input feature increases by one unit.
+
+Example:
+
+ŷ = 40 + 5x
+
+Slope = 5
+
+Therefore:
+
+For every 1-unit increase in x,
+the predicted y increases by 5 units.
+
+
+## 6. Meaning of Intercept
+
+The intercept is the predicted value of y when x = 0.
+
+Example:
+
+ŷ = 40 + 5x
+
+When x = 0:
+
+ŷ = 40
+
+Therefore:
+
+Intercept = 40
+
+
+## 7. Training Process
+
+The goal of training is to find the values of β₀ and β₁ that produce the best-fitting line.
+
+Basic process:
+
+Training Data
+     ↓
+Choose initial parameters
+     ↓
+Calculate predictions
+     ↓
+Calculate error
+     ↓
+Calculate loss
+     ↓
+Update parameters
+     ↓
+Repeat
+     ↓
+Best-fitting line
+
+
+## 8. Prediction
+
+After training, the model can predict the target for a new input.
+
+Example:
+
+Training data:
+
+Hours → Score
+
+1 → 50
+2 → 55
+3 → 65
+4 → 70
+
+Suppose the trained model is:
+
+ŷ = 45 + 6x
+
+For 5 hours:
+
+ŷ = 45 + (6 × 5)
+ŷ = 75
+
+Predicted score = 75
+
+
+## 9. Cost / Loss Function
+
+The model needs a way to measure how far its predictions are from the actual values.
+
+A common loss function for linear regression is Mean Squared Error (MSE):
+
+MSE = (1/n) Σ(yᵢ - ŷᵢ)²
+
+Where:
+
+n = number of observations
+yᵢ = actual value
+ŷᵢ = predicted value
+
+The goal is to minimize the MSE.
+
+
+## 10. Best-Fitting Line
+
+The best-fitting line is the line that minimizes the overall prediction error.
+
+Conceptually:
+
+Actual values
+     ↓
+Compare with
+     ↓
+Predicted values
+     ↓
+Calculate MSE
+     ↓
+Adjust β₀ and β₁
+     ↓
+Minimize MSE
+
+
+## 11. Assumptions
+
+Simple Linear Regression generally assumes:
+
+- Linear relationship between X and y
+- Observations are independent
+- Errors have approximately constant variance
+- Errors are approximately normally distributed for standard statistical inference
+
+
+## 12. Advantages
+
+- Simple to understand
+- Easy to implement
+- Fast to train
+- Highly interpretable
+- Useful when the relationship is approximately linear
+
+
+## 13. Limitations
+
+- Works poorly when the relationship is strongly non-linear
+- Sensitive to outliers
+- Uses only one feature
+- Can be affected by violations of its assumptions
+
+
+## 14. Simple Linear Regression vs Multiple Linear Regression
+
+Simple Linear Regression:
+
+ŷ = β₀ + β₁x
+
+Uses ONE input feature.
+
+Multiple Linear Regression:
+
+ŷ = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ
+
+Uses MULTIPLE input features.
+
+
+## 15. Complete Flow
+
+Input Feature (X)
+       ↓
+Simple Linear Regression
+       ↓
+Learn β₀ and β₁
+       ↓
+Regression Equation
+       ↓
+ŷ = β₀ + β₁X
+       ↓
+Prediction
+
+
+## KEY POINTS
+
+- Simple Linear Regression predicts a continuous numerical value.
+- It uses one input feature.
+- It models the relationship using a straight line.
+- The equation is ŷ = β₀ + β₁x.
+- β₀ is the intercept.
+- β₁ is the slope/coefficient.
+- MSE is commonly used as the loss function.
+- Training finds parameters that minimize the prediction error.

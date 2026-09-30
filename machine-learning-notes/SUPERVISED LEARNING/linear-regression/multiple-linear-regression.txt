@@ -1,0 +1,653 @@
+# MULTIPLE LINEAR REGRESSION
+
+==================================================
+1. DEFINITION
+==================================================
+
+Multiple Linear Regression is a supervised learning algorithm
+used to predict a continuous target variable using TWO OR MORE
+independent variables (features).
+
+Example:
+
+Predict house price using:
+
+- Area
+- Number of bedrooms
+- Age of house
+
+Here:
+
+Features (X):
+X₁ = Area
+X₂ = Bedrooms
+X₃ = Age
+
+Target (y):
+House Price
+
+
+==================================================
+2. BASIC IDEA
+==================================================
+
+Simple Linear Regression:
+
+One feature → One target
+
+        X
+        ↓
+      Model
+        ↓
+        y
+
+
+Multiple Linear Regression:
+
+Multiple features → One target
+
+X₁ ──┐
+X₂ ──┤
+X₃ ──┼──→ Model ──→ y
+X₄ ──┘
+
+Example:
+
+Area + Bedrooms + Age
+          ↓
+   Linear Regression
+          ↓
+      House Price
+
+
+==================================================
+3. EQUATION
+==================================================
+
+The mathematical equation is:
+
+ŷ = β₀ + β₁X₁ + β₂X₂ + β₃X₃ + ... + βₙXₙ
+
+Where:
+
+ŷ  = predicted value
+β₀ = intercept
+β₁ = coefficient of X₁
+β₂ = coefficient of X₂
+β₃ = coefficient of X₃
+βₙ = coefficient of Xₙ
+
+X₁, X₂, X₃ ... Xₙ = input features
+
+
+For 2 features:
+
+ŷ = β₀ + β₁X₁ + β₂X₂
+
+
+Example:
+
+House Price = 50,000
+            + 3,000 × Area
+            + 20,000 × Bedrooms
+
+The model learns β₀, β₁, β₂ from the training data.
+
+
+==================================================
+4. WHAT DOES THE MODEL LEARN?
+==================================================
+
+The model learns:
+
+1. Intercept (β₀)
+2. Coefficients (β₁, β₂, β₃, ...)
+
+Example:
+
+ŷ = 10 + 5X₁ + 2X₂
+
+The model has learned:
+
+β₀ = 10
+β₁ = 5
+β₂ = 2
+
+
+==================================================
+5. MEANING OF COEFFICIENTS
+==================================================
+
+This is one of the MOST IMPORTANT concepts.
+
+Suppose:
+
+ŷ = 50 + 3X₁ + 10X₂
+
+where:
+
+X₁ = Study Hours
+X₂ = Sleep Hours
+ŷ  = Exam Score
+
+Coefficient of Study Hours = 3
+
+Meaning:
+
+For every 1-unit increase in Study Hours,
+the predicted Exam Score increases by 3 units,
+HOLDING Sleep Hours CONSTANT.
+
+
+Coefficient of Sleep Hours = 10
+
+Meaning:
+
+For every 1-unit increase in Sleep Hours,
+the predicted Exam Score increases by 10 units,
+HOLDING Study Hours CONSTANT.
+
+
+IMPORTANT:
+
+In Multiple Linear Regression, the effect of one feature
+is interpreted while keeping the other features constant.
+
+
+==================================================
+6. INTERCEPT
+==================================================
+
+Intercept = β₀
+
+It represents the predicted target value when
+ALL input features are 0.
+
+Example:
+
+ŷ = 50 + 3X₁ + 10X₂
+
+If:
+
+X₁ = 0
+X₂ = 0
+
+Then:
+
+ŷ = 50
+
+Therefore:
+
+Intercept = 50
+
+NOTE:
+The intercept may not always have a practical meaning if
+zero is not a realistic value for the features.
+
+
+==================================================
+7. TRAINING PROCESS
+==================================================
+
+The model starts with parameters:
+
+β₀, β₁, β₂, ...
+
+Then it:
+
+1. Takes training data.
+2. Calculates predictions.
+3. Calculates the error.
+4. Measures the error using a loss function.
+5. Adjusts the coefficients.
+6. Repeats the process.
+7. Finds coefficients that minimize the error.
+
+Flow:
+
+Training Data
+      ↓
+Initialize Parameters
+      ↓
+Make Predictions
+      ↓
+Calculate Error
+      ↓
+Calculate Loss
+      ↓
+Update Parameters
+      ↓
+Repeat
+      ↓
+Best-Fitting Model
+
+
+==================================================
+8. LOSS FUNCTION — MSE
+==================================================
+
+A commonly used loss function is:
+
+Mean Squared Error (MSE)
+
+MSE = (1/n) Σ(yᵢ - ŷᵢ)²
+
+Where:
+
+yᵢ = actual value
+ŷᵢ = predicted value
+n  = number of observations
+
+The goal of training is:
+
+MINIMIZE MSE
+
+Smaller MSE → predictions are closer to actual values.
+
+
+==================================================
+9. PREDICTION EXAMPLE
+==================================================
+
+Suppose the trained model is:
+
+ŷ = 20 + 5X₁ + 10X₂
+
+Where:
+
+X₁ = Hours Studied
+X₂ = Hours Slept
+
+A student:
+
+X₁ = 4
+X₂ = 7
+
+Then:
+
+ŷ = 20 + 5(4) + 10(7)
+
+ŷ = 20 + 20 + 70
+
+ŷ = 110
+
+Therefore:
+
+Predicted Score = 110
+
+
+==================================================
+10. GEOMETRIC INTUITION
+==================================================
+
+Simple Linear Regression:
+
+One feature + target
+
+→ Best-fitting LINE
+
+
+Multiple Linear Regression with 2 features:
+
+X₁ + X₂ + target
+
+→ Best-fitting PLANE
+
+
+With more than 2 features:
+
+→ Best-fitting HYPERPLANE
+
+
+So:
+
+1 feature  → Line
+2 features → Plane
+3+ features → Hyperplane
+
+
+==================================================
+11. SIMPLE VS MULTIPLE LINEAR REGRESSION
+==================================================
+
+Simple Linear Regression:
+
+ŷ = β₀ + β₁X₁
+
+Uses:
+→ ONE feature
+
+Example:
+Area → House Price
+
+
+Multiple Linear Regression:
+
+ŷ = β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ
+
+Uses:
+→ TWO OR MORE features
+
+Example:
+Area + Bedrooms + Age → House Price
+
+
+==================================================
+12. IMPLEMENTATION WITH SCIKIT-LEARN
+==================================================
+
+Example:
+
+from sklearn.linear_model import LinearRegression
+
+model = LinearRegression()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+Here:
+
+LinearRegression()
+→ creates the Multiple Linear Regression model.
+
+fit()
+→ learns the coefficients from training data.
+
+predict()
+→ generates predictions for new data.
+
+
+Example dataset:
+
+X = [
+    [1000, 2],
+    [1500, 3],
+    [2000, 4],
+    [2500, 4]
+]
+
+y = [
+    200000,
+    300000,
+    400000,
+    500000
+]
+
+Here:
+
+X₁ = Area
+X₂ = Bedrooms
+
+y = House Price
+
+
+==================================================
+13. MODEL PARAMETERS IN SCIKIT-LEARN
+==================================================
+
+After training:
+
+model.coef_
+
+→ gives the learned coefficients.
+
+Example:
+
+model.coef_
+
+[300, 20000]
+
+Meaning:
+
+β₁ = 300
+β₂ = 20000
+
+
+model.intercept_
+
+→ gives β₀.
+
+
+Therefore:
+
+ŷ = model.intercept_
+    + model.coef_[0] × X₁
+    + model.coef_[1] × X₂
+
+
+==================================================
+14. ASSUMPTIONS
+==================================================
+
+Important assumptions of Multiple Linear Regression:
+
+1. LINEARITY
+
+There should be a roughly linear relationship between
+the features and the target.
+
+2. INDEPENDENCE
+
+Observations/errors should generally be independent.
+
+3. HOMOSCEDASTICITY
+
+The variance of errors should be approximately constant
+across predicted values.
+
+4. NORMALITY OF RESIDUALS
+
+For statistical inference, residuals are often assumed
+to be approximately normally distributed.
+
+5. LOW MULTICOLLINEARITY
+
+Features should not be excessively correlated with
+each other.
+
+
+==================================================
+15. MULTICOLLINEARITY
+==================================================
+
+Definition:
+
+Multicollinearity occurs when two or more input features
+are highly correlated with each other.
+
+Example:
+
+X₁ = House Area in square meters
+X₂ = House Area in square feet
+
+These contain almost the same information.
+
+Problem:
+
+The model can have difficulty determining the individual
+effect of each feature.
+
+A common diagnostic:
+
+VIF
+(Variance Inflation Factor)
+
+
+==================================================
+16. RESIDUALS
+==================================================
+
+Residual = Actual Value - Predicted Value
+
+Formula:
+
+eᵢ = yᵢ - ŷᵢ
+
+Example:
+
+Actual = 500
+Predicted = 450
+
+Residual:
+
+500 - 450 = 50
+
+
+Residuals help us understand how well the model fits
+the data.
+
+
+==================================================
+17. ADVANTAGES
+==================================================
+
+1. Can use multiple features simultaneously.
+
+2. Simple and relatively easy to interpret.
+
+3. Computationally efficient.
+
+4. Useful for understanding the relationship between
+   multiple predictors and a continuous target.
+
+5. Provides coefficients that describe feature effects
+   under the model assumptions.
+
+
+==================================================
+18. LIMITATIONS
+==================================================
+
+1. Assumes a linear relationship.
+
+2. Sensitive to outliers.
+
+3. Multicollinearity can cause problems.
+
+4. Can overfit when too many irrelevant features are used.
+
+5. Performance depends heavily on the quality of the features.
+
+6. Cannot naturally capture complex nonlinear relationships
+   without transformations or additional features.
+
+
+==================================================
+19. WHEN TO USE MULTIPLE LINEAR REGRESSION
+==================================================
+
+Use it when:
+
+- Target is continuous.
+- You have multiple input features.
+- Relationships are reasonably linear.
+- You want an interpretable baseline model.
+
+Examples:
+
+Area + Bedrooms + Location Features
+                ↓
+           House Price
+
+Advertising Budget + Season + Promotion
+                ↓
+              Sales
+
+Experience + Education + Skills
+                ↓
+             Salary
+
+
+==================================================
+20. COMPLETE FLOW
+==================================================
+
+Dataset
+   ↓
+Features (X) + Target (y)
+   ↓
+Data Preprocessing
+   ↓
+Train / Test Split
+   ↓
+Multiple Linear Regression
+   ↓
+Model learns:
+β₀, β₁, β₂, ... βₙ
+   ↓
+Predictions
+   ↓
+Calculate Error
+   ↓
+Evaluate Model
+   ↓
+Tune / Improve
+   ↓
+Final Model
+
+
+==================================================
+21. SIMPLE LINEAR vs MULTIPLE LINEAR — CORE IDEA
+==================================================
+
+Simple:
+
+X ─────────→ y
+
+Example:
+
+Area → Price
+
+
+Multiple:
+
+X₁ ──┐
+X₂ ──┤
+X₃ ──┼────→ y
+X₄ ──┘
+
+Example:
+
+Area
+Bedrooms
+Age
+Location
+   ↓
+House Price
+
+
+==================================================
+22. KEY POINTS TO REMEMBER
+==================================================
+
+1. Multiple Linear Regression predicts a CONTINUOUS target.
+
+2. It uses TWO OR MORE input features.
+
+3. General equation:
+
+   ŷ = β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ
+
+4. β₀ = intercept.
+
+5. β₁, β₂, ... = feature coefficients.
+
+6. A coefficient represents the change in predicted target
+   for a one-unit increase in that feature, holding the
+   other features constant.
+
+7. MSE is a commonly used loss function.
+
+8. Simple Linear Regression → one feature.
+
+9. Multiple Linear Regression → two or more features.
+
+10. With two features, the model represents a plane.
+
+11. Multicollinearity occurs when input features are highly
+    correlated with each other.
+
+12. Multiple Linear Regression is still a LINEAR model,
+    even when it has many input features.

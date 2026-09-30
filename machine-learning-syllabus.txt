@@ -1,0 +1,163 @@
+MACHINE LEARNING
+│
+├── 1. FOUNDATIONS
+│   ├── What is Machine Learning?
+│   ├── Types of Machine Learning
+│   ├── Dataset
+│   ├── Features & Target
+│   ├── Samples / Instances
+│   ├── Training / Validation / Test Data
+│   ├── Parameters & Hyperparameters
+│   ├── Model
+│   ├── Training
+│   ├── Prediction / Inference
+│   └── Underfitting vs Overfitting
+│
+├── 2. DATA PREPROCESSING
+│   ├── Data Cleaning
+│   ├── Missing Values
+│   ├── Duplicates
+│   ├── Outliers
+│   ├── Categorical Data
+│   ├── Label Encoding
+│   ├── One-Hot Encoding
+│   ├── Feature Scaling
+│   │   ├── Standardization
+│   │   └── Normalization
+│   ├── Feature Selection
+│   ├── Feature Extraction
+│   └── Feature Engineering
+│
+├── 3. TRAIN / VALIDATION / TEST
+│   ├── train_test_split
+│   ├── Cross-Validation
+│   ├── K-Fold Cross-Validation
+│   └── Stratified K-Fold
+│
+├── 4. SUPERVISED LEARNING
+│
+│   ├── REGRESSION
+│   │   ├── Linear Regression
+│   │   │   ├── Simple Linear Regression ✅
+│   │   │   └── Multiple Linear Regression ✅
+│   │   ├── Polynomial Regression
+│   │   ├── Decision Tree Regression
+│   │   ├── Random Forest Regression
+│   │   └── Support Vector Regression (SVR)
+│   │
+│   └── CLASSIFICATION
+│       ├── Logistic Regression
+│       ├── K-Nearest Neighbors (KNN)
+│       ├── Decision Tree Classification
+│       ├── Random Forest Classification
+│       ├── Support Vector Machine (SVM)
+│       └── Naive Bayes
+│
+├── 5. UNSUPERVISED LEARNING
+│
+│   ├── CLUSTERING
+│   │   ├── K-Means
+│   │   ├── Hierarchical Clustering
+│   │   └── DBSCAN
+│   │
+│   ├── DIMENSIONALITY REDUCTION
+│   │   ├── PCA
+│   │   └── t-SNE
+│   │
+│   └── ASSOCIATION RULE LEARNING
+│       ├── Apriori
+│       └── FP-Growth
+│
+├── 6. MODEL EVALUATION
+│   │
+│   ├── REGRESSION METRICS
+│   │   ├── MAE
+│   │   ├── MSE
+│   │   ├── RMSE
+│   │   └── R² Score
+│   │
+│   └── CLASSIFICATION METRICS
+│       ├── Confusion Matrix
+│       ├── Accuracy
+│       ├── Precision
+│       ├── Recall
+│       ├── F1 Score
+│       ├── ROC Curve
+│       └── AUC
+│
+├── 7. MODEL IMPROVEMENT
+│   ├── Bias vs Variance
+│   ├── Overfitting
+│   ├── Underfitting
+│   ├── Regularization
+│   │   ├── L1 (Lasso)
+│   │   └── L2 (Ridge)
+│   ├── Hyperparameter Tuning
+│   │   ├── Grid Search
+│   │   └── Random Search
+│   └── Feature Selection
+│
+├── 8. ENSEMBLE LEARNING
+│   ├── Bagging
+│   ├── Boosting
+│   ├── Random Forest
+│   ├── AdaBoost
+│   ├── Gradient Boosting
+│   ├── XGBoost
+│   └── LightGBM
+│
+├── 9. ML MATHEMATICS
+│   ├── Linear Algebra
+│   │   ├── Vectors
+│   │   ├── Matrices
+│   │   ├── Matrix Operations
+│   │   └── Dot Product
+│   │
+│   ├── Statistics
+│   │   ├── Mean
+│   │   ├── Median
+│   │   ├── Variance
+│   │   ├── Standard Deviation
+│   │   ├── Covariance
+│   │   └── Correlation
+│   │
+│   ├── Probability
+│   │   ├── Probability
+│   │   ├── Conditional Probability
+│   │   ├── Bayes Theorem
+│   │   └── Probability Distributions
+│   │
+│   └── Calculus
+│       ├── Derivatives
+│       ├── Partial Derivatives
+│       └── Gradients
+│
+├── 10. SCIKIT-LEARN
+│   ├── Dataset Loading
+│   ├── train_test_split
+│   ├── Preprocessing
+│   ├── Model Training
+│   ├── fit()
+│   ├── predict()
+│   ├── transform()
+│   ├── Evaluation
+│   ├── Pipelines
+│   └── Hyperparameter Tuning
+│
+└── 11. COMPLETE ML WORKFLOW
+    │
+    ├── Problem Definition
+    ├── Collect Data
+    ├── Explore Data
+    ├── Clean Data
+    ├── Feature Engineering
+    ├── Split Data
+    ├── Preprocess
+    ├── Select Algorithm
+    ├── Train Model
+    ├── Evaluate Model
+    ├── Tune Hyperparameters
+    ├── Retrain
+    ├── Test Final Model
+    ├── Save Model
+    └── Deploy Model
