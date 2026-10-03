@@ -1,0 +1,799 @@
+# RANDOM FOREST REGRESSION
+
+==================================================
+1. DEFINITION
+==================================================
+
+Random Forest Regression is a supervised learning algorithm
+used to predict a CONTINUOUS target variable.
+
+It is an ENSEMBLE algorithm that combines the predictions
+of MANY Decision Trees to produce one final prediction.
+
+Basic idea:
+
+Many Decision Trees
+        ↓
+Combine their predictions
+        ↓
+Final Prediction
+
+
+Example:
+
+Tree 1 → ₹48,000
+Tree 2 → ₹52,000
+Tree 3 → ₹50,000
+Tree 4 → ₹51,000
+Tree 5 → ₹49,000
+
+Final prediction:
+
+(48 + 52 + 50 + 51 + 49) / 5
+= ₹50,000
+
+
+==================================================
+2. WHY RANDOM FOREST?
+==================================================
+
+A single Decision Tree can easily overfit the training data.
+
+Decision Tree:
+
+Training Data
+     ↓
+One Tree
+     ↓
+Can become very complex
+     ↓
+Possible Overfitting
+
+
+Random Forest:
+
+Training Data
+     ↓
+Many different Decision Trees
+     ↓
+Combine their predictions
+     ↓
+More stable prediction
+
+
+The main idea is:
+
+Instead of depending on ONE tree,
+use MANY trees and combine them.
+
+
+==================================================
+3. WHAT IS AN ENSEMBLE?
+==================================================
+
+Ensemble Learning means combining multiple models
+to produce a stronger overall model.
+
+Example:
+
+Model 1 ──┐
+Model 2 ──┤
+Model 3 ──┼──→ Combined Prediction
+Model 4 ──┤
+Model 5 ──┘
+
+Random Forest is an ensemble of Decision Trees.
+
+
+==================================================
+4. BASIC INTUITION
+==================================================
+
+Imagine asking 100 different experts to estimate
+the price of a house.
+
+Expert 1 → ₹50L
+Expert 2 → ₹53L
+Expert 3 → ₹48L
+Expert 4 → ₹51L
+...
+Expert 100 → ₹49L
+
+Instead of trusting one expert, take the average.
+
+Random Forest works with the same basic idea:
+
+Many Decision Trees
+        ↓
+Each gives a prediction
+        ↓
+Average the predictions
+        ↓
+Final prediction
+
+
+==================================================
+5. HOW RANDOM FOREST CREATES MANY TREES
+==================================================
+
+Random Forest introduces RANDOMNESS in two major ways:
+
+1. Random samples of training data
+2. Random subsets of features
+
+
+Training Dataset
+       ↓
+Random Sampling
+       ↓
+ ┌─────┼─────┬─────┐
+ ↓     ↓     ↓     ↓
+Tree1 Tree2 Tree3 Tree4 ...
+ └─────┼─────┴─────┘
+       ↓
+Combine predictions
+       ↓
+Final Prediction
+
+
+==================================================
+6. BOOTSTRAP SAMPLING
+==================================================
+
+Bootstrap sampling means creating different training datasets
+by randomly sampling observations from the original dataset
+WITH REPLACEMENT.
+
+Example:
+
+Original:
+
+A B C D E
+
+Possible bootstrap samples:
+
+Tree 1:
+A C C D E
+
+Tree 2:
+B B C D A
+
+Tree 3:
+A D E E B
+
+Each tree receives a different sample.
+
+Because sampling is WITH replacement,
+the same observation can appear multiple times.
+
+
+==================================================
+7. RANDOM FEATURE SELECTION
+==================================================
+
+Random Forest also randomly considers a subset of features
+when looking for a split.
+
+Suppose we have:
+
+10 features
+
+At a particular split, the tree may consider only:
+
+3 randomly selected features.
+
+Example:
+
+All features:
+
+Age
+Salary
+Area
+Bedrooms
+Experience
+Location
+Education
+Distance
+Size
+Rooms
+
+At one split:
+
+Randomly selected:
+
+Age
+Area
+Experience
+
+The tree chooses the best split among those features.
+
+
+This introduces more diversity between trees.
+
+
+==================================================
+8. WHY RANDOMNESS HELPS
+==================================================
+
+If every tree were exactly the same, combining them would
+provide little additional benefit.
+
+Randomness makes trees different.
+
+Different trees
+      ↓
+Different errors
+      ↓
+Combine predictions
+      ↓
+Errors can partially cancel out
+      ↓
+More stable model
+
+
+This is one of the main reasons Random Forest works well.
+
+
+==================================================
+9. HOW A RANDOM FOREST TREE IS BUILT
+==================================================
+
+For each tree:
+
+1. Take a bootstrap sample of the training data.
+
+2. Start building a Decision Tree.
+
+3. At each split, randomly select a subset of features.
+
+4. Find the best split among those selected features.
+
+5. Continue growing the tree according to the stopping
+   conditions.
+
+6. Repeat for many trees.
+
+
+Flow:
+
+Training Data
+     ↓
+Bootstrap Sample
+     ↓
+Random Feature Selection
+     ↓
+Build Decision Tree
+     ↓
+Repeat many times
+     ↓
+Many Trees
+
+
+==================================================
+10. FINAL PREDICTION
+==================================================
+
+For REGRESSION:
+
+The final prediction is commonly the AVERAGE of the
+predictions from all trees.
+
+Example:
+
+Tree 1 → 100
+Tree 2 → 110
+Tree 3 → 90
+Tree 4 → 105
+Tree 5 → 95
+
+Final:
+
+(100 + 110 + 90 + 105 + 95) / 5
+
+= 100
+
+
+Therefore:
+
+Final Prediction
+=
+Average of Tree Predictions
+
+
+==================================================
+11. RANDOM FOREST REGRESSION vs
+    DECISION TREE REGRESSION
+==================================================
+
+Decision Tree:
+
+Dataset
+   ↓
+ONE Decision Tree
+   ↓
+Prediction
+
+
+Random Forest:
+
+Dataset
+   ↓
+Many Decision Trees
+   ↓
+Tree 1 → Prediction
+Tree 2 → Prediction
+Tree 3 → Prediction
+...
+Tree N → Prediction
+   ↓
+Average
+   ↓
+Final Prediction
+
+
+Core difference:
+
+Decision Tree
+→ One tree
+
+Random Forest
+→ Many trees + randomness + aggregation
+
+
+==================================================
+12. OVERFITTING
+==================================================
+
+A single Decision Tree can overfit because it can become
+too closely fitted to the training data.
+
+Random Forest reduces this problem by combining many
+different trees.
+
+Conceptually:
+
+One complex tree
+→ High variance
+
+Many diverse trees
+→ Averaging reduces variance
+
+
+Important:
+
+Random Forest can still overfit if its configuration is
+poor, but it is generally more resistant to overfitting
+than a single unrestricted Decision Tree.
+
+
+==================================================
+13. BIAS AND VARIANCE
+==================================================
+
+Decision Tree:
+
+Can have:
+→ Low bias
+→ High variance
+
+
+Random Forest:
+
+Averages many trees.
+
+Averaging generally:
+→ Reduces variance
+→ Produces more stable predictions
+
+
+This is a major reason Random Forest is powerful.
+
+
+==================================================
+14. FEATURE SCALING
+==================================================
+
+Random Forest generally does NOT require:
+
+- Standardization
+- Normalization
+
+Why?
+
+Decision Trees use threshold-based splits.
+
+Example:
+
+Age < 30
+
+or:
+
+Salary < 50000
+
+Therefore, the model is generally not sensitive to feature
+scale in the way that distance-based or gradient-based
+models can be.
+
+
+==================================================
+15. SCIKIT-LEARN IMPLEMENTATION
+==================================================
+
+Import:
+
+from sklearn.ensemble import RandomForestRegressor
+
+
+Create model:
+
+model = RandomForestRegressor(
+    n_estimators=100,
+    random_state=42
+)
+
+
+Train:
+
+model.fit(X_train, y_train)
+
+
+Predict:
+
+y_pred = model.predict(X_test)
+
+
+Complete example:
+
+from sklearn.ensemble import RandomForestRegressor
+
+model = RandomForestRegressor(
+    n_estimators=100,
+    random_state=42
+)
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+==================================================
+16. IMPORTANT HYPERPARAMETERS
+==================================================
+
+1. n_estimators
+
+Number of Decision Trees in the forest.
+
+Example:
+
+n_estimators = 100
+
+→ 100 trees.
+
+More trees can improve stability, but they also increase
+training and prediction cost.
+
+
+2. max_depth
+
+Maximum depth of each Decision Tree.
+
+Small value:
+→ simpler trees
+
+Large value:
+→ more complex trees
+
+
+3. min_samples_split
+
+Minimum number of samples required to split an
+internal node.
+
+
+4. min_samples_leaf
+
+Minimum number of samples required in a leaf.
+
+
+5. max_features
+
+Number or proportion of features considered when
+searching for a split.
+
+
+6. random_state
+
+Controls randomness so results can be reproducible.
+
+
+==================================================
+17. FEATURE IMPORTANCE
+==================================================
+
+Random Forest can provide feature importance.
+
+In scikit-learn:
+
+model.feature_importances_
+
+
+Example:
+
+Area        → 0.50
+Location    → 0.25
+Bedrooms    → 0.15
+Age         → 0.10
+
+This tells us how much the model's splitting decisions
+used each feature to reduce impurity.
+
+Important:
+
+Feature importance does NOT prove that a feature causes
+the target to change.
+
+
+==================================================
+18. OUT-OF-BAG (OOB) SAMPLES
+==================================================
+
+Because each tree uses bootstrap sampling, some training
+samples are not selected for a particular tree.
+
+These are called:
+
+OUT-OF-BAG (OOB) samples.
+
+Example:
+
+Original dataset:
+
+A B C D E
+
+Bootstrap sample for one tree:
+
+A C C E E
+
+B and D were not selected.
+
+Therefore:
+
+B and D
+→ OOB samples for that tree.
+
+
+These OOB samples can be used to estimate model performance
+without using a separate validation set for that purpose.
+
+In scikit-learn:
+
+RandomForestRegressor(
+    n_estimators=100,
+    oob_score=True,
+    random_state=42
+)
+
+
+==================================================
+19. ADVANTAGES
+==================================================
+
+1. Usually more stable than a single Decision Tree.
+
+2. Can model nonlinear relationships.
+
+3. Can capture feature interactions.
+
+4. Usually does not require feature scaling.
+
+5. Works well as a strong general-purpose baseline.
+
+6. Less prone to overfitting than a single fully grown
+   Decision Tree in many practical settings.
+
+7. Can estimate feature importance.
+
+8. Can handle many features.
+
+
+==================================================
+20. LIMITATIONS
+==================================================
+
+1. More computationally expensive than a single
+   Decision Tree.
+
+2. Uses more memory because many trees are stored.
+
+3. Less interpretable than one Decision Tree.
+
+4. Predictions can be slower when the forest contains
+   many trees.
+
+5. Very large forests can become computationally expensive.
+
+6. It does not naturally extrapolate well beyond the
+   range of training targets.
+
+
+==================================================
+21. WHEN TO USE RANDOM FOREST REGRESSION
+==================================================
+
+Useful when:
+
+- Target is continuous.
+- Relationships are nonlinear.
+- You have multiple features.
+- You want a strong baseline model.
+- You do not want to manually create polynomial features.
+- Feature interactions may be important.
+- You want a model less sensitive to overfitting than
+  a single Decision Tree.
+
+
+Examples:
+
+Area + Bedrooms + Age + Location
+              ↓
+      Random Forest
+              ↓
+        House Price
+
+
+Temperature + Humidity + Time
+              ↓
+      Random Forest
+              ↓
+      Energy Consumption
+
+
+Experience + Education + Skills
+              ↓
+      Random Forest
+              ↓
+           Salary
+
+
+==================================================
+22. RANDOM FOREST vs POLYNOMIAL REGRESSION
+==================================================
+
+Polynomial Regression:
+
+Features
+   ↓
+Create X², X³, ...
+   ↓
+Linear Regression
+   ↓
+Smooth mathematical curve
+
+
+Random Forest:
+
+Features
+   ↓
+Random samples
+   ↓
+Random feature subsets
+   ↓
+Many Decision Trees
+   ↓
+Average predictions
+   ↓
+Final prediction
+
+
+Polynomial Regression:
+→ Explicit polynomial relationship.
+
+Random Forest:
+→ Tree-based nonlinear relationships.
+
+
+==================================================
+23. RANDOM FOREST vs DECISION TREE
+==================================================
+
+Decision Tree:
+
+Number of trees = 1
+Prediction = one tree's prediction
+Variance = generally higher
+Interpretability = higher
+
+
+Random Forest:
+
+Number of trees = many
+Prediction = average of tree predictions
+Variance = generally lower
+Interpretability = lower
+
+
+==================================================
+24. COMPLETE FLOW
+==================================================
+
+Dataset
+   ↓
+Features (X) + Target (y)
+   ↓
+Train / Test Split
+   ↓
+Random Forest Regressor
+   ↓
+Bootstrap Sampling
+   ↓
+Random Feature Selection
+   ↓
+Build Decision Tree
+   ↓
+Repeat for Many Trees
+   ↓
+Tree 1 → Prediction
+Tree 2 → Prediction
+Tree 3 → Prediction
+...
+Tree N → Prediction
+   ↓
+Average Predictions
+   ↓
+Final Prediction
+   ↓
+Evaluate Model
+   ↓
+Tune Hyperparameters
+   ↓
+Final Model
+
+
+==================================================
+25. KEY POINTS TO REMEMBER
+==================================================
+
+1. Random Forest Regression is a supervised learning
+   algorithm for predicting a continuous target.
+
+2. It is an ENSEMBLE of Decision Trees.
+
+3. It builds MANY Decision Trees.
+
+4. It introduces randomness through:
+   → Bootstrap samples
+   → Random feature subsets
+
+5. For regression, the final prediction is commonly the
+   average of the predictions from all trees.
+
+6. n_estimators controls the number of trees.
+
+7. max_depth controls tree depth.
+
+8. Random Forest generally does not require feature scaling.
+
+9. It can model nonlinear relationships.
+
+10. It generally reduces the high variance of a single
+    Decision Tree through averaging.
+
+11. OOB samples are observations not selected in a tree's
+    bootstrap sample and can be used for an OOB performance
+    estimate.
+
+12. Random Forest is less interpretable than a single
+    Decision Tree.
+
+13. Main idea:
+
+    MANY DECISION TREES
+            ↓
+      DIFFERENT TREES
+            ↓
+       PREDICTIONS
+            ↓
+         AVERAGE
+            ↓
+     FINAL PREDICTION
