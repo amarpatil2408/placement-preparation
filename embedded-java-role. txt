@@ -1,0 +1,51 @@
+If you mean Embedded Java / Java roles in embedded-systems companies, they typically expect:
+Core Java
+Syntax, data types, operators
+Arrays, Strings
+Methods
+Exception handling
+Collections
+Generics
+OOP
+Class & Object
+Encapsulation
+Inheritance
+Polymorphism
+Abstraction
+Interfaces
+Java Advanced
+Multithreading
+Threads & synchronization
+JVM basics
+Memory management
+Java 8+ features (Lambda, Streams)
+DSA
+Arrays, Strings
+Linked List
+Stack, Queue
+HashMap/HashSet
+Trees basics
+Searching & Sorting
+Basic problem solving
+Embedded/System knowledge (depending on the exact role)
+C/C++ basics
+Operating systems basics
+Linux
+Processes & threads
+Memory concepts
+Networking basics
+Microcontrollers / embedded fundamentals
+Development tools
+Git/GitHub
+Debugging
+Unit testing (JUnit)
+Maven/Gradle
+If it's a Java backend role inside an embedded company
+Spring Boot
+REST APIs
+SQL
+PostgreSQL/MySQL
+JPA/Hibernate
+Docker basics
+For a fresher, the highest priority is:
+Core Java → OOP → DSA → SQL → Git → Spring Boot.
