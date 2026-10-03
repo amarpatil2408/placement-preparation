@@ -1,0 +1,805 @@
+# DECISION TREE REGRESSION
+
+==================================================
+1. DEFINITION
+==================================================
+
+Decision Tree Regression is a supervised learning algorithm
+used to predict a CONTINUOUS target variable by repeatedly
+splitting the data into smaller groups using decision rules.
+
+Instead of fitting a straight line or curve, it creates a
+TREE of decisions.
+
+Example:
+
+Predict house price using:
+
+Area
+Bedrooms
+Age
+
+The tree may learn rules such as:
+
+        Area < 1500?
+          /      \
+        Yes       No
+        ↓          ↓
+   Bedrooms?    Price ≈ 5L
+    /    \
+  ...    ...
+
+
+==================================================
+2. BASIC INTUITION
+==================================================
+
+A Decision Tree asks a sequence of questions about the
+features.
+
+Example:
+
+Predict salary:
+
+Experience < 5 years?
+       /        \
+     Yes         No
+     ↓           ↓
+Salary ≈ 4L   Salary ≈ 8L
+
+
+The tree keeps splitting the data until it reaches
+final regions called LEAF NODES.
+
+At a leaf node, the model produces the predicted value.
+
+
+==================================================
+3. TREE STRUCTURE
+==================================================
+
+A Decision Tree contains:
+
+1. Root Node
+2. Decision / Internal Nodes
+3. Branches
+4. Leaf Nodes
+
+
+Example:
+
+                  Root
+             Experience < 5?
+                /       \
+              Yes        No
+              /           \
+       Education?       Leaf
+        /     \        ₹8L
+      Yes      No
+      /         \
+   Leaf        Leaf
+   ₹5L         ₹3L
+
+
+Root Node:
+→ First decision/split.
+
+Internal Node:
+→ A decision based on a feature.
+
+Branch:
+→ Result of a decision.
+
+Leaf Node:
+→ Final prediction.
+
+
+==================================================
+4. HOW DOES REGRESSION TREE MAKE A PREDICTION?
+==================================================
+
+This is the most important idea.
+
+Suppose a leaf contains these target values:
+
+10, 12, 14, 16
+
+For Decision Tree Regression, the prediction is commonly
+the MEAN of the target values in that leaf.
+
+Prediction:
+
+(10 + 12 + 14 + 16) / 4
+
+= 13
+
+Therefore:
+
+Leaf
+ ↓
+Target values
+ ↓
+Calculate mean
+ ↓
+Prediction
+
+
+==================================================
+5. COMPLETE EXAMPLE
+==================================================
+
+Suppose we want to predict salary using experience.
+
+Data:
+
+Experience     Salary
+1              30,000
+2              35,000
+3              40,000
+6              70,000
+7              75,000
+8              80,000
+
+
+The tree may create:
+
+Experience < 5?
+       /       \
+     Yes        No
+      ↓          ↓
+30k,35k,40k   70k,75k,80k
+
+
+Left leaf prediction:
+
+(30000 + 35000 + 40000) / 3
+
+= 35,000
+
+
+Right leaf prediction:
+
+(70000 + 75000 + 80000) / 3
+
+= 75,000
+
+
+So:
+
+Experience < 5
+     ↓
+Prediction = 35,000
+
+Experience ≥ 5
+     ↓
+Prediction = 75,000
+
+
+==================================================
+6. HOW DOES THE TREE CHOOSE A SPLIT?
+==================================================
+
+The tree tries different possible splits.
+
+Example:
+
+Experience < 2?
+Experience < 3?
+Experience < 4?
+Experience < 5?
+Experience < 6?
+
+For each possible split, it measures how much the split
+reduces the prediction error/impurity.
+
+The tree chooses a split that produces the best reduction
+according to its splitting criterion.
+
+
+==================================================
+7. IMPURITY IN REGRESSION
+==================================================
+
+For regression, a common measure is:
+
+Mean Squared Error (MSE)
+
+For a leaf:
+
+MSE = (1/n) Σ(yᵢ - ȳ)²
+
+Where:
+
+yᵢ = actual target value
+ȳ  = mean target value in the leaf
+n  = number of samples
+
+
+The tree tries to create groups where the target values
+are as similar as possible.
+
+Example:
+
+Leaf A:
+
+10, 11, 10, 12
+
+Values are close together.
+
+→ Low MSE
+
+
+Leaf B:
+
+10, 50, 90, 20
+
+Values are very spread out.
+
+→ High MSE
+
+
+Therefore, the tree prefers splits that create
+more homogeneous groups.
+
+
+==================================================
+8. SPLITTING PROCESS
+==================================================
+
+The basic process is:
+
+1. Start with the complete dataset.
+
+2. Test possible feature-based splits.
+
+3. Calculate the impurity/error after each split.
+
+4. Choose the best split.
+
+5. Divide the dataset.
+
+6. Repeat the process for each resulting group.
+
+7. Stop according to stopping conditions.
+
+8. Assign a prediction to each leaf.
+
+
+Flow:
+
+Dataset
+   ↓
+Find Best Split
+   ↓
+Split Data
+   ↓
+Find Best Split in Each Group
+   ↓
+Split Again
+   ↓
+Repeat
+   ↓
+Leaf Nodes
+   ↓
+Mean Target Value
+   ↓
+Prediction
+
+
+==================================================
+9. WHY IS IT CALLED A DECISION TREE?
+==================================================
+
+Because the model looks like a tree:
+
+                    Decision
+                   /        \
+                Decision   Decision
+                /   \       /   \
+              Leaf Leaf   Leaf Leaf
+
+The model is essentially a collection of
+IF-THEN decision rules.
+
+
+==================================================
+10. DECISION TREE REGRESSION vs LINEAR REGRESSION
+==================================================
+
+Linear Regression:
+
+Features
+   ↓
+Mathematical equation
+   ↓
+Straight line / hyperplane
+   ↓
+Prediction
+
+
+Decision Tree Regression:
+
+Features
+   ↓
+Decision rules
+   ↓
+Data splits
+   ↓
+Leaf nodes
+   ↓
+Mean target value
+   ↓
+Prediction
+
+
+Example:
+
+Linear Regression:
+
+ŷ = β₀ + β₁X
+
+
+Decision Tree:
+
+IF X < 5
+    prediction = 35,000
+ELSE
+    prediction = 75,000
+
+
+==================================================
+11. NON-LINEAR RELATIONSHIPS
+==================================================
+
+Decision Trees can naturally model nonlinear relationships.
+
+They do not require the relationship between X and y
+to be a straight line.
+
+Example:
+
+X
+↓
+Decision rules
+↓
+Different regions
+↓
+Different predictions
+
+Therefore, unlike Linear Regression, the tree can model
+complex relationships without explicitly creating X², X³, etc.
+
+
+==================================================
+12. IMPORTANT:
+    NO FEATURE SCALING IS USUALLY REQUIRED
+==================================================
+
+Decision Trees generally do NOT require:
+
+- Standardization
+- Normalization
+
+Why?
+
+The tree makes comparisons such as:
+
+X < 50
+
+or:
+
+X ≥ 50
+
+The absolute scale of the feature does not affect the
+basic split logic in the same way it does for
+distance- or gradient-based algorithms.
+
+
+Example:
+
+Age:
+
+20, 30, 40
+
+The tree may split:
+
+Age < 35
+
+
+Scaling these values generally does not provide the same
+benefit it would for algorithms such as KNN or SVM.
+
+
+==================================================
+13. SCIKIT-LEARN IMPLEMENTATION
+==================================================
+
+Import:
+
+from sklearn.tree import DecisionTreeRegressor
+
+
+Create model:
+
+model = DecisionTreeRegressor()
+
+
+Train:
+
+model.fit(X_train, y_train)
+
+
+Predict:
+
+y_pred = model.predict(X_test)
+
+
+Complete basic flow:
+
+from sklearn.tree import DecisionTreeRegressor
+
+model = DecisionTreeRegressor(random_state=42)
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+==================================================
+14. IMPORTANT HYPERPARAMETERS
+==================================================
+
+DecisionTreeRegressor has several important
+hyperparameters.
+
+1. max_depth
+
+Controls the maximum depth of the tree.
+
+Small max_depth:
+→ simpler tree
+→ less overfitting risk
+
+Large max_depth:
+→ more complex tree
+→ greater overfitting risk
+
+
+2. min_samples_split
+
+Minimum number of samples required to split an
+internal node.
+
+Higher value:
+→ fewer splits
+→ simpler tree
+
+
+3. min_samples_leaf
+
+Minimum number of samples that must be present
+in a leaf.
+
+Higher value:
+→ larger leaves
+→ smoother/simpler model
+
+
+4. max_leaf_nodes
+
+Limits the maximum number of leaf nodes.
+
+Fewer leaves:
+→ simpler tree
+
+
+==================================================
+15. OVERFITTING
+==================================================
+
+Decision Trees can easily overfit.
+
+Example:
+
+A very deep tree may continue splitting until it creates
+very small groups, possibly even groups containing only
+one training sample.
+
+Then:
+
+Training data
+     ↓
+Very complex tree
+     ↓
+Very low training error
+
+But:
+
+New / unseen data
+     ↓
+Poor predictions
+
+This is OVERFITTING.
+
+
+==================================================
+16. UNDERFITTING
+==================================================
+
+If the tree is too small or too restricted:
+
+Dataset
+   ↓
+Very few splits
+   ↓
+Very simple tree
+   ↓
+Cannot capture important patterns
+
+This is UNDERFITTING.
+
+
+Therefore:
+
+Tree too shallow
+→ Underfitting
+
+Tree too deep
+→ Overfitting
+
+Appropriate depth
+→ Better generalization
+
+
+==================================================
+17. PRUNING / CONTROLLING TREE COMPLEXITY
+==================================================
+
+Tree complexity can be controlled by limiting its growth.
+
+Common controls:
+
+- max_depth
+- min_samples_split
+- min_samples_leaf
+- max_leaf_nodes
+- ccp_alpha
+
+Pruning means reducing unnecessary branches so that
+the tree becomes simpler and generalizes better.
+
+
+==================================================
+18. ADVANTAGES
+==================================================
+
+1. Can model nonlinear relationships.
+
+2. Easy to visualize and understand.
+
+3. Usually does not require feature scaling.
+
+4. Can capture feature interactions naturally.
+
+5. Works with different feature types after appropriate
+   preprocessing.
+
+6. Requires relatively little mathematical preprocessing
+   compared with many other algorithms.
+
+
+==================================================
+19. LIMITATIONS
+==================================================
+
+1. Can overfit easily.
+
+2. Small changes in training data can sometimes produce
+   a substantially different tree.
+
+3. Very deep trees can become complex.
+
+4. A single decision tree may have weaker predictive
+   performance than ensemble methods such as Random Forest.
+
+5. Predictions are piecewise constant rather than smooth.
+
+6. Extrapolation beyond the training data is poor.
+
+
+==================================================
+20. PIECEWISE CONSTANT PREDICTION
+==================================================
+
+This is an important characteristic.
+
+Suppose:
+
+X < 5
+→ prediction = 30
+
+5 ≤ X < 10
+→ prediction = 50
+
+X ≥ 10
+→ prediction = 80
+
+
+The prediction changes in steps.
+
+Graphically, it looks approximately like:
+
+80 ─────────────
+              |
+50 ────────    |
+         |     |
+30 ──────|     |
+         5    10
+
+This is called a PIECEWISE CONSTANT function.
+
+
+==================================================
+21. FEATURE IMPORTANCE
+==================================================
+
+Decision Trees can provide feature importance values.
+
+In scikit-learn:
+
+model.feature_importances_
+
+This gives an estimate of how much each feature contributed
+to reducing impurity across the tree.
+
+Example:
+
+Area        → 0.60
+Bedrooms    → 0.25
+Age         → 0.15
+
+Important:
+
+Feature importance is not the same as a causal effect.
+It tells us about the model's use of the feature, not
+that the feature causes the target.
+
+
+==================================================
+22. WHEN TO USE DECISION TREE REGRESSION
+==================================================
+
+Useful when:
+
+- Target is continuous.
+- Relationship is nonlinear.
+- You want rule-based predictions.
+- Feature scaling is inconvenient.
+- Feature interactions are important.
+- Interpretability is useful.
+
+
+Examples:
+
+Area + Bedrooms + Age
+          ↓
+    House Price
+
+
+Experience + Education
+          ↓
+        Salary
+
+
+Temperature + Humidity + Day
+          ↓
+    Energy Consumption
+
+
+==================================================
+23. DECISION TREE REGRESSION vs POLYNOMIAL REGRESSION
+==================================================
+
+Polynomial Regression:
+
+X
+ ↓
+X, X², X³...
+ ↓
+Linear Regression
+ ↓
+Smooth curve
+
+
+Decision Tree Regression:
+
+X
+ ↓
+IF-THEN splits
+ ↓
+Branches
+ ↓
+Leaf nodes
+ ↓
+Mean prediction
+
+
+Polynomial Regression:
+→ Smooth mathematical curve.
+
+Decision Tree Regression:
+→ Step-like / piecewise constant prediction.
+
+
+==================================================
+24. COMPLETE FLOW
+==================================================
+
+Dataset
+   ↓
+Features (X) + Target (y)
+   ↓
+Train / Test Split
+   ↓
+Decision Tree Regressor
+   ↓
+Find Best Split
+   ↓
+Split Dataset
+   ↓
+Repeat Splitting
+   ↓
+Leaf Nodes
+   ↓
+Mean Target Value in Leaf
+   ↓
+Prediction
+   ↓
+Evaluate Model
+   ↓
+Control Tree Complexity
+   ↓
+Final Model
+
+
+==================================================
+25. KEY POINTS TO REMEMBER
+==================================================
+
+1. Decision Tree Regression is a supervised learning
+   algorithm for predicting a continuous target.
+
+2. It uses decision rules to split the dataset.
+
+3. The first split starts at the ROOT node.
+
+4. Internal nodes contain decisions.
+
+5. Branches represent outcomes of decisions.
+
+6. Leaf nodes produce predictions.
+
+7. A common regression prediction at a leaf is the mean
+   target value of the samples in that leaf.
+
+8. A common splitting criterion is reduction in MSE.
+
+9. Decision Trees can model nonlinear relationships.
+
+10. Feature scaling is generally NOT required.
+
+11. max_depth controls tree depth.
+
+12. min_samples_split controls when a node can be split.
+
+13. min_samples_leaf controls the minimum samples in a leaf.
+
+14. Very deep trees can overfit.
+
+15. Very shallow trees can underfit.
+
+16. Decision Tree Regression produces piecewise constant
+    predictions.
+
+17. Random Forest Regression builds on the idea of
+    combining many decision trees.
