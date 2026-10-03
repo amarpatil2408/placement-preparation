@@ -1,0 +1,864 @@
+# SUPPORT VECTOR REGRESSION (SVR)
+
+==================================================
+1. DEFINITION
+==================================================
+
+Support Vector Regression (SVR) is a supervised learning
+algorithm used to predict a CONTINUOUS target variable.
+
+SVR is the regression version of the Support Vector Machine
+(SVM) idea.
+
+Its main goal is NOT simply to fit a line through the data.
+
+Instead, SVR tries to find a function that keeps most
+training points within a specified ERROR TUBE while keeping
+the model as simple/flat as possible.
+
+
+==================================================
+2. BASIC INTUITION
+==================================================
+
+Imagine the data points are:
+
+       •
+    •     •
+  •   •      •
+      •   •
+
+Instead of trying to pass exactly through every point,
+SVR creates a tube around the prediction function.
+
+                 •
+          ┌─────────────┐
+        • │             │ •
+      •   │   MODEL     │
+          │             │
+        • │             │
+          └─────────────┘
+                 •
+
+The tube has a width controlled by:
+
+ε (epsilon)
+
+
+==================================================
+3. THE ε-INSENSITIVE TUBE
+==================================================
+
+This is the MOST IMPORTANT concept in SVR.
+
+SVR defines an ε (epsilon) margin around the prediction
+function.
+
+If a data point lies INSIDE this tube:
+
+→ No penalty is given.
+
+If a data point lies OUTSIDE the tube:
+
+→ The model is penalized for the error beyond ε.
+
+
+Conceptually:
+
+       Upper boundary
+   ─────────────────────
+          ε
+   ─────────────────────
+        Prediction
+   ─────────────────────
+          ε
+   ─────────────────────
+       Lower boundary
+
+
+Therefore:
+
+Prediction error ≤ ε
+→ No penalty
+
+Prediction error > ε
+→ Penalty
+
+
+==================================================
+4. WHY DOES SVR USE A TUBE?
+==================================================
+
+Suppose:
+
+Actual = 100
+Predicted = 98
+
+Error = 2
+
+If:
+
+ε = 5
+
+Then:
+
+|100 - 98| = 2 < 5
+
+Therefore:
+
+→ No penalty.
+
+
+Another example:
+
+Actual = 100
+Predicted = 90
+
+Error = 10
+
+If:
+
+ε = 5
+
+Then:
+
+10 > 5
+
+The extra error is:
+
+10 - 5 = 5
+
+Therefore:
+
+→ Model receives a penalty.
+
+
+==================================================
+5. ε-INSENSITIVE LOSS
+==================================================
+
+SVR commonly uses ε-insensitive loss.
+
+The loss can be represented as:
+
+Lε(y, ŷ) = max(0, |y - ŷ| - ε)
+
+Where:
+
+y  = actual value
+ŷ  = predicted value
+ε  = epsilon
+
+If:
+
+|y - ŷ| ≤ ε
+
+Then:
+
+Loss = 0
+
+
+If:
+
+|y - ŷ| > ε
+
+Then:
+
+Loss = |y - ŷ| - ε
+
+
+==================================================
+6. SUPPORT VECTORS
+==================================================
+
+The points that are most important for defining the
+SVR model are called:
+
+SUPPORT VECTORS.
+
+These are typically points that:
+
+- Lie on or near the ε boundaries, or
+- Lie outside the ε tube and influence the fitted function.
+
+Conceptually:
+
+          •
+    •           •
+       •     •
+---------ε boundary---------
+          •
+---------prediction---------
+       •
+---------ε boundary---------
+    •           •
+
+The points closest to or outside the boundaries are
+especially important to the model.
+
+
+==================================================
+7. MAIN OBJECTIVE OF SVR
+==================================================
+
+SVR tries to balance two things:
+
+1. Keep the prediction function as SIMPLE/FLAT as possible.
+
+2. Keep prediction errors within the ε tolerance where possible.
+
+Therefore:
+
+Simple model
+      +
+ε-insensitive error tolerance
+      ↓
+SVR objective
+
+
+==================================================
+8. LINEAR SVR
+==================================================
+
+For a simple linear relationship, SVR can learn:
+
+ŷ = wX + b
+
+Where:
+
+w = weight
+b = bias
+
+For multiple features:
+
+ŷ = w₁X₁ + w₂X₂ + ... + wₙXₙ + b
+
+
+SVR then tries to find the function that satisfies the
+ε-insensitive objective while controlling model complexity.
+
+
+==================================================
+9. C PARAMETER
+==================================================
+
+C is one of the MOST IMPORTANT SVR hyperparameters.
+
+C controls how strongly the model penalizes observations
+that fall outside the ε tube.
+
+High C:
+
+→ Larger penalty for errors outside ε
+→ Model tries harder to fit training data
+→ More complex model can result
+
+
+Low C:
+
+→ Smaller penalty
+→ Model allows more violations
+→ Stronger preference for a simpler model
+
+
+Conceptually:
+
+C ↑
+→ Less tolerance for violations
+→ Can increase overfitting risk
+
+
+C ↓
+→ More tolerance for violations
+→ Can produce a simpler model
+
+
+==================================================
+10. EPSILON (ε)
+==================================================
+
+ε controls the width of the error-insensitive tube.
+
+Small ε:
+
+→ Narrow tube
+→ More points may fall outside
+→ Model tries to fit more closely
+
+
+Large ε:
+
+→ Wider tube
+→ More points can be inside the tube
+→ Model can be less sensitive to small errors
+
+
+Therefore:
+
+ε controls the amount of error that is considered
+acceptable without penalty.
+
+
+==================================================
+11. C vs ε
+==================================================
+
+C:
+
+Controls the PENALTY for violations.
+
+ε:
+
+Controls the SIZE OF THE TOLERANCE TUBE.
+
+
+Remember:
+
+C → "How much should I punish violations?"
+
+ε → "How much error can I ignore?"
+
+
+==================================================
+12. KERNELS
+==================================================
+
+SVR can model nonlinear relationships using KERNELS.
+
+A kernel allows the algorithm to work with nonlinear
+relationships without explicitly creating polynomial
+features in the original input space.
+
+Common kernels include:
+
+1. Linear
+2. Polynomial
+3. RBF
+4. Sigmoid
+
+
+The most commonly used nonlinear kernel in practice is
+often:
+
+RBF = Radial Basis Function
+
+
+==================================================
+13. LINEAR KERNEL
+==================================================
+
+Linear kernel:
+
+Used when the relationship is approximately linear.
+
+Concept:
+
+X
+ ↓
+Linear SVR
+ ↓
+Prediction
+
+
+Useful when the data does not require a nonlinear boundary
+or relationship.
+
+
+==================================================
+14. RBF KERNEL
+==================================================
+
+RBF kernel allows SVR to model nonlinear relationships.
+
+Instead of fitting only a straight relationship:
+
+X → y
+
+the model can capture more complex patterns.
+
+Conceptually:
+
+Data
+ ↓
+RBF Kernel
+ ↓
+Nonlinear SVR
+ ↓
+Prediction
+
+
+Important RBF hyperparameters:
+
+C
+γ (gamma)
+ε (epsilon)
+
+
+==================================================
+15. GAMMA (γ)
+==================================================
+
+Gamma is mainly important for nonlinear kernels such as RBF.
+
+It controls how strongly the influence of an individual
+training point is localized.
+
+High gamma:
+
+→ Each point has a more localized influence
+→ Model can become more complex
+→ Higher overfitting risk
+
+
+Low gamma:
+
+→ Wider influence of each point
+→ Smoother model
+→ May underfit if too low
+
+
+Simple intuition:
+
+High γ → very local influence
+
+Low γ → broader influence
+
+
+==================================================
+16. SVR WITH MULTIPLE FEATURES
+==================================================
+
+SVR can work with multiple input features.
+
+Example:
+
+X₁ = Area
+X₂ = Bedrooms
+X₃ = Age
+
+Target:
+
+y = House Price
+
+
+The model uses all these features to predict:
+
+House Price
+
+
+The basic linear form is:
+
+ŷ = w₁X₁ + w₂X₂ + w₃X₃ + b
+
+
+For nonlinear relationships, a kernel such as RBF can
+be used.
+
+
+==================================================
+17. FEATURE SCALING IS IMPORTANT
+==================================================
+
+This is VERY IMPORTANT for SVR.
+
+SVR is sensitive to the scale of features.
+
+Example:
+
+Age:
+
+20–60
+
+Salary:
+
+20,000–200,000
+
+Without scaling, the larger numerical range of Salary
+can disproportionately affect the model.
+
+
+Therefore, feature scaling is generally recommended
+before training SVR.
+
+
+Common approach:
+
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+
+X_train_scaled = scaler.fit_transform(X_train)
+
+X_test_scaled = scaler.transform(X_test)
+
+
+IMPORTANT:
+
+Fit the scaler only on training data.
+
+Then use that fitted scaler to transform test data.
+
+
+==================================================
+18. SCIKIT-LEARN IMPLEMENTATION
+==================================================
+
+Import:
+
+from sklearn.svm import SVR
+
+
+Create model:
+
+model = SVR(
+    kernel="rbf",
+    C=100,
+    epsilon=0.1,
+    gamma="scale"
+)
+
+
+Train:
+
+model.fit(X_train_scaled, y_train)
+
+
+Predict:
+
+y_pred = model.predict(X_test_scaled)
+
+
+Complete basic flow:
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR
+
+scaler = StandardScaler()
+
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+model = SVR(
+    kernel="rbf",
+    C=100,
+    epsilon=0.1
+)
+
+model.fit(X_train_scaled, y_train)
+
+y_pred = model.predict(X_test_scaled)
+
+
+==================================================
+19. IMPORTANT HYPERPARAMETERS
+==================================================
+
+1. kernel
+
+Controls the kernel function.
+
+Examples:
+
+kernel="linear"
+kernel="poly"
+kernel="rbf"
+kernel="sigmoid"
+
+
+2. C
+
+Controls the penalty for errors outside ε.
+
+
+3. epsilon
+
+Controls the width of the ε-insensitive tube.
+
+
+4. gamma
+
+Important for nonlinear kernels such as RBF.
+
+Controls the influence of individual training points.
+
+
+==================================================
+20. OVERFITTING AND UNDERFITTING
+==================================================
+
+SVR can also underfit or overfit depending on its
+hyperparameters.
+
+Possible causes of excessive complexity:
+
+- C too high
+- Gamma too high
+- Very small epsilon in some settings
+
+
+Possible causes of excessive simplicity:
+
+- C too low
+- Gamma too low
+- Epsilon too large
+
+
+Therefore:
+
+Hyperparameter tuning is important.
+
+
+==================================================
+21. SVR vs LINEAR REGRESSION
+==================================================
+
+Linear Regression:
+
+Goal:
+→ Minimize prediction error, commonly using squared error.
+
+Model:
+
+ŷ = β₀ + β₁X
+
+
+SVR:
+
+Goal:
+→ Find a suitable function while allowing errors up to ε
+  without penalty and controlling model complexity.
+
+Uses:
+
+ε-insensitive loss
++
+C
++
+Support vectors
++
+Kernels
+
+
+Core difference:
+
+Linear Regression:
+→ Fits by minimizing a loss such as MSE.
+
+SVR:
+→ Uses an ε-insensitive tube and support-vector-based
+  optimization.
+
+
+==================================================
+22. SVR vs POLYNOMIAL REGRESSION
+==================================================
+
+Polynomial Regression:
+
+X
+ ↓
+Create X², X³, ...
+ ↓
+Linear Regression
+ ↓
+Polynomial curve
+
+
+SVR:
+
+X
+ ↓
+Kernel
+ ↓
+Support-vector optimization
+ ↓
+Prediction
+
+
+Polynomial Regression:
+→ Explicit polynomial feature transformation.
+
+SVR:
+→ Can model nonlinear relationships through kernels.
+
+
+==================================================
+23. SVR vs DECISION TREE REGRESSION
+==================================================
+
+Decision Tree:
+
+Features
+ ↓
+IF-THEN splits
+ ↓
+Leaf
+ ↓
+Prediction
+
+
+SVR:
+
+Features
+ ↓
+ε-insensitive tube
+ ↓
+Support vectors
+ ↓
+Optimization
+ ↓
+Prediction
+
+
+Decision Tree:
+→ Usually no feature scaling required.
+
+SVR:
+→ Feature scaling is generally important.
+
+
+==================================================
+24. ADVANTAGES
+==================================================
+
+1. Can model nonlinear relationships using kernels.
+
+2. Can work effectively in high-dimensional feature spaces.
+
+3. Uses support vectors rather than treating every training
+   point equally in the final model.
+
+4. The ε-insensitive loss allows small errors without penalty.
+
+5. Can provide strong performance when the dataset and
+   hyperparameters are appropriate.
+
+
+==================================================
+25. LIMITATIONS
+==================================================
+
+1. Feature scaling is generally important.
+
+2. Choosing C, epsilon, and gamma can be difficult.
+
+3. Training can become computationally expensive on very
+   large datasets.
+
+4. Less interpretable than Linear Regression.
+
+5. Poor hyperparameter choices can cause underfitting
+   or overfitting.
+
+6. Nonlinear kernels can make the model more difficult
+   to understand.
+
+
+==================================================
+26. WHEN TO USE SVR
+==================================================
+
+SVR can be useful when:
+
+- Target is continuous.
+- Relationship may be nonlinear.
+- Dataset is not extremely large.
+- Feature scaling can be performed.
+- You want to try a kernel-based regression model.
+
+
+Examples:
+
+Experience + Education
+        ↓
+       SVR
+        ↓
+      Salary
+
+
+Temperature + Humidity + Pressure
+        ↓
+       SVR
+        ↓
+   Energy Consumption
+
+
+==================================================
+27. COMPLETE FLOW
+==================================================
+
+Dataset
+   ↓
+Features (X) + Target (y)
+   ↓
+Train / Test Split
+   ↓
+Feature Scaling
+   ↓
+Choose Kernel
+   ↓
+Set C, ε, γ
+   ↓
+Train SVR
+   ↓
+Identify influential support vectors
+   ↓
+Make Predictions
+   ↓
+Evaluate Model
+   ↓
+Tune Hyperparameters
+   ↓
+Final Model
+
+
+==================================================
+28. KEY POINTS TO REMEMBER
+==================================================
+
+1. SVR = Support Vector Regression.
+
+2. It is a supervised learning algorithm for CONTINUOUS
+   target prediction.
+
+3. It is based on the Support Vector Machine concept.
+
+4. Its central idea is the ε-insensitive tube.
+
+5. Errors within ε receive no loss.
+
+6. Errors outside ε are penalized.
+
+7. Important training points are called support vectors.
+
+8. C controls the penalty for violations.
+
+9. ε controls the width of the tolerance tube.
+
+10. Gamma controls the locality of influence for kernels
+    such as RBF.
+
+11. Kernels allow SVR to model nonlinear relationships.
+
+12. RBF is a commonly used nonlinear kernel.
+
+13. Feature scaling is generally IMPORTANT for SVR.
+
+14. Important hyperparameters:
+
+    C
+    epsilon
+    kernel
+    gamma
+
+15. Main intuition:
+
+    DATA
+      ↓
+    ε-TUBE
+      ↓
+    SUPPORT VECTORS
+      ↓
+    OPTIMIZATION
+      ↓
+    PREDICTION
